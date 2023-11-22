@@ -353,63 +353,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac2358df68ab3445b378e3f85a5541b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1731356395217479596
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 60202954607219061, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 60202954607219061, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 60202954607219061, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 60202954607219061, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 60202954607219061, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 60202954607219061, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 60202954607219061, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 60202954607219061, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 60202954607219061, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 60202954607219061, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8021556878505492885, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
-      propertyPath: m_Name
-      value: DollyTracksManager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 69a09852f8e95e54095905a9f7365cf1, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -417,4 +360,3 @@ SceneRoots:
   - {fileID: 579527202}
   - {fileID: 735226645}
   - {fileID: 1433008748}
-  - {fileID: 1731356395217479596}

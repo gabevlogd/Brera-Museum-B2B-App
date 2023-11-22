@@ -5,11 +5,6 @@ using Cinemachine;
 
 public class DollyTracksManager : MonoBehaviour
 {
-    public CinemachineSmoothPath[] TracksList;
+    public List<CinemachineSmoothPath> TracksList;
     public CinemachineDollyCart DollyCart;
-
-    private void Awake()
-    {
-        TracksList = FindObjectsByType<CinemachineSmoothPath>(FindObjectsSortMode.None);
-    }
 }
