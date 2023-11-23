@@ -5,6 +5,6 @@ using Cinemachine;
 
 public class DollyTracksManager : MonoBehaviour
 {
-    public List<CinemachineSmoothPath> TracksList;
+    public List<DollyTrack> TracksList;
     public CinemachineDollyCart DollyCart;
 }

@@ -6,9 +6,9 @@ using Cinemachine;
 
 public class DollyTracksEditor : EditorWindow
 {
-
+    private DollyTracksManager _dollyTracksManager;
     private Vector2 _scrollPos;
-    private bool _newBranch;
+    private CinemachineSmoothPath _anchoredTrack;
 
 
 
@@ -16,10 +16,24 @@ public class DollyTracksEditor : EditorWindow
     public static void ShowWindow() => GetWindow<DollyTracksEditor>("Dolly Tracks Editor");
 
 
+    private void Awake()
+    {
+        _dollyTracksManager = FindObjectOfType<DollyTracksManager>();
+    }
+
+
+
     private void OnGUI()
     {
         _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
         DrawNewTrackButton();
+
+
+        if (_dollyTracksManager != null)
+        {
+            foreach(DollyTrack track in _dollyTracksManager.TracksList)
+                EditorGUILayout.ObjectField(track, typeof(DollyTrack), true);
+        }
 
         EditorGUILayout.EndScrollView();
     }
@@ -33,37 +47,46 @@ public class DollyTracksEditor : EditorWindow
 
     private void PerformNewTrackButton()
     {
-        DollyTracksManager dollyTracksManager = FindObjectOfType<DollyTracksManager>();
-        CinemachineSmoothPath newTrack = Resources.Load<CinemachineSmoothPath>("Dolly Track");
-        if (dollyTracksManager == null)
+        if (_dollyTracksManager == null)
         {
-            dollyTracksManager = MonoBehaviour.Instantiate<DollyTracksManager>(Resources.Load<DollyTracksManager>("DollyTracksManager"));
-            dollyTracksManager.TracksList.Add(MonoBehaviour.Instantiate<CinemachineSmoothPath>(newTrack, Vector3.zero, Quaternion.identity, dollyTracksManager.transform));
-            dollyTracksManager.TracksList[^1].GetComponent<DollyTrack>().ID = dollyTracksManager.TracksList.Count;
+            _dollyTracksManager = FindObjectOfType<DollyTracksManager>();
+        }
+        else if (Selection.activeGameObject == null)
+        {
+            Debug.Log("Double click the track you want to link the new one");
+            return;
+        }
+
+        CinemachineSmoothPath trackPrefabRef = Resources.Load<CinemachineSmoothPath>("Dolly Track");
+
+        if (_dollyTracksManager == null)
+        {
+            //instantiates the tracks manager
+            _dollyTracksManager = MonoBehaviour.Instantiate<DollyTracksManager>(Resources.Load<DollyTracksManager>("DollyTracksManager"));
+            //instantiates the new track
+            trackPrefabRef = MonoBehaviour.Instantiate<CinemachineSmoothPath>(trackPrefabRef, Vector3.zero, Quaternion.identity, _dollyTracksManager.transform);
+            DollyTrack newDollyTrack = trackPrefabRef.GetComponent<DollyTrack>();
+            //add new track to manager tracks list
+            _dollyTracksManager.TracksList.Add(newDollyTrack);
+            //initializes the new track datas
+            newDollyTrack.ID = _dollyTracksManager.TracksList.Count;
+            newDollyTrack.This = trackPrefabRef;
+        }
+        else if (Selection.activeGameObject.TryGetComponent(out _anchoredTrack))
+        {
+            //instantiates the new track
+            trackPrefabRef = MonoBehaviour.Instantiate<CinemachineSmoothPath>(trackPrefabRef, Vector3.zero, Quaternion.identity, _dollyTracksManager.transform);
+            DollyTrack newDollyTrack = trackPrefabRef.GetComponent<DollyTrack>();
+            //add new track to manager tracks list
+            _dollyTracksManager.TracksList.Add(newDollyTrack);
+            //initializes the new track datas
+            newDollyTrack.This = trackPrefabRef;
+            newDollyTrack.This.m_Waypoints[0].position = _anchoredTrack.m_Waypoints[^1].position;
+            newDollyTrack.This.m_Waypoints[1].position = trackPrefabRef.m_Waypoints[0].position + new Vector3(0f, 0f, 10f);
+            newDollyTrack.ID = _dollyTracksManager.TracksList.Count;
+            newDollyTrack.AnchoredTrack = _anchoredTrack;
         }
         else
-        {
-            dollyTracksManager.TracksList.Add(MonoBehaviour.Instantiate<CinemachineSmoothPath>(newTrack, Vector3.zero, Quaternion.identity, dollyTracksManager.transform));
-            dollyTracksManager.TracksList[^1].m_Waypoints[0].position = dollyTracksManager.TracksList[dollyTracksManager.TracksList.Count - 2].m_Waypoints[^1].position;
-            dollyTracksManager.TracksList[^1].m_Waypoints[1].position = dollyTracksManager.TracksList[^1].m_Waypoints[0].position + new Vector3(0f, 0f, 10f);
-            dollyTracksManager.TracksList[^1].GetComponent<DollyTrack>().ID = dollyTracksManager.TracksList.Count;
-        }
-        //DollyTracksData dollyTracksData = Resources.Load<DollyTracksData>("DollyTracksData");
-        //CinemachineSmoothPath trackToSpawn = Resources.Load<CinemachineSmoothPath>("Dolly Track");
-        //PrefabUtility.InstantiatePrefab(Resources.Load<CinemachineSmoothPath>("Dolly Track"));
-
-        //if(dollyTracksData.TracksList != null && dollyTracksData.TracksList.Count > 0)
-        //    trackToSpawn.m_Waypoints[0].position = dollyTracksData.TracksList[^1].m_Waypoints[^1].position;
-        //else
-        //{
-        //    dollyTracksData.TracksList = new List<CinemachineSmoothPath>();
-        //    //dollyTracksData.TracksList.Add()
-        //}
-        
-        
-        
-        
-        
-
+            Debug.Log("Double click the track you want to link the new one");
     }
 }
