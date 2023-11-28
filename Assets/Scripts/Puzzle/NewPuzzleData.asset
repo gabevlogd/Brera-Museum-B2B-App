@@ -14,5 +14,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GridWidth: 6
   GridHeight: 6
-  CellSize: 1
-  PuzzlePosition: {x: -3, y: -3, z: 0}

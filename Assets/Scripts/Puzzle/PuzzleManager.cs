@@ -1,27 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.InputSystem.InputAction;
 
 public class PuzzleManager : MonoBehaviour
 {
     public PuzzleData Data;
     private Camera _camera;
     private LineRenderer _lineRenderer;
-    private Node _lastValidNode;
     private TouchScreen _input;
+    private Node _lastValidNode;
+    private Vector3 _worldTouchPosition;
 
     private void Awake()
     {
         _lineRenderer = GetComponent<LineRenderer>();
         _camera = Camera.main;
-        Data.Grid = new Grid<Node>(Data.GridWidth, Data.GridHeight, Data.CellSize, Data.PuzzlePosition, (int x, int y) => new Node(x, y));
+        Data.Grid = new Grid<Node>(Data.GridWidth, Data.GridHeight, GetGridCellSize(), GetGridOrigin(), (int x, int y) => new Node(x, y));
         _input = new TouchScreen();
         _input.Enable();
+
     }
 
     private void Update()
     {
-        UpdateLineRenderer(GetScreenToWorld(_input.PuzzleActions.TouchPos.ReadValue<Vector2>()));
+        _worldTouchPosition = GetScreenToWorld(_input.PuzzleActions.TouchPos.ReadValue<Vector2>());
+        UpdateLineRenderer(_worldTouchPosition);
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+        {
+            float cellSize = GetGridCellSize();
+            for (int row = 0; row < Data.GridWidth; row++)
+            {
+                for (int column = 0; column < Data.GridHeight; column++)
+                {
+                    if (Data.Grid.GetGridObject(row, column).Walkable)
+                        Gizmos.color = Color.green;
+                    else Gizmos.color = Color.red;
+
+                    Gizmos.DrawCube(Data.Grid.GetWorldPosition(row, column), new Vector3(cellSize, cellSize, 0.2f));
+                }
+            }
+        }
+        
     }
 
     private void UpdateLineRenderer(Vector3 position)
@@ -63,5 +88,38 @@ public class PuzzleManager : MonoBehaviour
         Vector3 worldPos = _camera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, Mathf.Abs(_camera.transform.position.z)));
         Data.Grid.GetXY(worldPos, out int x, out int y);
         return Data.Grid.GetWorldPosition(x, y);
+    }
+
+    private float GetGridCellSize()
+    {
+        float cellSize = 0f;
+
+        if (transform.localScale.x < transform.localScale.y)
+        {
+            cellSize = transform.localScale.x / Data.GridWidth;
+        }
+        else
+        {
+            cellSize = transform.localScale.y / Data.GridHeight;
+        }
+
+        return cellSize;
+    }
+
+    private Vector3 GetGridOrigin() => new Vector3(transform.position.x - GetGridCellSize() * Data.GridWidth * 0.5f, transform.position.y - GetGridCellSize() * Data.GridHeight * 0.5f, 0f);
+    
+
+    private bool CanUpdateRenderer(Vector3 position)
+    {
+        if (_lineRenderer.positionCount > 0) return true;
+        Node currentNode = Data.Grid.GetGridObject(position);
+        if (currentNode.NodeType == NodeType.Start)
+        {
+            _lineRenderer.positionCount = 1;
+            _lineRenderer.SetPosition(0, Data.Grid.GetWorldPosition(currentNode.x, currentNode.y));
+            _lastValidNode = currentNode;
+            return true;
+        }
+        return false;
     }
 }

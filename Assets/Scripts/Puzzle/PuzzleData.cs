@@ -8,8 +8,7 @@ public class PuzzleData : ScriptableObject
     public Grid<Node> Grid;
     public int GridWidth;
     public int GridHeight;
-    public float CellSize;
-    public Vector3 PuzzlePosition;
-
+    //public float CellSize;
+    //public Vector3 PuzzlePosition;
 
 }
