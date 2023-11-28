@@ -1,0 +1,34 @@
+{
+    "name": "TouchScreen",
+    "maps": [
+        {
+            "name": "PuzzleActions",
+            "id": "e1edfaa6-3765-4d65-95bf-0dfa660ac77e",
+            "actions": [
+                {
+                    "name": "TouchPos",
+                    "type": "Value",
+                    "id": "e17834cd-b684-4532-8df3-2b3a95cdaab2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c4d9dcab-7def-4064-9c2d-39a6262f6c2d",
+                    "path": "<Touchscreen>/primaryTouch/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchPos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
