@@ -8,7 +8,7 @@ public class DollyTrack : MonoBehaviour
 {
     [HideInInspector]
     public int ID;
-    [HideInInspector]
+    //[HideInInspector]
     public CinemachineSmoothPath AnchoredTrack;
     [HideInInspector]
     public CinemachineSmoothPath This;

@@ -31,7 +31,9 @@ public class TrackConstraint : MonoBehaviour
                 manager.TracksList[i].ID--;
             }
 
-            manager.TracksList.RemoveAt(_dollyTrack.ID - 1);
+            if (manager.TracksList.Contains(GetComponent<DollyTrack>())) 
+                manager.TracksList.RemoveAt(_dollyTrack.ID - 1);
+
         }
     }
 }
