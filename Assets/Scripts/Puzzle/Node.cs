@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct Node 
+
+public class Node 
 {
     private int m_X;
     private int m_Y;
     private NodeType m_NodeType;
-    public bool m_Walkable;
+    private bool m_Walkable;
 
     public int X { get => m_X;}
     public int Y { get => m_Y;}
@@ -25,7 +26,7 @@ public struct Node
     public void SetNode(NodeType type, bool isWalkable)
     {
         m_NodeType = type;
-        Walkable = isWalkable;
+        m_Walkable = isWalkable;
     }
 }
 

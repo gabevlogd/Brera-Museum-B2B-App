@@ -29,22 +29,20 @@ public class PuzzleManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (Application.isPlaying)
+        PuzzleData debugData = Data;
+        debugData.Grid = new Grid<Node>(debugData.GridWidth, debugData.GridHeight, GetGridCellSize(), GetGridOrigin(), (int x, int y) => new Node(x, y));
+        float cellSize = GetGridCellSize();
+        for (int row = 0; row < debugData.GridWidth; row++)
         {
-            float cellSize = GetGridCellSize();
-            for (int row = 0; row < Data.GridWidth; row++)
+            for (int column = 0; column < debugData.GridHeight; column++)
             {
-                for (int column = 0; column < Data.GridHeight; column++)
-                {
-                    if (Data.Grid.GetGridObject(row, column).Walkable)
-                        Gizmos.color = Color.green;
-                    else Gizmos.color = Color.red;
+                if (debugData.Grid.GetGridObject(row, column).Walkable)
+                    Gizmos.color = Color.green;
+                else Gizmos.color = Color.red;
 
-                    Gizmos.DrawCube(Data.Grid.GetWorldPosition(row, column), new Vector3(cellSize, cellSize, 0.2f));
-                }
+                Gizmos.DrawCube(debugData.Grid.GetWorldPosition(row, column), new Vector3(cellSize, cellSize, 0.2f));
             }
         }
-        
     }
 
     private void UpdateLineRenderer(Vector3 position)
