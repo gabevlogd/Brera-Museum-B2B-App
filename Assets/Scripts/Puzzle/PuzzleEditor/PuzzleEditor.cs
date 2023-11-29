@@ -82,8 +82,12 @@ public class PuzzleEditor : EditorWindow
 
     private void PerformSaveLevelButton()
     {
-        PuzzleData newLevel = CreateNewLevel();
+        PuzzleData newLevel = CreateNewPuzzle();
         if (newLevel == null) return;
+
+        if (!Directory.Exists($"{LEVELS_FOLDER_PATH}/{m_PictureID}"))
+            AssetDatabase.CreateFolder($"{LEVELS_FOLDER_PATH}", $"{m_PictureID}");
+
         AssetDatabase.CreateAsset(newLevel, $"{LEVELS_FOLDER_PATH}/{m_PictureID}/Puzzle {m_PuzzleID}.asset");
         AssetDatabase.SaveAssets();
         Debug.Log("New puzzle saved");
@@ -114,9 +118,19 @@ public class PuzzleEditor : EditorWindow
         GUILayout.EndVertical();
     }
 
-    private PuzzleData CreateNewLevel()
+    private PuzzleData CreateNewPuzzle()
     {
-        PuzzleData newPuzzle = CreateInstance<PuzzleData>();     
+        PuzzleData newPuzzle = CreateInstance<PuzzleData>();
+
+        newPuzzle.Grid = new Grid<Node>(m_PuzzleWidth, m_PuzzleHeigth, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Node(x, y));
+        newPuzzle.GridWidth = m_PuzzleWidth;
+        newPuzzle.GridHeight = m_PuzzleHeigth;
+
+        for (int y = 0; y < m_PuzzleHeigth; y++)
+        {
+            for (int x = 0; x < m_PuzzleWidth; x++)
+                newPuzzle.Grid.GetGridObject(x, y).SetNode(NodeType.Start, !m_GridCoordinates.GetGridObject(x, y).Value);
+        }
 
         DirectoryInfo info = new DirectoryInfo($"{LEVELS_FOLDER_PATH}/x/y");
         return newPuzzle;
