@@ -17,8 +17,8 @@ public class DollyTracksEditor : EditorWindow
 
 
 
-    [MenuItem("Tools/Dolly Tracks Editor")]
-    public static void ShowWindow() => GetWindow<DollyTracksEditor>("Dolly Tracks Editor");
+    //[MenuItem("Tools/Dolly Tracks Editor")]
+    //public static void ShowWindow() => GetWindow<DollyTracksEditor>("Dolly Tracks Editor");
 
 
     private void Awake()
@@ -34,8 +34,8 @@ public class DollyTracksEditor : EditorWindow
         using (new GUILayout.ScrollViewScope(_scrollPos))
         {
             DrawNewTrackButton();
-            DrawUndoButton();
-            DrawTracksList();
+            //DrawUndoButton();
+            //DrawTracksList();
             DrawTracksLinkerArea();
         }
     }
@@ -53,38 +53,38 @@ public class DollyTracksEditor : EditorWindow
             
     }
 
-    private void DrawUndoButton()
-    {
-        using (new GUILayout.HorizontalScope())
-        {
-            GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Delete Last Track", GUILayout.MaxWidth(200f)))
-                PerformUndoButton();
-            GUILayout.FlexibleSpace();
-        }
-    }
+    //private void DrawUndoButton()
+    //{
+    //    using (new GUILayout.HorizontalScope())
+    //    {
+    //        GUILayout.FlexibleSpace();
+    //        if (GUILayout.Button("Delete Last Track", GUILayout.MaxWidth(200f)))
+    //            PerformUndoButton();
+    //        GUILayout.FlexibleSpace();
+    //    }
+    //}
 
-    private void DrawTracksList()
-    {
-        if (_dollyTracksManager != null)
-        {
-            _showTracks = EditorGUILayout.Foldout(_showTracks, "Created Tracks");
-            if (_showTracks)
-            {
-                foreach (DollyTrack track in _dollyTracksManager.TracksList)
-                {
-                    using (new EditorGUILayout.HorizontalScope())
-                    {
-                        GUILayout.Space(40f);
-                        EditorGUILayout.ObjectField(track, typeof(DollyTrack), true);
-                    }
+    //private void DrawTracksList()
+    //{
+    //    if (_dollyTracksManager != null)
+    //    {
+    //        _showTracks = EditorGUILayout.Foldout(_showTracks, "Created Tracks");
+    //        if (_showTracks)
+    //        {
+    //            foreach (DollyTrack track in _dollyTracksManager.TracksList)
+    //            {
+    //                using (new EditorGUILayout.HorizontalScope())
+    //                {
+    //                    GUILayout.Space(40f);
+    //                    EditorGUILayout.ObjectField(track, typeof(DollyTrack), true);
+    //                }
                         
-                }
+    //            }
 
                 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 
     private void DrawTracksLinkerArea()
     {
@@ -134,11 +134,11 @@ public class DollyTracksEditor : EditorWindow
             //add new track to manager tracks list
             _dollyTracksManager.TracksList.Add(newDollyTrack);
             //initializes the new track datas
-            newDollyTrack.ID = _dollyTracksManager.TracksList.Count;
+            //newDollyTrack.ID = _dollyTracksManager.TracksList.Count;
             newDollyTrack.This = trackPrefabRef;
         }
         //otherwise make sure an in-scene dolly track is selected before creating the new one
-        else if (Selection.activeGameObject != null && Selection.activeGameObject.TryGetComponent(out _anchoredTrack))
+        else /*if (Selection.activeGameObject != null && Selection.activeGameObject.TryGetComponent(out _anchoredTrack))*/
         {
             //instantiates the new track
             trackPrefabRef = MonoBehaviour.Instantiate<CinemachineSmoothPath>(trackPrefabRef, Vector3.zero, Quaternion.identity, _dollyTracksManager.transform);
@@ -147,34 +147,35 @@ public class DollyTracksEditor : EditorWindow
             _dollyTracksManager.TracksList.Add(newDollyTrack);
             //initializes the new track datas
             newDollyTrack.This = trackPrefabRef;
-            newDollyTrack.This.m_Waypoints[0].position = _anchoredTrack.m_Waypoints[^1].position;
+            newDollyTrack.This.m_Waypoints[0].position = _dollyTracksManager.TracksList[^2].GetComponent<CinemachineSmoothPath>().m_Waypoints[^1].position;
             newDollyTrack.This.m_Waypoints[1].position = trackPrefabRef.m_Waypoints[0].position + new Vector3(0f, 0f, 10f);
-            newDollyTrack.ID = _dollyTracksManager.TracksList.Count;
-            newDollyTrack.AnchoredTrack = _anchoredTrack;
+            //newDollyTrack.ID = _dollyTracksManager.TracksList.Count;
+            //newDollyTrack.FirstWaypointAnchorTrack = _anchoredTrack;
+            //_anchoredTrack.GetComponent<DollyTrack>().LastWaypointAnchorTrack = newDollyTrack.This;
         }
-        else Debug.LogError(Constants.DT_TOOL_LOG_ERROR);
+        //else Debug.LogError(Constants.DT_TOOL_LOG_ERROR);
     }
-    private void PerformUndoButton()
-    {
-        if (_dollyTracksManager == null || _dollyTracksManager.TracksList.Count == 0) return;
-        DollyTrack lastTrack = _dollyTracksManager.TracksList[^1];
-        _dollyTracksManager.TracksList.Remove(lastTrack);
-        DestroyImmediate(lastTrack.gameObject);
-    }
+    //private void PerformUndoButton()
+    //{
+    //    if (_dollyTracksManager == null || _dollyTracksManager.TracksList.Count == 0) return;
+    //    DollyTrack lastTrack = _dollyTracksManager.TracksList[^1];
+    //    _dollyTracksManager.TracksList.Remove(lastTrack);
+    //    DestroyImmediate(lastTrack.gameObject);
+    //}
 
     private void PerformLinkButton()
     {
         //checks if track A is already linked to another
-        if (_dollyTrackA.AnchoredTrack != null)
+        if (_dollyTrackA.FirstWaypointAnchorTrack != null)
         {
             Debug.LogError("Invalid track. You can't link an already linked track to another track");
             _dollyTrackA = null;
             return;
         }
         //checks if track A is different from track B and if track B is not linked to track A
-        else if (_dollyTrackA != _dollyTrackB && _dollyTrackB.AnchoredTrack != _dollyTrackA.This)
+        else if (_dollyTrackA != _dollyTrackB && _dollyTrackB.FirstWaypointAnchorTrack != _dollyTrackA.This)
         {
-            _dollyTrackA.AnchoredTrack = _dollyTrackB.This;
+            _dollyTrackA.FirstWaypointAnchorTrack = _dollyTrackB.This;
             _dollyTrackA = null;
             _dollyTrackB = null;
         }
