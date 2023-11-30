@@ -64,7 +64,7 @@ public abstract class StateBase
     }
     public virtual void OnUpdate(StateMachineBase context)
     {
-        Debug.Log($"OnUpdate: {StateID}");
+        //Debug.Log($"OnUpdate: {StateID}");
     }
     public virtual void OnLateUpdate(StateMachineBase context)
     {

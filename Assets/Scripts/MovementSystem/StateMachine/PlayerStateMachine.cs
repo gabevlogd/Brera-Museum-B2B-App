@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SM_Movement : StateMachineBase
+public class PlayerStateMachine : StateMachineBase
 {
-
-    public PreMove PreMove = new PreMove("PreMove");
-    public PostMove PostMove = new PostMove("PostMove");
+    #region States:
+    public Idle Idle = new Idle("Idle");
     public Move Move = new Move("Move");
     public Sleep Sleep = new Sleep("Sleep");
+    #endregion
 
     private void Awake() => RunStateMachine(Sleep);
 
