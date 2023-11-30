@@ -10,6 +10,7 @@ public class Grid<TGridObject>
     private float m_cellSize;
     private Vector3 m_originPosition;
     private TGridObject[,] m_gridArray;
+    private TGridObject m_defaultValue; 
 
 
     public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<int, int, TGridObject> createGridObject) 
@@ -21,7 +22,7 @@ public class Grid<TGridObject>
 
         m_gridArray = new TGridObject[width, height];
 
-        
+        m_defaultValue = default(TGridObject);
 
         for (int x = 0; x < m_gridArray.GetLength(0); x++) 
         {
@@ -66,19 +67,19 @@ public class Grid<TGridObject>
     /// <summary>
     /// Return the grid object placed at the passed coordinates
     /// </summary>
-    public TGridObject GetGridObject(int x, int y) 
+    public ref TGridObject GetGridObject(int x, int y) 
     {
-        if (x >= 0 && y >= 0 && x < m_width && y < m_height) return m_gridArray[x, y];
-        else return default(TGridObject);
+        if (x >= 0 && y >= 0 && x < m_width && y < m_height) return ref m_gridArray[x, y];
+        else return ref m_defaultValue;
     }
 
     /// <summary>
     /// Returns the grid object placed at the coordinates obtained from the past world position
     /// </summary>
-    public TGridObject GetGridObject(Vector3 worldPosition) 
+    public ref TGridObject GetGridObject(Vector3 worldPosition) 
     {
         GetXY(worldPosition, out int x, out int y);
-        return GetGridObject(x, y);
+        return ref GetGridObject(x, y);
     }
 
 }
