@@ -139,7 +139,7 @@ public class PuzzleEditor : EditorWindow
             EditorGUILayout.BeginHorizontal(GUI.skin.box);
             m_EndingPoint[i] = EditorGUILayout.Vector2Field("Element " + i, m_EndingPoint[i]);
             if (GUILayout.Button(" - ", GUILayout.MaxHeight(40), GUILayout.MaxWidth(32)))
-                m_StartingPoint.RemoveAt(i);
+        /*TYPO*/m_StartingPoint.RemoveAt(i);/*TYPO*/
 
             EditorGUILayout.EndHorizontal();
         }
@@ -198,21 +198,38 @@ public class PuzzleEditor : EditorWindow
         GUILayout.EndVertical();
     }
 
-    private PuzzleData CreateNewPuzzle()
+
+    
+    private PuzzleData CreateNewPuzzle() 
     {
         PuzzleData newPuzzle = CreateInstance<PuzzleData>();
 
-        newPuzzle.Grid = new Grid<Node>(PuzzleWidth, PuzzleHeigth, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Node(x, y));
+        newPuzzle.Grid = new Grid<Node>(PuzzleWidth, PuzzleHeigth, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Node(x, y)); //perche 1 e new Vector3(-3f, 0f, -3f)?
         newPuzzle.GridWidth = PuzzleWidth;
         newPuzzle.GridHeight = PuzzleHeigth;
 
+        //non e un errore ma perche fare i for invertiti?
         for (int y = PuzzleHeigth - 1; y >= 0; y--)
         {
             for (int x = 0; x < PuzzleWidth; x++)
             {
-                bool isFounded = false;
+                bool isFounded = false; //non serve
 
                 Vector2 tmp = new Vector2(x, y);
+
+                /////////////////////////////////Implementazione alternativa////////////////////////////////
+
+                //Node currentNode = newPuzzle.Grid.GetGridObject(x, y);
+
+                //if (m_StartingPoint.Contains(tmp))
+                //    currentNode.SetNode(NodeType.Start, true);
+
+                //else if (m_EndingPoint.Contains(tmp))
+                //    currentNode.SetNode(NodeType.End, true);
+                //else
+                //    currentNode.SetNode(NodeType.Normal, !m_GridCoordinates.GetGridObject(x, y).Value);
+
+                /////////////////////////////////////////////////////////////////////////////////////////////////
 
                 foreach (Vector2 pos in m_StartingPoint)
                 {
