@@ -6,12 +6,12 @@ using UnityEngine;
 [System.Serializable]
 public class Grid<TGridObject> 
 {
-    private int m_width;
-    private int m_height;
-    private float m_cellSize;
-    private Vector3 m_originPosition;
+    [SerializeField] private int m_width;
+    [SerializeField] private int m_height;
+    [SerializeField] private float m_cellSize;
+    [SerializeField] private Vector3 m_originPosition;
     [SerializeField] private TGridObject[,] m_gridArray;
-    private TGridObject m_defaultValue; 
+    [SerializeField] private TGridObject m_defaultValue; 
 
 
     public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<int, int, TGridObject> createGridObject) 
@@ -39,6 +39,16 @@ public class Grid<TGridObject>
     public int GetHeight() => m_height;
 
     public float GetCellSize() => m_cellSize;
+
+    public void SetCellSize(float cellSize)
+    {
+        m_cellSize = cellSize;
+    }
+
+    public void SetGridOrigin(Vector3 origin)
+    {
+        m_originPosition = origin;
+    }
 
     /// <summary>
     /// Returns the corresponding world position of the passed coordinates
@@ -68,7 +78,7 @@ public class Grid<TGridObject>
     /// <summary>
     /// Return the grid object placed at the passed coordinates
     /// </summary>
-    public ref TGridObject GetGridObject(int x, int y) 
+    public ref TGridObject GetRefGridObject(int x, int y) 
     {
         if (x >= 0 && y >= 0 && x < m_width && y < m_height) return ref m_gridArray[x, y];
         else return ref m_defaultValue;
@@ -77,12 +87,23 @@ public class Grid<TGridObject>
     /// <summary>
     /// Returns the grid object placed at the coordinates obtained from the past world position
     /// </summary>
-    public ref TGridObject GetGridObject(Vector3 worldPosition) 
+    public ref TGridObject GetRefGridObject(Vector3 worldPosition) 
     {
         GetXY(worldPosition, out int x, out int y);
-        return ref GetGridObject(x, y);
+        return ref GetRefGridObject(x, y);
     }
 
+    public TGridObject GetGridObject(int x, int y)
+    {
+        if (x >= 0 && y >= 0 && x < m_width && y < m_height) return m_gridArray[x, y];
+        else return m_defaultValue;
+    }
+
+    public TGridObject GetGridObject(Vector3 worldPosition)
+    {
+        GetXY(worldPosition, out int x, out int y);
+        return GetGridObject(x, y);
+    }
 }
 
 

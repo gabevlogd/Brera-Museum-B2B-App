@@ -5,7 +5,8 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class PuzzleManager : MonoBehaviour
 {
-    public PuzzleData Data;
+    public PuzzleData AssetData;
+    private PuzzleData Data;
     private Camera m_Camera;
     private LineRenderer m_LineRenderer;
     private TouchScreen m_Input;
@@ -16,9 +17,13 @@ public class PuzzleManager : MonoBehaviour
     {
         m_LineRenderer = GetComponent<LineRenderer>();
         m_Camera = Camera.main;
-        Data.Grid = new Grid<Node>(Data.GridWidth, Data.GridHeight, GetGridCellSize(), GetGridOrigin(), (int x, int y) => new Node(x, y));
         m_Input = new TouchScreen();
         m_Input.Enable();
+        Data = new PuzzleData();
+        Data = AssetData;
+
+        Data.Grid.SetCellSize(GetGridCellSize());
+        Data.Grid.SetGridOrigin(GetGridOrigin());
     }
 
     private void Update()
@@ -29,18 +34,21 @@ public class PuzzleManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        PuzzleData debugData = Data;
-        debugData.Grid = new Grid<Node>(debugData.GridWidth, debugData.GridHeight, GetGridCellSize(), GetGridOrigin(), (int x, int y) => new Node(x, y));
-        float cellSize = GetGridCellSize();
-        for (int row = 0; row < debugData.GridWidth; row++)
+        Data = AssetData;
+        Data.Grid.SetCellSize(GetGridCellSize());
+        Data.Grid.SetGridOrigin(GetGridOrigin());
+
+        for (int i = 0; i < Data.GridWidth; i++)
         {
-            for (int column = 0; column < debugData.GridHeight; column++)
+            for (int j = 0; j < Data.GridHeight; j++)
             {
-                if (debugData.Grid.GetGridObject(row, column).Walkable)
+                Debug.Log("Node type: " + Data.Grid.GetGridObject(i, j).NodeType.ToString());
+
+                if (Data.Grid.GetGridObject(i, j).Walkable)
                     Gizmos.color = Color.green;
                 else Gizmos.color = Color.red;
 
-                Gizmos.DrawCube(debugData.Grid.GetWorldPosition(row, column), new Vector3(cellSize, cellSize, 0.2f));
+                Gizmos.DrawCube(Data.Grid.GetWorldPosition(i, j), new Vector3(Data.Grid.GetCellSize(), Data.Grid.GetCellSize(), 0.2f));
             }
         }
     }

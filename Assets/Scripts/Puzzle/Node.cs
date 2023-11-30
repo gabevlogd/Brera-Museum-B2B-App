@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class Node 
+[System.Serializable]
+public struct Node 
 {
-    private int m_X;
-    private int m_Y;
-    private NodeType m_NodeType;
-    private bool m_Walkable;
+    [SerializeField] private int m_X;
+    [SerializeField] private int m_Y;
+    [SerializeField] private NodeType m_NodeType;
+    [SerializeField] private bool m_Walkable;
 
     public int X { get => m_X;}
     public int Y { get => m_Y;}

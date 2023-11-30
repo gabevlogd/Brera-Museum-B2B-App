@@ -165,7 +165,7 @@ public class PuzzleEditor : EditorWindow
         PuzzleData newLevel = CreateNewPuzzle();
         if (newLevel == null) return;
 
-        if (!Directory.Exists($"{LEVELS_FOLDER_PATH}/{m_PictureID}"))
+        if (!Directory.Exists($"{LEVELS_FOLDER_PATH}/Picture {m_PictureID}"))
             AssetDatabase.CreateFolder($"{LEVELS_FOLDER_PATH}", $"Picture {m_PictureID}");
 
         AssetDatabase.CreateAsset(newLevel, $"{LEVELS_FOLDER_PATH}/Picture {m_PictureID}/Puzzle {m_PuzzleID}.asset");
@@ -191,7 +191,7 @@ public class PuzzleEditor : EditorWindow
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             for (int x = 0; x < PuzzleWidth; x++)
-                m_GridCoordinates.GetGridObject(x, y).Value = GUILayout.Toggle(m_GridCoordinates.GetGridObject(x, y).Value, "", GUILayout.Width(20f), GUILayout.Height(20f));
+                m_GridCoordinates.GetRefGridObject(x, y).Value = GUILayout.Toggle(m_GridCoordinates.GetRefGridObject(x, y).Value, "", GUILayout.Width(20f), GUILayout.Height(20f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }
@@ -213,48 +213,17 @@ public class PuzzleEditor : EditorWindow
         {
             for (int x = 0; x < PuzzleWidth; x++)
             {
-                bool isFounded = false; //non serve
-
                 Vector2 tmp = new Vector2(x, y);
-
-                /////////////////////////////////Implementazione alternativa////////////////////////////////
 
                 //Node currentNode = newPuzzle.Grid.GetGridObject(x, y);
 
-                //if (m_StartingPoint.Contains(tmp))
-                //    currentNode.SetNode(NodeType.Start, true);
+                if (m_StartingPoint.Contains(tmp))
+                    newPuzzle.Grid.GetRefGridObject(x, y).SetNode(NodeType.Start, true);
 
-                //else if (m_EndingPoint.Contains(tmp))
-                //    currentNode.SetNode(NodeType.End, true);
-                //else
-                //    currentNode.SetNode(NodeType.Normal, !m_GridCoordinates.GetGridObject(x, y).Value);
-
-                /////////////////////////////////////////////////////////////////////////////////////////////////
-
-                foreach (Vector2 pos in m_StartingPoint)
-                {
-                    if (tmp == pos)
-                    {
-                        newPuzzle.Grid.GetGridObject(x, y).SetNode(NodeType.Start, true);
-                        isFounded = true;
-                        break;
-                    }
-                }
-
-                foreach (Vector2 pos in m_EndingPoint)
-                {
-                    if (tmp == pos)
-                    {
-                        newPuzzle.Grid.GetGridObject(x, y).SetNode(NodeType.End, true);
-                        isFounded = true;
-                        break;
-                    }
-                }
-
-                if (isFounded == false)
-                {
-                    newPuzzle.Grid.GetGridObject(x, y).SetNode(NodeType.Normal, !m_GridCoordinates.GetGridObject(x, y).Value);
-                }
+                else if (m_EndingPoint.Contains(tmp))
+                    newPuzzle.Grid.GetRefGridObject(x, y).SetNode(NodeType.End, true);
+                else
+                    newPuzzle.Grid.GetRefGridObject(x, y).SetNode(NodeType.Normal, !m_GridCoordinates.GetRefGridObject(x, y).Value);
             }
         }
         return newPuzzle;

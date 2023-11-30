@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewPuzzleData", menuName = "ScriptableObject/Puzzle")]
 public class PuzzleData : ScriptableObject
 {
-    public Grid<Node> Grid;
-    public int GridWidth;
-    public int GridHeight;
+    [SerializeField] public Grid<Node> Grid;
+    [SerializeField] public int GridWidth;
+    [SerializeField] public int GridHeight;
     //public float CellSize;
     //public Vector3 PuzzlePosition;
 
