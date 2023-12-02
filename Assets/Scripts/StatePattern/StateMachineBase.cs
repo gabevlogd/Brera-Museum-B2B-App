@@ -12,7 +12,7 @@ public abstract class StateMachineBase : MonoBehaviour
         _currentState = entryState;
         _currentState.OnEnter(this);
     }
-    protected void ChangeState(StateBase state)
+    public void ChangeState(StateBase state)
     {
         _currentState.OnExit(this);
         _previousState = _currentState;
