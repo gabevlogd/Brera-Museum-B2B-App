@@ -422,7 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerSM: {fileID: 1433008749}
   TargetTrack: {fileID: 0}
-  TrackDirection: 1
+  TrackDirection: 0
 --- !u!4 &271602003
 Transform:
   m_ObjectHideFlags: 0

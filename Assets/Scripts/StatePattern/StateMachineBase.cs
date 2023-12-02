@@ -4,19 +4,19 @@ using UnityEngine;
 
 public abstract class StateMachineBase : MonoBehaviour 
 {
-    protected StateBase _currentState;
-    protected StateBase _previousState;
+    protected StateBase m_CurrentState;
+    protected StateBase m_PreviousState;
 
     protected void RunStateMachine(StateBase entryState)
     {
-        _currentState = entryState;
-        _currentState.OnEnter(this);
+        m_CurrentState = entryState;
+        m_CurrentState.OnEnter(this);
     }
     public void ChangeState(StateBase state)
     {
-        _currentState.OnExit(this);
-        _previousState = _currentState;
-        _currentState = state;
-        _currentState.OnEnter(this);
+        m_CurrentState.OnExit(this);
+        m_PreviousState = m_CurrentState;
+        m_CurrentState = state;
+        m_CurrentState.OnEnter(this);
     }
 }

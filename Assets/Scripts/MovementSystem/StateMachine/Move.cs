@@ -3,55 +3,55 @@ using UnityEngine;
 
 public class Move : StateBase
 {
-    private Transform _playerTransform;
-    private Action<StateMachineBase> _updateMovement;
+    private Transform m_PlayerTransform;
+    private Action<StateMachineBase> m_UpdateMovement;
 
-    private float _alignmentSpeed;
-    private float _alignmentAngularSpeed;
-    private float _movementSpeed;
-    private Vector3 _lastPosition;
+    private float m_AlignmentSpeed;
+    private float m_AlignmentAngularSpeed;
+    private float m_MovementSpeed;
+    private Vector3 m_LastPosition;
 
     public Move(string stateID, MovementData movementData) : base(stateID)
     {
-        _alignmentAngularSpeed = movementData.AlignmentAngularSpeed;
-        _alignmentSpeed = movementData.AlignmentSpeed;
-        _movementSpeed = movementData.MovementSpeed;
+        m_AlignmentAngularSpeed = movementData.AlignmentAngularSpeed;
+        m_AlignmentSpeed = movementData.AlignmentSpeed;
+        m_MovementSpeed = movementData.MovementSpeed;
     }
 
     public override void OnEnter(StateMachineBase context)
     {
         base.OnEnter(context);
-        _playerTransform = context.transform;
-        _updateMovement = SetPositionAndRotation;
+        m_PlayerTransform = context.transform;
+        m_UpdateMovement = SetPositionAndRotation;
     }
 
     public override void OnExit(StateMachineBase context)
     {
         base.OnExit(context);
         DollyCartManager.ResetCart();
-        _updateMovement = null;
+        m_UpdateMovement = null;
     }
 
     public override void OnUpdate(StateMachineBase context)
     {
         //base.OnUpdate(context);
-        _updateMovement?.Invoke(context);
+        m_UpdateMovement?.Invoke(context);
 
     }
 
     private void SetPositionAndRotation(StateMachineBase context)
     {
         //checks if position and rotation of player are aligned with the cart position and rotation 
-        if (Vector3.Distance(_playerTransform.position, DollyCartManager.GetCartPosition()) > 0.1f ||
-            Mathf.Abs(Quaternion.Dot(_playerTransform.rotation, DollyCartManager.GetCartRotation()) - 1f) > 0.0001f)
+        if (Vector3.Distance(m_PlayerTransform.position, DollyCartManager.GetCartPosition()) > 0.1f ||
+            Mathf.Abs(Quaternion.Dot(m_PlayerTransform.rotation, DollyCartManager.GetCartRotation()) - 1f) > 0.0001f)
         {
-            _playerTransform.position = Vector3.MoveTowards(_playerTransform.position, DollyCartManager.GetCartPosition(), Time.deltaTime * _alignmentSpeed);
-            _playerTransform.rotation = Quaternion.RotateTowards(_playerTransform.rotation, DollyCartManager.GetCartRotation(), Time.deltaTime * _alignmentAngularSpeed);
+            m_PlayerTransform.position = Vector3.MoveTowards(m_PlayerTransform.position, DollyCartManager.GetCartPosition(), Time.deltaTime * m_AlignmentSpeed);
+            m_PlayerTransform.rotation = Quaternion.RotateTowards(m_PlayerTransform.rotation, DollyCartManager.GetCartRotation(), Time.deltaTime * m_AlignmentAngularSpeed);
         }
         else
         {
-            DollyCartManager.StartCartMovement(_movementSpeed);
-            _updateMovement = PerformMovement;
+            DollyCartManager.StartCartMovement(m_MovementSpeed);
+            m_UpdateMovement = PerformMovement;
         }
     }
 
@@ -60,13 +60,13 @@ public class Move : StateBase
         //cast the context
         PlayerStateMachine playerSM = context as PlayerStateMachine;
         //save player position before updateing it
-        _lastPosition = _playerTransform.position;
+        m_LastPosition = m_PlayerTransform.position;
         //update player position and rotation
-        _playerTransform.position = DollyCartManager.GetCartPosition();
-        _playerTransform.rotation = DollyCartManager.GetCartRotation();
+        m_PlayerTransform.position = DollyCartManager.GetCartPosition();
+        m_PlayerTransform.rotation = DollyCartManager.GetCartRotation();
 
         //checks if the motion is completed
-        if (_lastPosition == _playerTransform.position)
+        if (m_LastPosition == m_PlayerTransform.position)
             playerSM.ChangeState(playerSM.Idle);
         
     }

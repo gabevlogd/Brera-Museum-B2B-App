@@ -6,9 +6,9 @@ using Cinemachine;
 [ExecuteInEditMode]
 public class TrackHandler : MonoBehaviour
 {
-    private DollyTrack _dollyTrack;
+    private DollyTrack m_DollyTrack;
 
-    private void Awake() => _dollyTrack = GetComponent<DollyTrack>();
+    private void Awake() => m_DollyTrack = GetComponent<DollyTrack>();
 
     private void Update()
     {
@@ -36,15 +36,15 @@ public class TrackHandler : MonoBehaviour
         if (Selection.activeGameObject != null && Selection.activeGameObject == this.gameObject) return;
 
         
-        if (_dollyTrack.FirstWaypointAnchorTrack != null && _dollyTrack.FirstWaypointAnchorIndex < _dollyTrack.FirstWaypointAnchorTrack.m_Waypoints.Length)
+        if (m_DollyTrack.FirstWaypointAnchorTrack != null && m_DollyTrack.FirstWaypointAnchorIndex < m_DollyTrack.FirstWaypointAnchorTrack.m_Waypoints.Length)
         {
-            Vector3 targetCostraintPos = _dollyTrack.FirstWaypointAnchorTrack.m_Waypoints[_dollyTrack.FirstWaypointAnchorIndex].position;
-            _dollyTrack.This.m_Waypoints[0].position.Set(targetCostraintPos.x, targetCostraintPos.y, targetCostraintPos.z);
+            Vector3 targetCostraintPos = m_DollyTrack.FirstWaypointAnchorTrack.m_Waypoints[m_DollyTrack.FirstWaypointAnchorIndex].position;
+            m_DollyTrack.This.m_Waypoints[0].position.Set(targetCostraintPos.x, targetCostraintPos.y, targetCostraintPos.z);
         }
-        if (_dollyTrack.LastWaypointAnchorTrack != null && _dollyTrack.LastWaypointAnchorIndex < _dollyTrack.LastWaypointAnchorTrack.m_Waypoints.Length)
+        if (m_DollyTrack.LastWaypointAnchorTrack != null && m_DollyTrack.LastWaypointAnchorIndex < m_DollyTrack.LastWaypointAnchorTrack.m_Waypoints.Length)
         {
-            Vector3 targetCostraintPos = _dollyTrack.LastWaypointAnchorTrack.m_Waypoints[_dollyTrack.LastWaypointAnchorIndex].position;
-            _dollyTrack.This.m_Waypoints[^1].position.Set(targetCostraintPos.x, targetCostraintPos.y, targetCostraintPos.z);
+            Vector3 targetCostraintPos = m_DollyTrack.LastWaypointAnchorTrack.m_Waypoints[m_DollyTrack.LastWaypointAnchorIndex].position;
+            m_DollyTrack.This.m_Waypoints[^1].position.Set(targetCostraintPos.x, targetCostraintPos.y, targetCostraintPos.z);
         }
         
     }

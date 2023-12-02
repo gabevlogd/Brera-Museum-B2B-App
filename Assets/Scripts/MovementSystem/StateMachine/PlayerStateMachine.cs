@@ -20,6 +20,6 @@ public class PlayerStateMachine : StateMachineBase
 
     private void Update()
     {
-        _currentState.OnUpdate(this);
+        m_CurrentState.OnUpdate(this);
     }
 }

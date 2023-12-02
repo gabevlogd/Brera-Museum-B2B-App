@@ -5,25 +5,31 @@ using Cinemachine;
 
 public class DollyCartManager : MonoBehaviour
 {
-    private static DollyTrack[] _tracksList; //forse non servono devo ancora capire.
-    private static CinemachineDollyCart _dollyCart;
-    private static TrackDirection _trackDirection;
+    //private static DollyTrack[] _tracksList; //forse non servono devo ancora capire.
+    private static CinemachineDollyCart m_DollyCart;
+    private static TrackDirection m_TrackDirection;
 
     private void Awake()
     {
-        _tracksList = GetTrackList();
-        _dollyCart = GetDollyCart();
+        //_tracksList = GetTrackList();
+        m_DollyCart = GetDollyCart();
     }
 
-    private DollyTrack[] GetTrackList() => FindObjectsByType<DollyTrack>(FindObjectsSortMode.None);
+    //private DollyTrack[] GetTrackList() => FindObjectsByType<DollyTrack>(FindObjectsSortMode.None);
     private CinemachineDollyCart GetDollyCart() => FindObjectOfType<CinemachineDollyCart>();
 
+
+    /// <summary>
+    /// Set the starting condition of the dolly cart
+    /// </summary>
+    /// <param name="targetTrack">The track upon which move</param>
+    /// <param name="trackDirection">The moving direction on the track</param>
     public static void SetDollyCart(CinemachineSmoothPath targetTrack, TrackDirection trackDirection)
     {
-        _dollyCart.m_Path = targetTrack;
-        _trackDirection = trackDirection;
-        if (trackDirection == TrackDirection.Forward) _dollyCart.m_Position = 0f;
-        else _dollyCart.m_Position = targetTrack.PathLength;
+        m_DollyCart.m_Path = targetTrack;
+        m_TrackDirection = trackDirection;
+        if (trackDirection == TrackDirection.Forward) m_DollyCart.m_Position = 0f;
+        else m_DollyCart.m_Position = targetTrack.PathLength;
     }
 
     /// <summary>
@@ -31,20 +37,20 @@ public class DollyCartManager : MonoBehaviour
     /// </summary>
     public static void StartCartMovement(float cartSpeed)
     {
-        if (_trackDirection == TrackDirection.Forward) _dollyCart.m_Speed = cartSpeed;
-        else _dollyCart.m_Speed = -cartSpeed;
+        if (m_TrackDirection == TrackDirection.Forward) m_DollyCart.m_Speed = cartSpeed;
+        else m_DollyCart.m_Speed = -cartSpeed;
     }
 
     /// <summary>
     /// Stop the motion of the dolly cart
     /// </summary>
-    public static void ResetCart() => _dollyCart.m_Speed = 0f;
+    public static void ResetCart() => m_DollyCart.m_Speed = 0f;
 
-    public static Vector3 GetCartPosition() => _dollyCart.transform.position;
+    public static Vector3 GetCartPosition() => m_DollyCart.transform.position;
     public static Quaternion GetCartRotation()
     {
-        if (_trackDirection == TrackDirection.Forward) return _dollyCart.transform.rotation;
-        else return Quaternion.LookRotation(-_dollyCart.transform.forward, _dollyCart.transform.up);
+        if (m_TrackDirection == TrackDirection.Forward) return m_DollyCart.transform.rotation;
+        else return Quaternion.LookRotation(-m_DollyCart.transform.forward, m_DollyCart.transform.up);
     }
 }
 
