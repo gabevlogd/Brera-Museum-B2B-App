@@ -19,9 +19,8 @@ public class PuzzleManager : MonoBehaviour
         m_Camera = Camera.main;
         m_Input = new TouchScreen();
         m_Input.Enable();
-        Data = new PuzzleData();
-        Data = AssetData;
 
+        Data = AssetData;
         Data.Grid.SetCellSize(GetGridCellSize());
         Data.Grid.SetGridOrigin(GetGridOrigin());
     }
@@ -34,23 +33,44 @@ public class PuzzleManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Data = AssetData;
-        Data.Grid.SetCellSize(GetGridCellSize());
-        Data.Grid.SetGridOrigin(GetGridOrigin());
+        //causa del non funzionamento: gridArray in edtior risulta valorizzato, a runtime risulta null
+        //SISTEMA FUNZIONANTE IN EDITOR MA NON A RUNTIME (POSSIBILE PASSAGGIO PER RIFERIMENTO, INCORRETTO)
+        //Data = AssetData;
+        //Data.Grid.SetCellSize(GetGridCellSize());
+        //Data.Grid.SetGridOrigin(GetGridOrigin());
 
-        for (int i = 0; i < Data.GridWidth; i++)
-        {
-            for (int j = 0; j < Data.GridHeight; j++)
-            {
-                Debug.Log("Node type: " + Data.Grid.GetGridObject(i, j).NodeType.ToString());
+        //for (int i = 0; i < Data.GridWidth; i++)
+        //{
+        //    for (int j = 0; j < Data.GridHeight; j++)
+        //    {
+        //        Debug.Log("Node type: " + Data.Grid.GetGridObject(i, j).NodeType.ToString());
 
-                if (Data.Grid.GetGridObject(i, j).Walkable)
-                    Gizmos.color = Color.green;
-                else Gizmos.color = Color.red;
+        //        if (Data.Grid.GetGridObject(i, j).Walkable)
+        //            Gizmos.color = Color.green;
+        //        else Gizmos.color = Color.red;
 
-                Gizmos.DrawCube(Data.Grid.GetWorldPosition(i, j), new Vector3(Data.Grid.GetCellSize(), Data.Grid.GetCellSize(), 0.2f));
-            }
-        }
+        //        Gizmos.DrawCube(Data.Grid.GetWorldPosition(i, j), new Vector3(Data.Grid.GetCellSize(), Data.Grid.GetCellSize(), 0.2f));
+        //    }
+        //}
+
+        //SISTEMA NON FUNZIONANTE
+        //PuzzleData test = new PuzzleData(AssetData.Grid, AssetData.GridWidth, AssetData.GridHeight);
+        //test.Grid.SetCellSize(GetGridCellSize());
+        //test.Grid.SetGridOrigin(GetGridOrigin());
+
+        //for (int i = 0; i < test.GridWidth; i++)
+        //{
+        //    for (int j = 0; j < test.GridHeight; j++)
+        //    {
+        //        Debug.Log("Node type: " + test.Grid.GetGridObject(i, j).NodeType.ToString());
+
+        //        if (test.Grid.GetGridObject(i, j).Walkable)
+        //            Gizmos.color = Color.green;
+        //        else Gizmos.color = Color.red;
+
+        //        Gizmos.DrawCube(test.Grid.GetWorldPosition(i, j), new Vector3(test.Grid.GetCellSize(), test.Grid.GetCellSize(), 0.2f));
+        //    }
+        //}
     }
 
     private void UpdateLineRenderer(Vector3 position)

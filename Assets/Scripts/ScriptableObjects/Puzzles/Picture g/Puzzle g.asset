@@ -10,7 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29894610196f3e84f86fe9e0707185d2, type: 3}
-  m_Name: NewPuzzleData
+  m_Name: Puzzle g
   m_EditorClassIdentifier: 
-  GridWidth: 6
-  GridHeight: 6
+  Grid:
+    m_width: 3
+    m_height: 3
+    m_cellSize: 1
+    m_originPosition: {x: -3, y: 0, z: -3}
+    m_defaultValue:
+      m_X: 0
+      m_Y: 0
+      m_NodeType: 0
+      m_Walkable: 0
+  GridWidth: 3
+  GridHeight: 3
