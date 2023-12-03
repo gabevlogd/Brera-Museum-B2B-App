@@ -8,6 +8,7 @@ public class PlayerStateMachine : StateMachineBase
     public Idle Idle;
     public Move Move;
     public Sleep Sleep;
+    public SightMove SightMove;
     #endregion
 
     private void Awake()
@@ -15,7 +16,8 @@ public class PlayerStateMachine : StateMachineBase
         Idle = new Idle("Idle");
         Move = new Move("Move", GetComponent<PlayerData>().MovementData);
         Sleep = new Sleep("Sleep");
-        RunStateMachine(Idle);
+        SightMove = new SightMove("SightMove");
+        RunStateMachine(SightMove);
     }
 
     private void Update()
