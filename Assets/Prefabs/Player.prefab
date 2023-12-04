@@ -142,6 +142,10 @@ MonoBehaviour:
     MovementSpeed: 2
     AlignmentSpeed: 2
     AlignmentAngularSpeed: 20
+  SightMovementData:
+    ZoomSens: 10
+    DefaultZoom: 60
+    MinZoom: 20
 --- !u!114 &5946625627284972956
 MonoBehaviour:
   m_ObjectHideFlags: 0

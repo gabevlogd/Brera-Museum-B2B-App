@@ -14,6 +14,7 @@ public abstract class StateMachineBase : MonoBehaviour
     }
     public void ChangeState(StateBase state)
     {
+        if (state.StateID == m_CurrentState.StateID) return;
         m_CurrentState.OnExit(this);
         m_PreviousState = m_CurrentState;
         m_CurrentState = state;

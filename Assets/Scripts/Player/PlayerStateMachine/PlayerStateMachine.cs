@@ -16,7 +16,7 @@ public class PlayerStateMachine : StateMachineBase
         Idle = new Idle("Idle");
         Move = new Move("Move", GetComponent<PlayerData>().MovementData);
         Sleep = new Sleep("Sleep");
-        SightMove = new SightMove("SightMove");
+        SightMove = new SightMove("SightMove", GetComponent<PlayerData>().SightMovementData);
         RunStateMachine(SightMove);
     }
 
