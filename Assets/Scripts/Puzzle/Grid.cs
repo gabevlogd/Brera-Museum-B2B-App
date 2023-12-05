@@ -3,15 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class Grid<TGridObject> 
 {
-    [SerializeField] private int m_width;
-    [SerializeField] private int m_height;
-    [SerializeField] private float m_cellSize;
-    [SerializeField] private Vector3 m_originPosition;
-    [SerializeField] private TGridObject[,] m_gridArray;
-    [SerializeField] private TGridObject m_defaultValue; 
+    private int m_width;
+    private int m_height;
+    private float m_cellSize;
+    private Vector3 m_originPosition;
+    private TGridObject[,] m_gridArray;
+    private TGridObject m_defaultValue; 
 
 
     public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<int, int, TGridObject> createGridObject) 

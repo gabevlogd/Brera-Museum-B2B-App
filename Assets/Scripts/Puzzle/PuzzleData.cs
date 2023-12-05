@@ -5,18 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewPuzzleData", menuName = "ScriptableObject/Puzzle")]
 public class PuzzleData : ScriptableObject
 {
-    [SerializeField] public Grid<Node> Grid;
+    public Grid<Node> Grid;
     [SerializeField] public int GridWidth;
     [SerializeField] public int GridHeight;
-
-    public PuzzleData(Grid<Node> grid, int gridWidth, int gridHeight)
-    {
-        Grid = grid;
-        GridWidth = gridWidth;
-        GridHeight = gridHeight;
-    }
-    //public float CellSize;
-    //public Vector3 PuzzlePosition;
-
-
+    [SerializeField] public List<Vector2> StartingPoint = new List<Vector2>();
+    [SerializeField] public List<Vector2> EndingPoint = new List<Vector2>();
+    [SerializeField] public List<ListWrapper> WalkableArray = new List<ListWrapper>();
 }
+
+[System.Serializable] public class ListWrapper { public List<bool> List; } 

@@ -10,7 +10,7 @@ using System.IO;
 
 public class PuzzleEditor : EditorWindow
 {
-    private Grid<Toggle> m_GridCoordinates;
+    private bool[,] m_GridCoordinates;
     private List<Vector2> m_StartingPoint = new List<Vector2>();
     private List<Vector2> m_EndingPoint = new List<Vector2>();
     private int m_PuzzleWidth = 10;
@@ -30,11 +30,11 @@ public class PuzzleEditor : EditorWindow
             if (m_PuzzleWidth == value) return;
 
             m_PuzzleWidth = value;
-            m_GridCoordinates = new Grid<Toggle>(PuzzleWidth, PuzzleHeigth, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Toggle(x, y));
+            m_GridCoordinates = new bool[PuzzleWidth, PuzzleHeight];
         }
     }
 
-    public int PuzzleHeigth
+    public int PuzzleHeight
     {
         get => m_PuzzleHeigth;
         set
@@ -42,7 +42,7 @@ public class PuzzleEditor : EditorWindow
             if (m_PuzzleHeigth == value) return;
 
             m_PuzzleHeigth = value;
-            m_GridCoordinates = new Grid<Toggle>(PuzzleWidth, PuzzleHeigth, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Toggle(x, y));
+            m_GridCoordinates = new bool[PuzzleWidth, PuzzleHeight];
         }
     }
 
@@ -51,7 +51,7 @@ public class PuzzleEditor : EditorWindow
 
     private void OnEnable()
     {
-        m_GridCoordinates = new Grid<Toggle>(PuzzleWidth, PuzzleHeigth, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Toggle(x, y));
+        m_GridCoordinates = new bool[PuzzleWidth, PuzzleHeight];
     }
 
     void OnGUI()
@@ -101,7 +101,7 @@ public class PuzzleEditor : EditorWindow
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
         GUILayout.Label("Puzzle Heigth: ");
-        PuzzleHeigth = EditorGUILayout.IntField(PuzzleHeigth);
+        PuzzleHeight = EditorGUILayout.IntField(PuzzleHeight);
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
@@ -186,12 +186,12 @@ public class PuzzleEditor : EditorWindow
         GUILayout.EndHorizontal();
 
         GUILayout.BeginVertical();
-        for (int y = PuzzleHeigth-1; y >= 0; y--)
+        for (int y = PuzzleHeight-1; y >= 0; y--)
         {
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             for (int x = 0; x < PuzzleWidth; x++)
-                m_GridCoordinates.GetRefGridObject(x, y).Value = GUILayout.Toggle(m_GridCoordinates.GetRefGridObject(x, y).Value, "", GUILayout.Width(20f), GUILayout.Height(20f));
+                m_GridCoordinates[x, y] = GUILayout.Toggle(m_GridCoordinates[x, y], "", GUILayout.Width(20f), GUILayout.Height(20f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }
@@ -204,27 +204,23 @@ public class PuzzleEditor : EditorWindow
     {
         PuzzleData newPuzzle = CreateInstance<PuzzleData>();
 
-        newPuzzle.Grid = new Grid<Node>(PuzzleWidth, PuzzleHeigth, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Node(x, y)); //perche 1 e new Vector3(-3f, 0f, -3f)?
         newPuzzle.GridWidth = PuzzleWidth;
-        newPuzzle.GridHeight = PuzzleHeigth;
+        newPuzzle.GridHeight = PuzzleHeight;
+        newPuzzle.StartingPoint = m_StartingPoint;
+        newPuzzle.EndingPoint = m_EndingPoint;
+        newPuzzle.WalkableArray = new List<ListWrapper>();
 
-        //non e un errore ma perche fare i for invertiti?
-        for (int y = PuzzleHeigth - 1; y >= 0; y--)
+        for (int i = 0; i < PuzzleHeight; i++)
         {
-            for (int x = 0; x < PuzzleWidth; x++)
+            ListWrapper tmpWrapper = new ListWrapper();
+            tmpWrapper.List = new List<bool>();
+
+            for (int j = 0; j < PuzzleWidth; j++)
             {
-                Vector2 tmp = new Vector2(x, y);
-
-                //Node currentNode = newPuzzle.Grid.GetGridObject(x, y);
-
-                if (m_StartingPoint.Contains(tmp))
-                    newPuzzle.Grid.GetRefGridObject(x, y).SetNode(NodeType.Start, true);
-
-                else if (m_EndingPoint.Contains(tmp))
-                    newPuzzle.Grid.GetRefGridObject(x, y).SetNode(NodeType.End, true);
-                else
-                    newPuzzle.Grid.GetRefGridObject(x, y).SetNode(NodeType.Normal, !m_GridCoordinates.GetRefGridObject(x, y).Value);
+                tmpWrapper.List.Add(!m_GridCoordinates[i, j]);
             }
+
+            newPuzzle.WalkableArray.Add(tmpWrapper);
         }
         return newPuzzle;
     }

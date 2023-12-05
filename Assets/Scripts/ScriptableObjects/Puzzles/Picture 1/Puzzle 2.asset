@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Puzzle 2
   m_EditorClassIdentifier: 
   Grid:
-    m_width: 3
-    m_height: 3
+    m_width: 5
+    m_height: 5
     m_cellSize: 1
     m_originPosition: {x: -3, y: 0, z: -3}
     m_defaultValue:
@@ -22,5 +22,15 @@ MonoBehaviour:
       m_Y: 0
       m_NodeType: 0
       m_Walkable: 0
-  GridWidth: 3
-  GridHeight: 3
+  GridWidth: 5
+  GridHeight: 5
+  StartingPoint:
+  - {x: 0, y: 0}
+  EndingPoint:
+  - {x: 4, y: 4}
+  WalkableArray:
+  - List: 0101000100
+  - List: 0001000100
+  - List: 0101010100
+  - List: 0001000000
+  - List: 0101010101

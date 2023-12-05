@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29894610196f3e84f86fe9e0707185d2, type: 3}
+  m_Name: Puzzle 4
+  m_EditorClassIdentifier: 
+  Grid:
+    m_width: 0
+    m_height: 0
+    m_cellSize: 0
+    m_originPosition: {x: 0, y: 0, z: 0}
+    m_defaultValue:
+      m_X: 0
+      m_Y: 0
+      m_NodeType: 0
+      m_Walkable: 0
+  GridWidth: 5
+  GridHeight: 5
+  StartingPoint:
+  - {x: 4, y: 4}
+  EndingPoint:
+  - {x: 0, y: 0}
+  WalkableArray:
+  - List: 0101010100
+  - List: 0101010001
+  - List: 0101000101
+  - List: 0100010101
+  - List: 0001010101

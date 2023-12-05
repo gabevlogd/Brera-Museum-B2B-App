@@ -21,6 +21,26 @@ public class PuzzleManager : MonoBehaviour
         m_Input.Enable();
 
         Data = AssetData;
+        Data.Grid = new Grid<Node>(Data.GridWidth, Data.GridHeight, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Node(x, y));
+
+        for (int y = 0; y < Data.GridHeight; y++)
+        {
+            for (int x = 0; x < Data.GridWidth; x++)
+            {
+                Vector2 tmp = new Vector2(x, y);
+
+                if (Data.StartingPoint.Contains(tmp))
+                {
+                    Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Start, true);
+                    m_LastValidNode = Data.Grid.GetGridObject(x, y);
+                }
+                else if (Data.EndingPoint.Contains(tmp))
+                    Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.End, true);
+                else
+                    Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Normal, AssetData.WalkableArray[x].List[y]);
+            }
+        }
+
         Data.Grid.SetCellSize(GetGridCellSize());
         Data.Grid.SetGridOrigin(GetGridOrigin());
     }
@@ -31,46 +51,35 @@ public class PuzzleManager : MonoBehaviour
         UpdateLineRenderer(m_WorldTouchPosition);
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
-        //causa del non funzionamento: gridArray in edtior risulta valorizzato, a runtime risulta null
-        //SISTEMA FUNZIONANTE IN EDITOR MA NON A RUNTIME (POSSIBILE PASSAGGIO PER RIFERIMENTO, INCORRETTO)
-        //Data = AssetData;
-        //Data.Grid.SetCellSize(GetGridCellSize());
-        //Data.Grid.SetGridOrigin(GetGridOrigin());
+        Data = AssetData;
+        Data.Grid = new Grid<Node>(Data.GridWidth, Data.GridHeight, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Node(x, y));
 
-        //for (int i = 0; i < Data.GridWidth; i++)
-        //{
-        //    for (int j = 0; j < Data.GridHeight; j++)
-        //    {
-        //        Debug.Log("Node type: " + Data.Grid.GetGridObject(i, j).NodeType.ToString());
+        for (int y = 0; y < Data.GridHeight; y++)
+        {
+            for (int x = 0; x < Data.GridWidth; x++)
+            {
+                Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Normal, AssetData.WalkableArray[x].List[y]);
+            }
+        }
 
-        //        if (Data.Grid.GetGridObject(i, j).Walkable)
-        //            Gizmos.color = Color.green;
-        //        else Gizmos.color = Color.red;
+        Data.Grid.SetCellSize(GetGridCellSize());
+        Data.Grid.SetGridOrigin(GetGridOrigin());
 
-        //        Gizmos.DrawCube(Data.Grid.GetWorldPosition(i, j), new Vector3(Data.Grid.GetCellSize(), Data.Grid.GetCellSize(), 0.2f));
-        //    }
-        //}
+        for (int i = 0; i < Data.GridWidth; i++)
+        {
+            for (int j = 0; j < Data.GridHeight; j++)
+            {
+                Debug.Log("Node type: " + Data.Grid.GetGridObject(i, j).NodeType.ToString());
 
-        //SISTEMA NON FUNZIONANTE
-        //PuzzleData test = new PuzzleData(AssetData.Grid, AssetData.GridWidth, AssetData.GridHeight);
-        //test.Grid.SetCellSize(GetGridCellSize());
-        //test.Grid.SetGridOrigin(GetGridOrigin());
+                if (Data.Grid.GetGridObject(i, j).Walkable)
+                    Gizmos.color = Color.green;
+                else Gizmos.color = Color.red;
 
-        //for (int i = 0; i < test.GridWidth; i++)
-        //{
-        //    for (int j = 0; j < test.GridHeight; j++)
-        //    {
-        //        Debug.Log("Node type: " + test.Grid.GetGridObject(i, j).NodeType.ToString());
-
-        //        if (test.Grid.GetGridObject(i, j).Walkable)
-        //            Gizmos.color = Color.green;
-        //        else Gizmos.color = Color.red;
-
-        //        Gizmos.DrawCube(test.Grid.GetWorldPosition(i, j), new Vector3(test.Grid.GetCellSize(), test.Grid.GetCellSize(), 0.2f));
-        //    }
-        //}
+                Gizmos.DrawCube(Data.Grid.GetWorldPosition(i, j), new Vector3(Data.Grid.GetCellSize(), Data.Grid.GetCellSize(), 0.2f));
+            }
+        }
     }
 
     private void UpdateLineRenderer(Vector3 position)
