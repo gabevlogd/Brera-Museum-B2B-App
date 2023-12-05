@@ -56,28 +56,19 @@ public partial class @TouchScreen: IInputActionCollection2, IDisposable
             ""id"": ""a98caf49-1cd2-42ef-8036-b89a4a888251"",
             ""actions"": [
                 {
-                    ""name"": ""TouchPos_0"",
-                    ""type"": ""Value"",
-                    ""id"": ""9eeb3aba-5b97-4ccd-9b5a-2c8a9fc0f666"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""TouchPos_1"",
-                    ""type"": ""Value"",
-                    ""id"": ""70dc3ac4-0342-49de-92d7-2970480b00bd"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Zoom"",
+                    ""name"": ""PinchZoom"",
                     ""type"": ""Value"",
                     ""id"": ""fc661637-2275-423e-84d6-3f7008851afa"",
                     ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseZoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""212084c9-4661-438c-9e3c-428abd5cdf8c"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -86,34 +77,12 @@ public partial class @TouchScreen: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""c8bda7c0-4ebb-44c7-9a93-13e0746ed1c2"",
-                    ""path"": ""<Touchscreen>/touch0/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TouchPos_0"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""254fe3e5-5392-4c6f-8b09-ef325941dd36"",
-                    ""path"": ""<Touchscreen>/touch1/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TouchPos_1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""7702f1a1-bcff-4db7-8aa3-f811d482d7c9"",
                     ""path"": ""<Touchscreen>/touch0/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Zoom"",
+                    ""action"": ""PinchZoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -124,7 +93,18 @@ public partial class @TouchScreen: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Zoom"",
+                    ""action"": ""PinchZoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48f6e71c-4c5e-4cb0-9a88-138ab5b525a8"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseZoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -138,9 +118,8 @@ public partial class @TouchScreen: IInputActionCollection2, IDisposable
         m_PuzzleActions_TouchPos = m_PuzzleActions.FindAction("TouchPos", throwIfNotFound: true);
         // SightActions
         m_SightActions = asset.FindActionMap("SightActions", throwIfNotFound: true);
-        m_SightActions_TouchPos_0 = m_SightActions.FindAction("TouchPos_0", throwIfNotFound: true);
-        m_SightActions_TouchPos_1 = m_SightActions.FindAction("TouchPos_1", throwIfNotFound: true);
-        m_SightActions_Zoom = m_SightActions.FindAction("Zoom", throwIfNotFound: true);
+        m_SightActions_PinchZoom = m_SightActions.FindAction("PinchZoom", throwIfNotFound: true);
+        m_SightActions_MouseZoom = m_SightActions.FindAction("MouseZoom", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -248,16 +227,14 @@ public partial class @TouchScreen: IInputActionCollection2, IDisposable
     // SightActions
     private readonly InputActionMap m_SightActions;
     private List<ISightActionsActions> m_SightActionsActionsCallbackInterfaces = new List<ISightActionsActions>();
-    private readonly InputAction m_SightActions_TouchPos_0;
-    private readonly InputAction m_SightActions_TouchPos_1;
-    private readonly InputAction m_SightActions_Zoom;
+    private readonly InputAction m_SightActions_PinchZoom;
+    private readonly InputAction m_SightActions_MouseZoom;
     public struct SightActionsActions
     {
         private @TouchScreen m_Wrapper;
         public SightActionsActions(@TouchScreen wrapper) { m_Wrapper = wrapper; }
-        public InputAction @TouchPos_0 => m_Wrapper.m_SightActions_TouchPos_0;
-        public InputAction @TouchPos_1 => m_Wrapper.m_SightActions_TouchPos_1;
-        public InputAction @Zoom => m_Wrapper.m_SightActions_Zoom;
+        public InputAction @PinchZoom => m_Wrapper.m_SightActions_PinchZoom;
+        public InputAction @MouseZoom => m_Wrapper.m_SightActions_MouseZoom;
         public InputActionMap Get() { return m_Wrapper.m_SightActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -267,28 +244,22 @@ public partial class @TouchScreen: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_SightActionsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_SightActionsActionsCallbackInterfaces.Add(instance);
-            @TouchPos_0.started += instance.OnTouchPos_0;
-            @TouchPos_0.performed += instance.OnTouchPos_0;
-            @TouchPos_0.canceled += instance.OnTouchPos_0;
-            @TouchPos_1.started += instance.OnTouchPos_1;
-            @TouchPos_1.performed += instance.OnTouchPos_1;
-            @TouchPos_1.canceled += instance.OnTouchPos_1;
-            @Zoom.started += instance.OnZoom;
-            @Zoom.performed += instance.OnZoom;
-            @Zoom.canceled += instance.OnZoom;
+            @PinchZoom.started += instance.OnPinchZoom;
+            @PinchZoom.performed += instance.OnPinchZoom;
+            @PinchZoom.canceled += instance.OnPinchZoom;
+            @MouseZoom.started += instance.OnMouseZoom;
+            @MouseZoom.performed += instance.OnMouseZoom;
+            @MouseZoom.canceled += instance.OnMouseZoom;
         }
 
         private void UnregisterCallbacks(ISightActionsActions instance)
         {
-            @TouchPos_0.started -= instance.OnTouchPos_0;
-            @TouchPos_0.performed -= instance.OnTouchPos_0;
-            @TouchPos_0.canceled -= instance.OnTouchPos_0;
-            @TouchPos_1.started -= instance.OnTouchPos_1;
-            @TouchPos_1.performed -= instance.OnTouchPos_1;
-            @TouchPos_1.canceled -= instance.OnTouchPos_1;
-            @Zoom.started -= instance.OnZoom;
-            @Zoom.performed -= instance.OnZoom;
-            @Zoom.canceled -= instance.OnZoom;
+            @PinchZoom.started -= instance.OnPinchZoom;
+            @PinchZoom.performed -= instance.OnPinchZoom;
+            @PinchZoom.canceled -= instance.OnPinchZoom;
+            @MouseZoom.started -= instance.OnMouseZoom;
+            @MouseZoom.performed -= instance.OnMouseZoom;
+            @MouseZoom.canceled -= instance.OnMouseZoom;
         }
 
         public void RemoveCallbacks(ISightActionsActions instance)
@@ -312,8 +283,7 @@ public partial class @TouchScreen: IInputActionCollection2, IDisposable
     }
     public interface ISightActionsActions
     {
-        void OnTouchPos_0(InputAction.CallbackContext context);
-        void OnTouchPos_1(InputAction.CallbackContext context);
-        void OnZoom(InputAction.CallbackContext context);
+        void OnPinchZoom(InputAction.CallbackContext context);
+        void OnMouseZoom(InputAction.CallbackContext context);
     }
 }

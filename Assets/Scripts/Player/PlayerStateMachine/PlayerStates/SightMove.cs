@@ -18,7 +18,8 @@ public class SightMove : StateBase
     public SightMove(string stateID, SightMovementData data) : base(stateID)
     {
         m_Input = new TouchScreen();
-        m_Input.SightActions.Zoom.performed += HandleZoom;
+        m_Input.SightActions.PinchZoom.performed += HandleZoom;
+        m_Input.SightActions.MouseZoom.performed += HandleZoomForDevBuild;
 
         m_ZoomSens = data.ZoomSens;
         m_DefaultZoom = data.DefaultZoom;
@@ -61,6 +62,16 @@ public class SightMove : StateBase
             m_Camera.fieldOfView = Mathf.Clamp(m_Camera.fieldOfView + zoomFactor, m_MinZoom, m_DefaultZoom);
             m_LastFingersDistance = fingerDistances;
         }
+
+    }
+
+    private void HandleZoomForDevBuild(CallbackContext context)
+    {
+        float mouseZoomSens = 1000f;
+        if (context.ReadValue<Vector2>().y < 0)
+            m_Camera.fieldOfView = Mathf.Clamp(m_Camera.fieldOfView + mouseZoomSens * Time.deltaTime, m_MinZoom, m_DefaultZoom);
+        else if (context.ReadValue<Vector2>().y > 0)
+            m_Camera.fieldOfView = Mathf.Clamp(m_Camera.fieldOfView - mouseZoomSens * Time.deltaTime, m_MinZoom, m_DefaultZoom);
 
     }
 

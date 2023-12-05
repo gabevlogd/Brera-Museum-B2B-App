@@ -34,28 +34,19 @@
             "id": "a98caf49-1cd2-42ef-8036-b89a4a888251",
             "actions": [
                 {
-                    "name": "TouchPos_0",
-                    "type": "Value",
-                    "id": "9eeb3aba-5b97-4ccd-9b5a-2c8a9fc0f666",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "TouchPos_1",
-                    "type": "Value",
-                    "id": "70dc3ac4-0342-49de-92d7-2970480b00bd",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Zoom",
+                    "name": "PinchZoom",
                     "type": "Value",
                     "id": "fc661637-2275-423e-84d6-3f7008851afa",
                     "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MouseZoom",
+                    "type": "Value",
+                    "id": "212084c9-4661-438c-9e3c-428abd5cdf8c",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -64,34 +55,12 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "c8bda7c0-4ebb-44c7-9a93-13e0746ed1c2",
-                    "path": "<Touchscreen>/touch0/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TouchPos_0",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "254fe3e5-5392-4c6f-8b09-ef325941dd36",
-                    "path": "<Touchscreen>/touch1/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TouchPos_1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "7702f1a1-bcff-4db7-8aa3-f811d482d7c9",
                     "path": "<Touchscreen>/touch0/position",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Zoom",
+                    "action": "PinchZoom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -102,7 +71,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Zoom",
+                    "action": "PinchZoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48f6e71c-4c5e-4cb0-9a88-138ab5b525a8",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseZoom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
