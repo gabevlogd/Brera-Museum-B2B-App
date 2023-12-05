@@ -6,9 +6,9 @@ public class Move : StateBase
     private Transform m_PlayerTransform;
     private Action<StateMachineBase> m_UpdateMovement;
 
-    private float m_AlignmentSpeed;
-    private float m_AlignmentAngularSpeed;
-    private float m_MovementSpeed;
+    private readonly float m_AlignmentSpeed;
+    private readonly float m_AlignmentAngularSpeed;
+    private readonly float m_MovementSpeed;
     private Vector3 m_LastPosition;
 
     public Move(string stateID, MovementData movementData) : base(stateID)

@@ -159,6 +159,11 @@ MonoBehaviour:
     ZoomSens: 10
     DefaultZoom: 60
     MinZoom: 20
+    YawSens: 200
+    PitchSens: 200
+    MaxPitch: 90
+    MinPitch: -90
+    AngularDeceleration: 2
 --- !u!114 &5946625627284972956
 MonoBehaviour:
   m_ObjectHideFlags: 0

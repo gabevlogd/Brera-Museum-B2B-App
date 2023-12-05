@@ -50,20 +50,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "RotateSight",
+                    "type": "Value",
+                    "id": "a4bd5622-da3a-4d52-bac5-5f865f58b044",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "7702f1a1-bcff-4db7-8aa3-f811d482d7c9",
-                    "path": "<Touchscreen>/touch0/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PinchZoom",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "73c98b7d-6458-43cc-be19-fe99c60f747e",
@@ -83,6 +81,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "MouseZoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a57a428e-6326-4879-9730-47e589c22750",
+                    "path": "<Touchscreen>/touch0/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateSight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
