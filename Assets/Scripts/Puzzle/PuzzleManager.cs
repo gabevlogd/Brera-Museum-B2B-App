@@ -28,7 +28,7 @@ public class PuzzleManager : MonoBehaviour
         {
             for (int x = 0; x < Data.GridWidth; x++)
             {
-                Vector2 tmp = new Vector2(x, y);
+                Vector2Int tmp = new Vector2Int(x, y);
 
                 if (Data.StartingPoint.Contains(tmp))
                 {
@@ -50,29 +50,48 @@ public class PuzzleManager : MonoBehaviour
     {
         m_WorldTouchPosition = GetScreenToWorld(m_Input.PuzzleActions.TouchPos.ReadValue<Vector2>());
         UpdateLineRenderer(m_WorldTouchPosition);
-        CheckEndPuzzle(m_WorldTouchPosition)
+        
     }
 
-    private void CheckEndPuzzle(Vector3 position)
+    private void CheckEndPuzzle(Vector3 pos)
     {
-        if (m_LineRenderer.GetPosition())
+        if (Data.Grid.GetGridObject(pos).NodeType == NodeType.End)
+        {
+            if(GamePuzzleManager.instance == null)
+                Debug.Log("PuzzleCompleted");
+            else
+                GamePuzzleManager.instance.EventManager.TriggerEvent(Constants.SINGLE_PUZZLE_COMPLETED);
+        }
     }
 
     private void OnDrawGizmosSelected()
     {
-        Data = AssetData;
-        Data.Grid = new Grid<Node>(Data.GridWidth, Data.GridHeight, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Node(x, y));
-
-        for (int y = 0; y < Data.GridHeight; y++)
+        if (!Application.isPlaying)
         {
-            for (int x = 0; x < Data.GridWidth; x++)
-            {
-                Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Normal, AssetData.WalkableArray[x].List[y]);
-            }
-        }
+            Data = AssetData;
+            Data.Grid = new Grid<Node>(Data.GridWidth, Data.GridHeight, 1, new Vector3(-3f, 0f, -3f), (int x, int y) => new Node(x, y));
 
-        Data.Grid.SetCellSize(GetGridCellSize());
-        Data.Grid.SetGridOrigin(GetGridOrigin());
+            for (int y = 0; y < Data.GridHeight; y++)
+            {
+                for (int x = 0; x < Data.GridWidth; x++)
+                {
+                    Vector2Int tmp = new Vector2Int(x, y);
+
+                    if (Data.StartingPoint.Contains(tmp))
+                    {
+                        Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Start, true);
+                        m_LastValidNode = Data.Grid.GetGridObject(x, y);
+                    }
+                    else if (Data.EndingPoint.Contains(tmp))
+                        Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.End, true);
+                    else
+                        Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Normal, AssetData.WalkableArray[x].List[y]);
+                }
+            }
+
+            Data.Grid.SetCellSize(GetGridCellSize());
+            Data.Grid.SetGridOrigin(GetGridOrigin());
+        }
 
         for (int i = 0; i < Data.GridWidth; i++)
         {
@@ -121,6 +140,8 @@ public class PuzzleManager : MonoBehaviour
         m_LineRenderer.positionCount++;
         m_LineRenderer.SetPosition(m_LineRenderer.positionCount - 1, position);
         m_LastValidNode = newNode;
+
+        CheckEndPuzzle(m_LineRenderer.GetPosition(m_LineRenderer.positionCount - 1));
     }
 
     private Vector3 GetScreenToWorld(Vector2 screenPos)

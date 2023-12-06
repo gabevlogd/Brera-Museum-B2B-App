@@ -21,12 +21,6 @@ public class GamePuzzleManager : Singleton<GamePuzzleManager>
         instance.EventManager.Register(Constants.SINGLE_PUZZLE_COMPLETED, UpdatePuzzleCount);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void UpdatePuzzleCount(object[] param)
     {
         int i = 0;
@@ -35,6 +29,7 @@ public class GamePuzzleManager : Singleton<GamePuzzleManager>
             if (m_PuzzleAmount[i] == false)
             {
                 m_PuzzleAmount[i] = true;
+                Debug.Log("Puzzle completed");
                 break;
             }
         }

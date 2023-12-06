@@ -11,8 +11,8 @@ using System.IO;
 public class PuzzleEditor : EditorWindow
 {
     private bool[,] m_GridCoordinates;
-    private List<Vector2> m_StartingPoint = new List<Vector2>();
-    private List<Vector2> m_EndingPoint = new List<Vector2>();
+    private List<Vector2Int> m_StartingPoint = new List<Vector2Int>();
+    private List<Vector2Int> m_EndingPoint = new List<Vector2Int>();
     private int m_PuzzleWidth = 10;
     private int m_PuzzleHeigth = 10;
     private string m_PictureID;
@@ -114,7 +114,7 @@ public class PuzzleEditor : EditorWindow
         for (int i = 0; i < m_StartingPoint.Count; i++)
         {
             EditorGUILayout.BeginHorizontal(GUI.skin.box);
-            m_StartingPoint[i] = EditorGUILayout.Vector2Field("Element " + i, m_StartingPoint[i]);
+            m_StartingPoint[i] = EditorGUILayout.Vector2IntField("Element " + i, m_StartingPoint[i]);
             if (GUILayout.Button(" - ", GUILayout.MaxHeight(40), GUILayout.MaxWidth(32)))
                 m_StartingPoint.RemoveAt(i);
 
@@ -122,7 +122,7 @@ public class PuzzleEditor : EditorWindow
         }
 
         if (GUILayout.Button(" + ", GUILayout.MaxWidth(32)))
-            m_StartingPoint.Add(new Vector2());
+            m_StartingPoint.Add(new Vector2Int());
 
         EditorGUILayout.EndVertical();
 
@@ -137,7 +137,7 @@ public class PuzzleEditor : EditorWindow
         for (int i = 0; i < m_EndingPoint.Count; i++)
         {
             EditorGUILayout.BeginHorizontal(GUI.skin.box);
-            m_EndingPoint[i] = EditorGUILayout.Vector2Field("Element " + i, m_EndingPoint[i]);
+            m_EndingPoint[i] = EditorGUILayout.Vector2IntField("Element " + i, m_EndingPoint[i]);
             if (GUILayout.Button(" - ", GUILayout.MaxHeight(40), GUILayout.MaxWidth(32)))
         /*TYPO*/m_StartingPoint.RemoveAt(i);/*TYPO*/
 
@@ -145,7 +145,7 @@ public class PuzzleEditor : EditorWindow
         }
 
         if (GUILayout.Button(" + ", GUILayout.MaxWidth(32)))
-            m_EndingPoint.Add(new Vector2());
+            m_EndingPoint.Add(new Vector2Int());
 
         EditorGUILayout.EndVertical();
 
@@ -203,7 +203,7 @@ public class PuzzleEditor : EditorWindow
     private PuzzleData CreateNewPuzzle() 
     {
         PuzzleData newPuzzle = CreateInstance<PuzzleData>();
-
+        
         newPuzzle.GridWidth = PuzzleWidth;
         newPuzzle.GridHeight = PuzzleHeight;
         newPuzzle.StartingPoint = m_StartingPoint;

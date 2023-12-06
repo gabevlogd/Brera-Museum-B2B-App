@@ -10,18 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29894610196f3e84f86fe9e0707185d2, type: 3}
-  m_Name: Puzzle 2
+  m_Name: Puzzle 5
   m_EditorClassIdentifier: 
-  Grid:
-    m_width: 5
-    m_height: 5
-    m_cellSize: 1
-    m_originPosition: {x: -3, y: 0, z: -3}
-    m_defaultValue:
-      m_X: 0
-      m_Y: 0
-      m_NodeType: 0
-      m_Walkable: 0
   GridWidth: 5
   GridHeight: 5
   StartingPoint:
@@ -29,8 +19,8 @@ MonoBehaviour:
   EndingPoint:
   - {x: 4, y: 4}
   WalkableArray:
-  - List: 0101000100
-  - List: 0001000100
-  - List: 0101010100
-  - List: 0001000000
+  - List: 0100010000
+  - List: 0100010000
+  - List: 0100010101
+  - List: 0100000000
   - List: 0101010101
