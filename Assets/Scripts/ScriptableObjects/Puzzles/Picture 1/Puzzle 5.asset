@@ -19,8 +19,8 @@ MonoBehaviour:
   EndingPoint:
   - {x: 4, y: 4}
   WalkableArray:
-  - List: 0100010000
-  - List: 0100010000
-  - List: 0100010101
-  - List: 0100000000
+  - List: 0101010101
+  - List: 0101000100
+  - List: 0101010101
+  - List: 0101010101
   - List: 0101010101

@@ -16,7 +16,6 @@ public class PuzzleEditor : EditorWindow
     private int m_PuzzleWidth = 10;
     private int m_PuzzleHeigth = 10;
     private string m_PictureID;
-    private string m_PuzzleID;
 
     
     private Vector2 m_ScrollPos;
@@ -78,8 +77,6 @@ public class PuzzleEditor : EditorWindow
         GUILayout.FlexibleSpace();
         GUILayout.Label("Picture ID: ");
         m_PictureID = EditorGUILayout.TextArea(m_PictureID);
-        GUILayout.Label("Puzzle ID: ");
-        m_PuzzleID = EditorGUILayout.TextArea(m_PuzzleID);
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
@@ -165,10 +162,15 @@ public class PuzzleEditor : EditorWindow
         PuzzleData newLevel = CreateNewPuzzle();
         if (newLevel == null) return;
 
+        if (m_PictureID == "")
+            m_PictureID = "base";
+
         if (!Directory.Exists($"{Constants.PUZZLE_FOLDER_PATH}/Picture {m_PictureID}"))
             AssetDatabase.CreateFolder($"{Constants.PUZZLE_FOLDER_PATH}", $"Picture {m_PictureID}");
 
-        AssetDatabase.CreateAsset(newLevel, $"{Constants.PUZZLE_FOLDER_PATH}/Picture {m_PictureID}/Puzzle {m_PuzzleID}.asset");
+        DirectoryInfo info = new DirectoryInfo($"{Constants.PUZZLE_FOLDER_PATH}/Picture {m_PictureID}");
+        int i = (int)(info.GetFiles().Length * 0.5f + 1); // * 0.5 because of .meta files
+        AssetDatabase.CreateAsset(newLevel, $"{Constants.PUZZLE_FOLDER_PATH}/Picture {m_PictureID}/Puzzle {i}.asset");
         AssetDatabase.SaveAssets();
         Debug.Log("New puzzle saved");
     }
