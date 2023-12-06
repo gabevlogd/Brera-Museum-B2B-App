@@ -13,6 +13,7 @@ public class PlayerStateMachine : StateMachineBase
 
     private void Awake()
     {
+        Application.targetFrameRate = 1000;
         Idle = new Idle("Idle");
         Move = new Move("Move", GetComponent<PlayerData>().MovementData);
         Sleep = new Sleep("Sleep");
