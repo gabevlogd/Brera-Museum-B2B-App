@@ -21,12 +21,8 @@ public class SightMove : StateBase
     private readonly float m_DefaultZoom;
     private readonly float m_MinZoom;
 
-    private float m_LastFingerPosX;
-    private float m_LastFingerPosY;
     private float m_LastYawRoation;
     private float m_LastFingersDistance;
-
-    private bool m_CanDecelerate;
 
     public SightMove(string stateID, SightMovementData data) : base(stateID)
     {
@@ -59,6 +55,7 @@ public class SightMove : StateBase
     public override void OnUpdate(StateMachineBase context)
     {
         //base.OnUpdate(context);
+        CheckYawRotatioReset();
         PerformYawDeceleration();
     }
 
@@ -71,78 +68,56 @@ public class SightMove : StateBase
 
     #region Rotations:
 
+    private void CheckYawRotatioReset()
+    {
+        if (Input.touchCount != 0)
+            if (Input.GetTouch(0).phase == TouchPhase.Stationary)
+                m_LastYawRoation = 0;
+    }
+
     private void PerformYawDeceleration()
     {
-        if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count != 0 || !m_CanDecelerate) return;
+        if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count != 0) return;
 
         m_PlayerTransform.Rotate(0f, m_LastYawRoation, 0f);
         m_LastYawRoation = Mathf.Lerp(m_LastYawRoation, 0f, Time.deltaTime * m_YawDeceleration);
-
-        if (Mathf.Abs(m_LastYawRoation) <= 0) m_CanDecelerate = false;
         
     }
 
 
     private void RotateYaw(CallbackContext context)
     {
-        if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count != 1) return;
-        if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches[0].phase != UnityEngine.InputSystem.TouchPhase.Moved)
-        {
-            m_LastFingerPosY = context.ReadValue<Vector2>().y;
-            m_LastYawRoation = 0f;
-            return;
-        }
-        //read finger 0 position
-        Vector2 fingerPos = context.ReadValue<Vector2>();
-        //calculate delta position between last finger position X and current finger position X
-        float deltaPos = (m_LastFingerPosX - fingerPos.x);
-        //check if the movement of the finger is in the deadzone area (0 pixel <= deadZone < 20 pixel)
-        if (Mathf.Abs(deltaPos) < 20f)
-        {
-            m_CanDecelerate = false;
-            return;
-        }
+        ReadOnlyArray<UnityEngine.InputSystem.EnhancedTouch.Touch> touch = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
+        if (touch.Count != 1) return;
+        //check if touch phase is not moved or if the movement of the finger is in the deadzone area (0 pixel <= deadZone < 5 pixel)
+        if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(touch[0].delta.x) < 5f) return;
+        
         //calculate the yaw rotation (Degrees)
-        float yawRotation = Time.deltaTime * m_YawSens * Mathf.Sign(deltaPos);
+        float yawRotation = Time.deltaTime * m_YawSens * Mathf.Sign(-touch[0].delta.x);
         m_PlayerTransform.Rotate(0f, yawRotation, 0f);
-        //cache last finger position x and last yaw rotation value
-        m_LastFingerPosX = fingerPos.x;
         m_LastYawRoation = yawRotation;
-        m_CanDecelerate = true;
     }
 
     private void RotatePitch(CallbackContext context)
     {
-        if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count != 1) return;
-        if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches[0].phase != UnityEngine.InputSystem.TouchPhase.Moved)
-        {
-            m_LastFingerPosX = context.ReadValue<Vector2>().x;
-            return;
-        }
-        //read finger 0 position
-        Vector2 fingerPos = context.ReadValue<Vector2>();
-        //calculate delta position between last finger position Y and current finger position Y
-        float deltaPos = fingerPos.y - m_LastFingerPosY;
-        //check if the movement of the finger is in the deadzone area (0 pixel <= deadZone < 20 pixel)
-        if (Mathf.Abs(deltaPos) < 20f) return;
+        ReadOnlyArray<UnityEngine.InputSystem.EnhancedTouch.Touch> touch = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
+        if (touch.Count != 1) return;
+        //check if touch phase is not moved or if the movement of the finger is in the deadzone area (0 pixel <= deadZone < 5 pixel)
+        if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(touch[0].delta.y) < 5f) return;
         //calculate the angle between forward of player and forward of camera
         float angle = Vector3.SignedAngle(m_Camera.transform.forward, m_PlayerTransform.forward, m_PlayerTransform.right);
         //calculate the pitch rotation (Degrees)
-        float pitchRotation = Time.deltaTime * m_PitchSens * Mathf.Sign(deltaPos);
+        float pitchRotation = Time.deltaTime * m_PitchSens * Mathf.Sign(touch[0].delta.y);
         //conditions for clamping pitch rotation between a max and a min values
         if (angle > m_MaxPitch)
         {
-            if (deltaPos > 0) m_Camera.transform.Rotate(pitchRotation, 0f, 0f);
+            if (touch[0].delta.y > 0) m_Camera.transform.Rotate(pitchRotation, 0f, 0f);
         }
         else if (angle < m_MinPitch)
         {
-            if (deltaPos < 0) m_Camera.transform.Rotate(pitchRotation, 0f, 0f);
+            if (touch[0].delta.y < 0) m_Camera.transform.Rotate(pitchRotation, 0f, 0f);
         }
         else m_Camera.transform.Rotate(pitchRotation, 0f, 0f);
-        //cache last finger position y
-        m_LastFingerPosY = fingerPos.y;
-        //needed to avoid strange artifact
-        m_CanDecelerate = false;
     }
 
     #endregion
