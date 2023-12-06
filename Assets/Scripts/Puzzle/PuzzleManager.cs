@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,6 +50,12 @@ public class PuzzleManager : MonoBehaviour
     {
         m_WorldTouchPosition = GetScreenToWorld(m_Input.PuzzleActions.TouchPos.ReadValue<Vector2>());
         UpdateLineRenderer(m_WorldTouchPosition);
+        CheckEndPuzzle(m_WorldTouchPosition)
+    }
+
+    private void CheckEndPuzzle(Vector3 position)
+    {
+        if (m_LineRenderer.GetPosition())
     }
 
     private void OnDrawGizmosSelected()

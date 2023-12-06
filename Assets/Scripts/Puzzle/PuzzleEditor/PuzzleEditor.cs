@@ -18,7 +18,7 @@ public class PuzzleEditor : EditorWindow
     private string m_PictureID;
     private string m_PuzzleID;
 
-    private string LEVELS_FOLDER_PATH = "Assets/Scripts/ScriptableObjects/Puzzles";
+    
     private Vector2 m_ScrollPos;
 
     public int PuzzleWidth
@@ -165,10 +165,10 @@ public class PuzzleEditor : EditorWindow
         PuzzleData newLevel = CreateNewPuzzle();
         if (newLevel == null) return;
 
-        if (!Directory.Exists($"{LEVELS_FOLDER_PATH}/Picture {m_PictureID}"))
-            AssetDatabase.CreateFolder($"{LEVELS_FOLDER_PATH}", $"Picture {m_PictureID}");
+        if (!Directory.Exists($"{Constants.PUZZLE_FOLDER_PATH}/Picture {m_PictureID}"))
+            AssetDatabase.CreateFolder($"{Constants.PUZZLE_FOLDER_PATH}", $"Picture {m_PictureID}");
 
-        AssetDatabase.CreateAsset(newLevel, $"{LEVELS_FOLDER_PATH}/Picture {m_PictureID}/Puzzle {m_PuzzleID}.asset");
+        AssetDatabase.CreateAsset(newLevel, $"{Constants.PUZZLE_FOLDER_PATH}/Picture {m_PictureID}/Puzzle {m_PuzzleID}.asset");
         AssetDatabase.SaveAssets();
         Debug.Log("New puzzle saved");
     }
