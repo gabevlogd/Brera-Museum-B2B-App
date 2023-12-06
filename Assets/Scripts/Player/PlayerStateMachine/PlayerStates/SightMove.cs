@@ -86,11 +86,16 @@ public class SightMove : StateBase
     private void RotateYaw(CallbackContext context)
     {
         if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count != 1) return;
-
+        if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches[0].phase != UnityEngine.InputSystem.TouchPhase.Moved)
+        {
+            m_LastFingerPosY = context.ReadValue<Vector2>().y;
+            m_LastYawRoation = 0f;
+            return;
+        }
         //read finger 0 position
         Vector2 fingerPos = context.ReadValue<Vector2>();
         //calculate delta position between last finger position X and current finger position X
-        float deltaPos = (m_LastFingerPosX -fingerPos.x);
+        float deltaPos = (m_LastFingerPosX - fingerPos.x);
         //check if the movement of the finger is in the deadzone area (0 pixel <= deadZone < 20 pixel)
         if (Mathf.Abs(deltaPos) < 20f)
         {
@@ -109,7 +114,11 @@ public class SightMove : StateBase
     private void RotatePitch(CallbackContext context)
     {
         if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count != 1) return;
-
+        if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches[0].phase != UnityEngine.InputSystem.TouchPhase.Moved)
+        {
+            m_LastFingerPosX = context.ReadValue<Vector2>().x;
+            return;
+        }
         //read finger 0 position
         Vector2 fingerPos = context.ReadValue<Vector2>();
         //calculate delta position between last finger position Y and current finger position Y
@@ -161,7 +170,7 @@ public class SightMove : StateBase
 
     private void HandleZoomForDevBuild(CallbackContext context)
     {
-        float mouseZoomSens = 1000f;
+        float mouseZoomSens = 500f;
         if (context.ReadValue<Vector2>().y < 0)
             m_Camera.fieldOfView = Mathf.Clamp(m_Camera.fieldOfView + mouseZoomSens * Time.deltaTime, m_MinZoom, m_DefaultZoom);
         else if (context.ReadValue<Vector2>().y > 0)
