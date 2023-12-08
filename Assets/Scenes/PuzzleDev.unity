@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77413575dbf572649af2115c044f6fad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AssetData: {fileID: 11400000, guid: 4546aac230391ba44b33aae638dd1f0d, type: 2}
+  AssetData: {fileID: 11400000, guid: e1b42efe21de38840b9df20a60b80af4, type: 2}
 --- !u!120 &894691010
 LineRenderer:
   serializedVersion: 2

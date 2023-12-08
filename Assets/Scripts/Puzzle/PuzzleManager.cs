@@ -30,12 +30,12 @@ public class PuzzleManager : MonoBehaviour
             {
                 Vector2Int tmp = new Vector2Int(x, y);
 
-                if (Data.StartingPoint.Contains(tmp))
+                if (Data.StartingPoints.Contains(tmp))
                 {
                     Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Start, true);
                     m_LastValidNode = Data.Grid.GetGridObject(x, y);
                 }
-                else if (Data.EndingPoint.Contains(tmp))
+                else if (Data.EndingPoints.Contains(tmp))
                     Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.End, true);
                 else
                     Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Normal, AssetData.WalkableArray[x].List[y]);
@@ -53,17 +53,6 @@ public class PuzzleManager : MonoBehaviour
         
     }
 
-    private void CheckEndPuzzle(Vector3 pos)
-    {
-        if (Data.Grid.GetGridObject(pos).NodeType == NodeType.End)
-        {
-            if(GamePuzzleManager.instance == null)
-                Debug.Log("PuzzleCompleted");
-            else
-                GamePuzzleManager.instance.EventManager.TriggerEvent(Constants.SINGLE_PUZZLE_COMPLETED);
-        }
-    }
-
     private void OnDrawGizmosSelected()
     {
         if (!Application.isPlaying)
@@ -77,12 +66,12 @@ public class PuzzleManager : MonoBehaviour
                 {
                     Vector2Int tmp = new Vector2Int(x, y);
 
-                    if (Data.StartingPoint.Contains(tmp))
+                    if (Data.StartingPoints.Contains(tmp))
                     {
                         Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Start, true);
                         m_LastValidNode = Data.Grid.GetGridObject(x, y);
                     }
-                    else if (Data.EndingPoint.Contains(tmp))
+                    else if (Data.EndingPoints.Contains(tmp))
                         Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.End, true);
                     else
                         Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Normal, AssetData.WalkableArray[x].List[y]);
@@ -99,7 +88,13 @@ public class PuzzleManager : MonoBehaviour
             {
                 Debug.Log("Node type: " + Data.Grid.GetGridObject(i, j).NodeType.ToString());
 
-                if (Data.Grid.GetGridObject(i, j).Walkable)
+                if(Data.Grid.GetGridObject(i, j).NodeType == NodeType.Start)
+                    Gizmos.color = Color.black;
+                else if (Data.Grid.GetGridObject(i, j).NodeType == NodeType.End)
+                    Gizmos.color = Color.white;
+                else if (CheckPointInCollectibles(new Vector2Int(i, j)))
+                    Gizmos.color = Color.blue;
+                else if (Data.Grid.GetGridObject(i, j).Walkable)
                     Gizmos.color = Color.green;
                 else Gizmos.color = Color.red;
 
@@ -168,7 +163,43 @@ public class PuzzleManager : MonoBehaviour
     }
 
     private Vector3 GetGridOrigin() => new Vector3(transform.position.x - GetGridCellSize() * Data.GridWidth * 0.5f, transform.position.y - GetGridCellSize() * Data.GridHeight * 0.5f, 0f);
-    
+
+    private void CheckEndPuzzle(Vector3 pos)
+    {
+        if (Data.Grid.GetGridObject(pos).NodeType == NodeType.End)
+        {
+            int count = 0;
+            List<Vector3> list = new List<Vector3>();
+
+            for (int i = 0; i < m_LineRenderer.positionCount; i++)
+            {
+                list.Add(m_LineRenderer.GetPosition(i));
+            }
+
+
+            for (int i = 0; i < m_LineRenderer.positionCount; i++)
+            {
+                Data.Grid.GetXY(m_LineRenderer.GetPosition(i), out int x, out int y);
+                Vector2Int tmp = new Vector2Int(x, y);
+                if(CheckPointInCollectibles(tmp))
+                    count++;
+            }
+
+            if(count == Data.CollectiblePoint.Count)
+            {
+                if (GamePuzzleManager.instance == null)
+                    Debug.Log("PuzzleCompleted");
+                else
+                    GamePuzzleManager.instance.EventManager.TriggerEvent(Constants.SINGLE_PUZZLE_COMPLETED);
+            }
+        }
+    }
+
+    private bool CheckPointInCollectibles(Vector2Int pos)
+    {
+        if (Data.CollectiblePoint.Contains(pos)) return true;
+        return false;
+    }
 
     private bool CanUpdateRenderer(Vector3 position)
     {

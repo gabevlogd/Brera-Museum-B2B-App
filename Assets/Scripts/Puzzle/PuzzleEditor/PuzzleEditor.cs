@@ -11,8 +11,9 @@ using System.IO;
 public class PuzzleEditor : EditorWindow
 {
     private bool[,] m_GridCoordinates;
-    private List<Vector2Int> m_StartingPoint = new List<Vector2Int>();
-    private List<Vector2Int> m_EndingPoint = new List<Vector2Int>();
+    private List<Vector2Int> m_StartingPoints = new();
+    private List<Vector2Int> m_EndingPoints = new();
+    private List<Vector2Int> m_CollectiblesPoints = new();
     private int m_PuzzleWidth = 10;
     private int m_PuzzleHeigth = 10;
     private string m_PictureID;
@@ -64,6 +65,8 @@ public class PuzzleEditor : EditorWindow
         GUILayout.Space(10);
         DrawListOfEndingPoint();
         GUILayout.Space(10);
+        DrawListOfCollectiblesPoint();
+        GUILayout.Space(10);
         DrawSaveLevelButton();
         DrawTogglesGrid();
         GUILayout.Space(50);
@@ -108,18 +111,18 @@ public class PuzzleEditor : EditorWindow
         EditorGUILayout.BeginVertical(GUI.skin.box);
         GUILayout.Label("List of Starting Points", EditorStyles.boldLabel);
 
-        for (int i = 0; i < m_StartingPoint.Count; i++)
+        for (int i = 0; i < m_StartingPoints.Count; i++)
         {
             EditorGUILayout.BeginHorizontal(GUI.skin.box);
-            m_StartingPoint[i] = EditorGUILayout.Vector2IntField("Element " + i, m_StartingPoint[i]);
+            m_StartingPoints[i] = EditorGUILayout.Vector2IntField("Element " + i, m_StartingPoints[i]);
             if (GUILayout.Button(" - ", GUILayout.MaxHeight(40), GUILayout.MaxWidth(32)))
-                m_StartingPoint.RemoveAt(i);
+                m_StartingPoints.RemoveAt(i);
 
             EditorGUILayout.EndHorizontal();
         }
 
         if (GUILayout.Button(" + ", GUILayout.MaxWidth(32)))
-            m_StartingPoint.Add(new Vector2Int());
+            m_StartingPoints.Add(new Vector2Int());
 
         EditorGUILayout.EndVertical();
 
@@ -131,18 +134,41 @@ public class PuzzleEditor : EditorWindow
         EditorGUILayout.BeginVertical(GUI.skin.box);
         GUILayout.Label("List of Ending Points", EditorStyles.boldLabel);
 
-        for (int i = 0; i < m_EndingPoint.Count; i++)
+        for (int i = 0; i < m_EndingPoints.Count; i++)
         {
             EditorGUILayout.BeginHorizontal(GUI.skin.box);
-            m_EndingPoint[i] = EditorGUILayout.Vector2IntField("Element " + i, m_EndingPoint[i]);
+            m_EndingPoints[i] = EditorGUILayout.Vector2IntField("Element " + i, m_EndingPoints[i]);
             if (GUILayout.Button(" - ", GUILayout.MaxHeight(40), GUILayout.MaxWidth(32)))
-        /*TYPO*/m_StartingPoint.RemoveAt(i);/*TYPO*/
+                m_EndingPoints.RemoveAt(i);
 
             EditorGUILayout.EndHorizontal();
         }
 
         if (GUILayout.Button(" + ", GUILayout.MaxWidth(32)))
-            m_EndingPoint.Add(new Vector2Int());
+            m_EndingPoints.Add(new Vector2Int());
+
+        EditorGUILayout.EndVertical();
+
+        GUILayout.Space(10);
+    }
+
+    private void DrawListOfCollectiblesPoint()
+    {
+        EditorGUILayout.BeginVertical(GUI.skin.box);
+        GUILayout.Label("List of Collectible Points", EditorStyles.boldLabel);
+
+        for (int i = 0; i < m_CollectiblesPoints.Count; i++)
+        {
+            EditorGUILayout.BeginHorizontal(GUI.skin.box);
+            m_CollectiblesPoints[i] = EditorGUILayout.Vector2IntField("Element " + i, m_CollectiblesPoints[i]);
+            if (GUILayout.Button(" - ", GUILayout.MaxHeight(40), GUILayout.MaxWidth(32)))
+                m_CollectiblesPoints.RemoveAt(i);
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        if (GUILayout.Button(" + ", GUILayout.MaxWidth(32)))
+            m_CollectiblesPoints.Add(new Vector2Int());
 
         EditorGUILayout.EndVertical();
 
@@ -208,8 +234,9 @@ public class PuzzleEditor : EditorWindow
         
         newPuzzle.GridWidth = PuzzleWidth;
         newPuzzle.GridHeight = PuzzleHeight;
-        newPuzzle.StartingPoint = m_StartingPoint;
-        newPuzzle.EndingPoint = m_EndingPoint;
+        newPuzzle.StartingPoints = m_StartingPoints;
+        newPuzzle.EndingPoints = m_EndingPoints;
+        newPuzzle.CollectiblePoint = m_CollectiblesPoints;
         newPuzzle.WalkableArray = new List<ListWrapper>();
 
         for (int i = 0; i < PuzzleHeight; i++)
