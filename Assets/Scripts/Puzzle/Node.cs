@@ -34,5 +34,6 @@ public enum NodeType
 {
     Start,
     Normal,
+    Collectible,
     End
 }

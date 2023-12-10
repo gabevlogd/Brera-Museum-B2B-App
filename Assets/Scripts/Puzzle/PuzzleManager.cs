@@ -37,6 +37,8 @@ public class PuzzleManager : MonoBehaviour
                 }
                 else if (Data.EndingPoints.Contains(tmp))
                     Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.End, true);
+                else if (Data.CollectiblePoint.Contains(tmp))
+                    Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Collectible, true);
                 else
                     Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Normal, AssetData.WalkableArray[x].List[y]);
             }
@@ -73,6 +75,8 @@ public class PuzzleManager : MonoBehaviour
                     }
                     else if (Data.EndingPoints.Contains(tmp))
                         Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.End, true);
+                    else if (Data.CollectiblePoint.Contains(tmp))
+                        Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Collectible, true);
                     else
                         Data.Grid.GetRefGridObject(x, y).SetNode(NodeType.Normal, AssetData.WalkableArray[x].List[y]);
                 }
