@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,13 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class PuzzleManager : MonoBehaviour
 {
+    [Header("Camera")]
+    public CinemachineSmoothPath TargetTrack;
+    public TrackDirection TrackDirection;
+
+    [Header("Puzzle")]
     public PuzzleData AssetData;
+
     private PuzzleData Data;
     private Camera m_Camera;
     private LineRenderer m_LineRenderer;
@@ -55,7 +62,7 @@ public class PuzzleManager : MonoBehaviour
         
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         if (!Application.isPlaying)
         {
@@ -179,13 +186,6 @@ public class PuzzleManager : MonoBehaviour
         if (Data.Grid.GetGridObject(pos).NodeType == NodeType.End)
         {
             int count = 0;
-            List<Vector3> list = new List<Vector3>();
-
-            for (int i = 0; i < m_LineRenderer.positionCount; i++)
-            {
-                list.Add(m_LineRenderer.GetPosition(i));
-            }
-
 
             for (int i = 0; i < m_LineRenderer.positionCount; i++)
             {
@@ -200,7 +200,7 @@ public class PuzzleManager : MonoBehaviour
                 if (GamePuzzleManager.instance == null)
                     Debug.Log("PuzzleCompleted");
                 else
-                    GamePuzzleManager.instance.EventManager.TriggerEvent(Constants.SINGLE_PUZZLE_COMPLETED);
+                    GamePuzzleManager.instance.EventManager.TriggerEvent(Constants.SINGLE_PUZZLE_COMPLETED, TargetTrack, TrackDirection);
             }
         }
     }
