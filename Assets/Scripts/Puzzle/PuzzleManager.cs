@@ -112,6 +112,12 @@ public class PuzzleManager : MonoBehaviour
         Node newNode = Data.Grid.GetGridObject(position);
 
         if (!newNode.Walkable) return;
+        if (newNode.NodeType == NodeType.Start && m_LineRenderer.positionCount > 1)
+        {
+            m_LineRenderer.positionCount = 1;
+            m_LineRenderer.SetPosition(m_LineRenderer.positionCount - 1, position);
+            m_LastValidNode = newNode;
+        }
         //avoids the possibility of going obliquely
         if (newNode.X != m_LastValidNode.X && newNode.Y != m_LastValidNode.Y) return;
         //checks if newNode is not next to the last one (only horizontally or vertically)
