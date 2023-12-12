@@ -19,13 +19,7 @@ public class Move : StateBase<PlayerController>
     public override void OnEnter(PlayerController context)
     {
         base.OnEnter(context);
-
-        m_AlignmentAngularSpeed = context.PlayerData.MovementData.AlignmentAngularSpeed;
-        m_AlignmentSpeed = context.PlayerData.MovementData.AlignmentSpeed;
-        m_MovementSpeed = context.PlayerData.MovementData.MovementSpeed;
-
-        m_PlayerTransform = context.transform;
-        m_UpdateMovement = SetPositionAndRotation;
+        SetData(context);
     }
 
     public override void OnExit(PlayerController context)
@@ -60,8 +54,6 @@ public class Move : StateBase<PlayerController>
 
     private void PerformMovement(PlayerController context)
     {
-        //cast the context
-        PlayerController playerSM = context as PlayerController;
         //save player position before updateing it
         m_LastPosition = m_PlayerTransform.position;
         //update player position and rotation
@@ -70,7 +62,17 @@ public class Move : StateBase<PlayerController>
 
         //checks if the motion is completed
         if (m_LastPosition == m_PlayerTransform.position)
-            _stateMachine.ChangeState(context.Idle);
+            _stateMachine.ChangeState(_stateMachine.PreviousState);
         
+    }
+
+    private void SetData(PlayerController context)
+    {
+        m_AlignmentAngularSpeed = context.PlayerData.MovementData.AlignmentAngularSpeed;
+        m_AlignmentSpeed = context.PlayerData.MovementData.AlignmentSpeed;
+        m_MovementSpeed = context.PlayerData.MovementData.MovementSpeed;
+
+        m_PlayerTransform = context.transform;
+        m_UpdateMovement = SetPositionAndRotation;
     }
 }
