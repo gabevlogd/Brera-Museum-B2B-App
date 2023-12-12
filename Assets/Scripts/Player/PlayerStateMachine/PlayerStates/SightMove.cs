@@ -4,27 +4,28 @@ using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.InputSystem.Utilities;
 using static UnityEngine.InputSystem.InputAction;
+using Gabevlogd.Patterns;
 
-public class SightMove : StateBase
+public class SightMove : StateBase<PlayerController>
 {
     private Camera m_Camera;
     private Transform m_PlayerTransform;
     private TouchScreen m_Input;
 
-    private readonly float m_YawSens;
-    private readonly float m_PitchSens;
-    private readonly float m_MaxPitch;
-    private readonly float m_MinPitch;
-    private readonly float m_YawDeceleration;
+    private float m_YawSens;
+    private float m_PitchSens;
+    private float m_MaxPitch;
+    private float m_MinPitch;
+    private float m_YawDeceleration;
 
-    private readonly float m_ZoomSens;
-    private readonly float m_DefaultZoom;
-    private readonly float m_MinZoom;
+    private float m_ZoomSens;
+    private float m_DefaultZoom;
+    private float m_MinZoom;
 
     private float m_LastYawRoation;
     private float m_LastFingersDistance;
 
-    public SightMove(string stateID, SightMovementData data) : base(stateID)
+    public SightMove(string stateID, StateMachine<PlayerController> stateMachine) : base(stateID, stateMachine)
     {
         m_Input = new TouchScreen();
         m_Input.SightActions.PinchZoom.performed += HandleZoom;
@@ -32,34 +33,23 @@ public class SightMove : StateBase
         m_Input.SightActions.RotateSight.performed += RotateYaw;
         m_Input.SightActions.RotateSight.performed += RotatePitch;
 
-        m_ZoomSens = data.ZoomSens;
-        m_DefaultZoom = data.DefaultZoom;
-        m_MinZoom = data.MinZoom;
-
-        m_YawSens = data.YawSens;
-        m_PitchSens = data.PitchSens;
-        m_YawDeceleration = data.AngularDeceleration;
-        m_MaxPitch = data.MaxPitch;
-        m_MinPitch = data.MinPitch;
-
     }
 
-    public override void OnEnter(StateMachineBase context)
+    public override void OnEnter(PlayerController context)
     {
         base.OnEnter(context);
-        m_PlayerTransform = context.transform;
-        m_Camera = GetCamera(context);
+        SetData(context);
         EnableInput();
     }
 
-    public override void OnUpdate(StateMachineBase context)
+    public override void OnUpdate(PlayerController context)
     {
         //base.OnUpdate(context);
         CheckYawRotatioReset();
         PerformYawDeceleration();
     }
 
-    public override void OnExit(StateMachineBase context)
+    public override void OnExit(PlayerController context)
     {
         base.OnExit(context);
         context.StartCoroutine(ResetZoom());
@@ -175,5 +165,21 @@ public class SightMove : StateBase
         EnhancedTouchSupport.Disable();
     }
 
-    private Camera GetCamera(StateMachineBase context) => (m_Camera == null) ? context.GetComponentInChildren<Camera>() : m_Camera;
+    private void SetData(PlayerController context)
+    {
+        m_PlayerTransform = context.transform;
+        m_Camera = GetCamera(context);
+
+        m_ZoomSens = context.PlayerData.SightMovementData.ZoomSens;
+        m_DefaultZoom = context.PlayerData.SightMovementData.DefaultZoom;
+        m_MinZoom = context.PlayerData.SightMovementData.MinZoom;
+
+        m_YawSens = context.PlayerData.SightMovementData.YawSens;
+        m_PitchSens = context.PlayerData.SightMovementData.PitchSens;
+        m_YawDeceleration = context.PlayerData.SightMovementData.AngularDeceleration;
+        m_MaxPitch = context.PlayerData.SightMovementData.MaxPitch;
+        m_MinPitch = context.PlayerData.SightMovementData.MinPitch;
+    }
+
+    private Camera GetCamera(PlayerController context) => (m_Camera == null) ? context.GetComponentInChildren<Camera>() : m_Camera;
 }

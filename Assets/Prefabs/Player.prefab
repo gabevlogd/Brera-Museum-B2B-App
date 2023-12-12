@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1672163061309045711}
   - component: {fileID: 4426254114161890505}
-  - component: {fileID: 5946625627284972956}
+  - component: {fileID: 1414791320511515250}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -164,7 +164,7 @@ MonoBehaviour:
     MaxPitch: 90
     MinPitch: -90
     AngularDeceleration: 2
---- !u!114 &5946625627284972956
+--- !u!114 &1414791320511515250
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,6 +173,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 877445024117960416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aac2358df68ab3445b378e3f85a5541b, type: 3}
+  m_Script: {fileID: 11500000, guid: 2844a3e9e1ee69c4abf197fc19a1515b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

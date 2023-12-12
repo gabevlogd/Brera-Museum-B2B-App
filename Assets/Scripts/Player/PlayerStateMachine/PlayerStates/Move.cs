@@ -1,45 +1,48 @@
 ﻿using System;
 using UnityEngine;
+using Gabevlogd.Patterns;
 
-public class Move : StateBase
+public class Move : StateBase<PlayerController>
 {
     private Transform m_PlayerTransform;
-    private Action<StateMachineBase> m_UpdateMovement;
+    private Action<PlayerController> m_UpdateMovement;
 
-    private readonly float m_AlignmentSpeed;
-    private readonly float m_AlignmentAngularSpeed;
-    private readonly float m_MovementSpeed;
+    private float m_AlignmentSpeed;
+    private float m_AlignmentAngularSpeed;
+    private float m_MovementSpeed;
     private Vector3 m_LastPosition;
 
-    public Move(string stateID, MovementData movementData) : base(stateID)
+    public Move(string stateID, StateMachine<PlayerController> stateMachine) : base(stateID, stateMachine)
     {
-        m_AlignmentAngularSpeed = movementData.AlignmentAngularSpeed;
-        m_AlignmentSpeed = movementData.AlignmentSpeed;
-        m_MovementSpeed = movementData.MovementSpeed;
     }
 
-    public override void OnEnter(StateMachineBase context)
+    public override void OnEnter(PlayerController context)
     {
         base.OnEnter(context);
+
+        m_AlignmentAngularSpeed = context.PlayerData.MovementData.AlignmentAngularSpeed;
+        m_AlignmentSpeed = context.PlayerData.MovementData.AlignmentSpeed;
+        m_MovementSpeed = context.PlayerData.MovementData.MovementSpeed;
+
         m_PlayerTransform = context.transform;
         m_UpdateMovement = SetPositionAndRotation;
     }
 
-    public override void OnExit(StateMachineBase context)
+    public override void OnExit(PlayerController context)
     {
         base.OnExit(context);
         DollyCartManager.ResetCart();
         m_UpdateMovement = null;
     }
 
-    public override void OnUpdate(StateMachineBase context)
+    public override void OnUpdate(PlayerController context)
     {
         //base.OnUpdate(context);
         m_UpdateMovement?.Invoke(context);
 
     }
 
-    private void SetPositionAndRotation(StateMachineBase context)
+    private void SetPositionAndRotation(PlayerController context)
     {
         //checks if position and rotation of player are aligned with the cart position and rotation 
         if (Vector3.Distance(m_PlayerTransform.position, DollyCartManager.GetCartPosition()) > 0.1f ||
@@ -55,10 +58,10 @@ public class Move : StateBase
         }
     }
 
-    private void PerformMovement(StateMachineBase context)
+    private void PerformMovement(PlayerController context)
     {
         //cast the context
-        PlayerStateMachine playerSM = context as PlayerStateMachine;
+        PlayerController playerSM = context as PlayerController;
         //save player position before updateing it
         m_LastPosition = m_PlayerTransform.position;
         //update player position and rotation
@@ -67,7 +70,7 @@ public class Move : StateBase
 
         //checks if the motion is completed
         if (m_LastPosition == m_PlayerTransform.position)
-            playerSM.ChangeState(playerSM.Idle);
+            _stateMachine.ChangeState(context.Idle);
         
     }
 }
