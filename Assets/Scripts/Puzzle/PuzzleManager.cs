@@ -8,8 +8,7 @@ using static UnityEngine.InputSystem.InputAction;
 public class PuzzleManager : MonoBehaviour
 {
     [Header("Camera")]
-    [SerializeField] private CinemachineSmoothPath m_TargetTrack;
-    [SerializeField] private TrackDirection m_TrackDirection;
+    [SerializeField] private Transform m_NextPosition;
 
     [Header("Puzzle")]
     public PuzzleData AssetData;
@@ -61,7 +60,7 @@ public class PuzzleManager : MonoBehaviour
         
     }
     
-    private void OnDrawGizmos()
+    private void OnDrawGizmos() 
     {
         if (!Application.isPlaying)
         {
@@ -96,7 +95,8 @@ public class PuzzleManager : MonoBehaviour
         {
             for (int j = 0; j < Data.GridHeight; j++)
             {
-                Debug.Log("Node type: " + Data.Grid.GetGridObject(i, j).NodeType.ToString());
+                if (!Application.isPlaying)
+                    Debug.Log("Node type: " + Data.Grid.GetGridObject(i, j).NodeType.ToString());
 
                 if(Data.Grid.GetGridObject(i, j).NodeType == NodeType.Start)
                     Gizmos.color = Color.black;
@@ -189,7 +189,15 @@ public class PuzzleManager : MonoBehaviour
                 if (GamePuzzleManager.instance == null)
                     Debug.Log("PuzzleCompleted");
                 else
-                    GamePuzzleManager.instance.EventManager.TriggerEvent(Constants.SINGLE_PUZZLE_COMPLETED, m_TargetTrack, m_TrackDirection);
+                {
+                    Vector3 nextPos;
+                    if (m_NextPosition != null)
+                        nextPos = m_NextPosition.position;
+                    else
+                        nextPos = Vector3.zero;
+
+                    GamePuzzleManager.instance.EventManager.TriggerEvent(Constants.SINGLE_PUZZLE_COMPLETED, nextPos);
+                }
             }
         }
     }
