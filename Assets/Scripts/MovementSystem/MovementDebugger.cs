@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Debugger : MonoBehaviour
+public class MovementDebugger : MonoBehaviour
 {
-    public PlayerStateMachine PlayerSM;
+    public PlayerController PlayerSM;
     public CinemachineSmoothPath TargetTrack;
     public TrackDirection TrackDirection;
 
@@ -15,7 +15,7 @@ public class Debugger : MonoBehaviour
         {
             DollyCartManager.SetDollyCart(TargetTrack, TrackDirection);
             TargetTrack = null;
-            PlayerSM.ChangeState(PlayerSM.Move);
+            PlayerSM.m_StateMachine.ChangeState(PlayerSM.Move);
         }
     }
 }

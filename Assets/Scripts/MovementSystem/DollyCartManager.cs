@@ -5,17 +5,11 @@ using Cinemachine;
 
 public class DollyCartManager : MonoBehaviour
 {
-    //private static DollyTrack[] _tracksList; //forse non servono devo ancora capire.
     private static CinemachineDollyCart m_DollyCart;
     private static TrackDirection m_TrackDirection;
 
-    private void Awake()
-    {
-        //_tracksList = GetTrackList();
-        m_DollyCart = GetDollyCart();
-    }
+    private void Awake() => m_DollyCart = GetDollyCart();
 
-    //private DollyTrack[] GetTrackList() => FindObjectsByType<DollyTrack>(FindObjectsSortMode.None);
     private CinemachineDollyCart GetDollyCart() => FindObjectOfType<CinemachineDollyCart>();
 
 

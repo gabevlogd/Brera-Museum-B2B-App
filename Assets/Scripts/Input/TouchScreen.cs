@@ -50,6 +50,74 @@ public partial class @TouchScreen: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""SightActions"",
+            ""id"": ""a98caf49-1cd2-42ef-8036-b89a4a888251"",
+            ""actions"": [
+                {
+                    ""name"": ""PinchZoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""fc661637-2275-423e-84d6-3f7008851afa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseZoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""212084c9-4661-438c-9e3c-428abd5cdf8c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RotateSight"",
+                    ""type"": ""Value"",
+                    ""id"": ""a4bd5622-da3a-4d52-bac5-5f865f58b044"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""73c98b7d-6458-43cc-be19-fe99c60f747e"",
+                    ""path"": ""<Touchscreen>/touch1/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PinchZoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48f6e71c-4c5e-4cb0-9a88-138ab5b525a8"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseZoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a57a428e-6326-4879-9730-47e589c22750"",
+                    ""path"": ""<Touchscreen>/touch0/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateSight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -57,6 +125,11 @@ public partial class @TouchScreen: IInputActionCollection2, IDisposable
         // PuzzleActions
         m_PuzzleActions = asset.FindActionMap("PuzzleActions", throwIfNotFound: true);
         m_PuzzleActions_TouchPos = m_PuzzleActions.FindAction("TouchPos", throwIfNotFound: true);
+        // SightActions
+        m_SightActions = asset.FindActionMap("SightActions", throwIfNotFound: true);
+        m_SightActions_PinchZoom = m_SightActions.FindAction("PinchZoom", throwIfNotFound: true);
+        m_SightActions_MouseZoom = m_SightActions.FindAction("MouseZoom", throwIfNotFound: true);
+        m_SightActions_RotateSight = m_SightActions.FindAction("RotateSight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -160,8 +233,76 @@ public partial class @TouchScreen: IInputActionCollection2, IDisposable
         }
     }
     public PuzzleActionsActions @PuzzleActions => new PuzzleActionsActions(this);
+
+    // SightActions
+    private readonly InputActionMap m_SightActions;
+    private List<ISightActionsActions> m_SightActionsActionsCallbackInterfaces = new List<ISightActionsActions>();
+    private readonly InputAction m_SightActions_PinchZoom;
+    private readonly InputAction m_SightActions_MouseZoom;
+    private readonly InputAction m_SightActions_RotateSight;
+    public struct SightActionsActions
+    {
+        private @TouchScreen m_Wrapper;
+        public SightActionsActions(@TouchScreen wrapper) { m_Wrapper = wrapper; }
+        public InputAction @PinchZoom => m_Wrapper.m_SightActions_PinchZoom;
+        public InputAction @MouseZoom => m_Wrapper.m_SightActions_MouseZoom;
+        public InputAction @RotateSight => m_Wrapper.m_SightActions_RotateSight;
+        public InputActionMap Get() { return m_Wrapper.m_SightActions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SightActionsActions set) { return set.Get(); }
+        public void AddCallbacks(ISightActionsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SightActionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SightActionsActionsCallbackInterfaces.Add(instance);
+            @PinchZoom.started += instance.OnPinchZoom;
+            @PinchZoom.performed += instance.OnPinchZoom;
+            @PinchZoom.canceled += instance.OnPinchZoom;
+            @MouseZoom.started += instance.OnMouseZoom;
+            @MouseZoom.performed += instance.OnMouseZoom;
+            @MouseZoom.canceled += instance.OnMouseZoom;
+            @RotateSight.started += instance.OnRotateSight;
+            @RotateSight.performed += instance.OnRotateSight;
+            @RotateSight.canceled += instance.OnRotateSight;
+        }
+
+        private void UnregisterCallbacks(ISightActionsActions instance)
+        {
+            @PinchZoom.started -= instance.OnPinchZoom;
+            @PinchZoom.performed -= instance.OnPinchZoom;
+            @PinchZoom.canceled -= instance.OnPinchZoom;
+            @MouseZoom.started -= instance.OnMouseZoom;
+            @MouseZoom.performed -= instance.OnMouseZoom;
+            @MouseZoom.canceled -= instance.OnMouseZoom;
+            @RotateSight.started -= instance.OnRotateSight;
+            @RotateSight.performed -= instance.OnRotateSight;
+            @RotateSight.canceled -= instance.OnRotateSight;
+        }
+
+        public void RemoveCallbacks(ISightActionsActions instance)
+        {
+            if (m_Wrapper.m_SightActionsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISightActionsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SightActionsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SightActionsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SightActionsActions @SightActions => new SightActionsActions(this);
     public interface IPuzzleActionsActions
     {
         void OnTouchPos(InputAction.CallbackContext context);
+    }
+    public interface ISightActionsActions
+    {
+        void OnPinchZoom(InputAction.CallbackContext context);
+        void OnMouseZoom(InputAction.CallbackContext context);
+        void OnRotateSight(InputAction.CallbackContext context);
     }
 }
