@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,10 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class PuzzleManager : MonoBehaviour
 {
+    [Header("Camera")]
+    [SerializeField] private Transform m_NextPosition;
+
+    [Header("Puzzle")]
     public PuzzleData AssetData;
     private PuzzleData Data;
     private Camera m_Camera;
@@ -54,8 +59,8 @@ public class PuzzleManager : MonoBehaviour
         UpdateLineRenderer(m_WorldTouchPosition);
         
     }
-
-    private void OnDrawGizmosSelected()
+    
+    private void OnDrawGizmos() 
     {
         if (!Application.isPlaying)
         {
@@ -90,7 +95,8 @@ public class PuzzleManager : MonoBehaviour
         {
             for (int j = 0; j < Data.GridHeight; j++)
             {
-                Debug.Log("Node type: " + Data.Grid.GetGridObject(i, j).NodeType.ToString());
+                if (!Application.isPlaying)
+                    Debug.Log("Node type: " + Data.Grid.GetGridObject(i, j).NodeType.ToString());
 
                 if(Data.Grid.GetGridObject(i, j).NodeType == NodeType.Start)
                     Gizmos.color = Color.black;
@@ -178,31 +184,37 @@ public class PuzzleManager : MonoBehaviour
     {
         if (Data.Grid.GetGridObject(pos).NodeType == NodeType.End)
         {
-            int count = 0;
-            List<Vector3> list = new List<Vector3>();
-
-            for (int i = 0; i < m_LineRenderer.positionCount; i++)
-            {
-                list.Add(m_LineRenderer.GetPosition(i));
-            }
-
-
-            for (int i = 0; i < m_LineRenderer.positionCount; i++)
-            {
-                Data.Grid.GetXY(m_LineRenderer.GetPosition(i), out int x, out int y);
-                Vector2Int tmp = new Vector2Int(x, y);
-                if(CheckPointInCollectibles(tmp))
-                    count++;
-            }
-
-            if(count == Data.CollectiblePoint.Count)
+            if(GetCountActualCollectiblePoints() == Data.CollectiblePoint.Count)
             {
                 if (GamePuzzleManager.instance == null)
                     Debug.Log("PuzzleCompleted");
                 else
-                    GamePuzzleManager.instance.EventManager.TriggerEvent(Constants.SINGLE_PUZZLE_COMPLETED);
+                {
+                    Vector3 nextPos;
+                    if (m_NextPosition != null)
+                        nextPos = m_NextPosition.position;
+                    else
+                        nextPos = Vector3.zero;
+
+                    GamePuzzleManager.instance.EventManager.TriggerEvent(Constants.SINGLE_PUZZLE_COMPLETED, nextPos);
+                }
             }
         }
+    }
+
+    private int GetCountActualCollectiblePoints()
+    {
+        int count = 0;
+
+        for (int i = 0; i < m_LineRenderer.positionCount; i++)
+        {
+            Data.Grid.GetXY(m_LineRenderer.GetPosition(i), out int x, out int y);
+            Vector2Int tmp = new Vector2Int(x, y);
+            if (CheckPointInCollectibles(tmp))
+                count++;
+        }
+
+        return count;
     }
 
     private bool CheckPointInCollectibles(Vector2Int pos)
