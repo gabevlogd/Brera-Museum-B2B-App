@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Cinemachine;
@@ -14,14 +15,7 @@ public class TrackHandler : MonoBehaviour
     {
         LockTransform();
         HandleWaypoints();
-    }
-
-    [MenuItem("GameObject/Custom GameObject/Dolly Track")]
-    public static void CreateDollyTrack()
-    {
-        DollyTrack trackPrefabRef = Resources.Load<DollyTrack>("Dolly Track");
-        DollyTrack newDolly = Instantiate(trackPrefabRef);
-        newDolly.This = newDolly.GetComponent<CinemachineSmoothPath>(); 
+        HandleTrackButtons();
     }
 
     private void LockTransform()
@@ -33,20 +27,29 @@ public class TrackHandler : MonoBehaviour
 
     private void HandleWaypoints()
     {
-        if (Selection.activeGameObject != null && Selection.activeGameObject == this.gameObject) return;
+        if (m_DollyTrack.FirstAnchorPoint != null)
+            m_DollyTrack.This.m_Waypoints[0].position = m_DollyTrack.FirstAnchorPoint.transform.position;
+        if (m_DollyTrack.SecondAnchorPoint != null)
+            m_DollyTrack.This.m_Waypoints[^1].position = m_DollyTrack.SecondAnchorPoint.transform.position;
+    }
 
-        
-        if (m_DollyTrack.FirstWaypointAnchorTrack != null && m_DollyTrack.FirstWaypointAnchorIndex < m_DollyTrack.FirstWaypointAnchorTrack.m_Waypoints.Length)
-        {
-            Vector3 targetCostraintPos = m_DollyTrack.FirstWaypointAnchorTrack.m_Waypoints[m_DollyTrack.FirstWaypointAnchorIndex].position;
-            m_DollyTrack.This.m_Waypoints[0].position.Set(targetCostraintPos.x, targetCostraintPos.y, targetCostraintPos.z);
-        }
-        if (m_DollyTrack.LastWaypointAnchorTrack != null && m_DollyTrack.LastWaypointAnchorIndex < m_DollyTrack.LastWaypointAnchorTrack.m_Waypoints.Length)
-        {
-            Vector3 targetCostraintPos = m_DollyTrack.LastWaypointAnchorTrack.m_Waypoints[m_DollyTrack.LastWaypointAnchorIndex].position;
-            m_DollyTrack.This.m_Waypoints[^1].position.Set(targetCostraintPos.x, targetCostraintPos.y, targetCostraintPos.z);
-        }
-        
+    private void HandleTrackButtons()
+    {
+        //if (m_DollyTrack.FirstAnchorPoint != null)
+        //{
+        //    if (m_DollyTrack.FirstAnchorPoint.ButtonsList == null)
+        //        m_DollyTrack.FirstAnchorPoint.ButtonsList = new List<MoveButton>() { m_DollyTrack.SecondButton };
+        //    else if (!m_DollyTrack.FirstAnchorPoint.ButtonsList.Contains(m_DollyTrack.SecondButton))
+        //        m_DollyTrack.FirstAnchorPoint.ButtonsList.Add(m_DollyTrack.SecondButton);
+        //}
+            
+        //if (m_DollyTrack.SecondAnchorPoint != null)
+        //{
+        //    if (m_DollyTrack.SecondAnchorPoint.ButtonsList == null)
+        //        m_DollyTrack.SecondAnchorPoint.ButtonsList = new List<MoveButton>() { m_DollyTrack.FirstButton };
+        //    else if (!m_DollyTrack.SecondAnchorPoint.ButtonsList.Contains(m_DollyTrack.FirstButton))
+        //        m_DollyTrack.SecondAnchorPoint.ButtonsList.Add(m_DollyTrack.FirstButton);
+        //}
     }
 }
 

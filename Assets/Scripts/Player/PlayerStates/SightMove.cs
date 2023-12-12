@@ -47,6 +47,7 @@ public class SightMove : StateBase<PlayerController>
         //base.OnUpdate(context);
         CheckYawRotatioReset();
         PerformYawDeceleration();
+        CheckForMoveRequest(context);
     }
 
     public override void OnExit(PlayerController context)
@@ -80,7 +81,7 @@ public class SightMove : StateBase<PlayerController>
         ReadOnlyArray<UnityEngine.InputSystem.EnhancedTouch.Touch> touch = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
         if (touch.Count != 1) return;
         //check if touch phase is not moved or if the movement of the finger is in the deadzone area (0 pixel <= deadZone < 5 pixel)
-        if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(touch[0].delta.x) < 5f) return;
+        if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(touch[0].delta.x) < 2f) return;
         
         //calculate the yaw rotation (Degrees)
         float yawRotation = Time.deltaTime * m_YawSens * Mathf.Sign(-touch[0].delta.x);
@@ -93,7 +94,7 @@ public class SightMove : StateBase<PlayerController>
         ReadOnlyArray<UnityEngine.InputSystem.EnhancedTouch.Touch> touch = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
         if (touch.Count != 1) return;
         //check if touch phase is not moved or if the movement of the finger is in the deadzone area (0 pixel <= deadZone < 5 pixel)
-        if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(touch[0].delta.y) < 5f) return;
+        if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(touch[0].delta.y) < 2f) return;
         //calculate the angle between forward of player and forward of camera
         float angle = Vector3.SignedAngle(m_Camera.transform.forward, m_PlayerTransform.forward, m_PlayerTransform.right);
         //calculate the pitch rotation (Degrees)
@@ -182,4 +183,24 @@ public class SightMove : StateBase<PlayerController>
     }
 
     private Camera GetCamera(PlayerController context) => (m_Camera == null) ? context.GetComponentInChildren<Camera>() : m_Camera;
+
+    private GameObject GetPointedObject()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+        Physics.Raycast(ray, out RaycastHit hit);
+        if (hit.collider != null) return hit.collider.gameObject;
+        else return null;
+    }
+
+    private void CheckForMoveRequest(PlayerController context)
+    {
+        if (Input.touchCount != 1) return;
+
+        GameObject pointedObj = GetPointedObject();
+        if (pointedObj != null && pointedObj.TryGetComponent(out MoveButton button))
+        {
+            DollyCartManager.SetDollyCart(button.Track, button.Direction);
+            _stateMachine.ChangeState(context.Move);
+        }
+    }
 }

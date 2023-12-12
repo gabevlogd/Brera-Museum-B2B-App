@@ -26,14 +26,23 @@ public class DollyTrack_Inspector : Editor
         DollyTrack newDollyInstanceRef = Instantiate(newDollyAssetRef);
 
         newDollyInstanceRef.This = newDollyInstanceRef.GetComponent<CinemachineSmoothPath>();
-        newDollyInstanceRef.This.m_Waypoints[0].position = currentDolly.This.m_Waypoints[^1].position;
-        newDollyInstanceRef.This.m_Waypoints[1].position = newDollyInstanceRef.This.m_Waypoints[0].position + new Vector3(0f, 0f, 10f);
+        newDollyInstanceRef.FirstAnchorPoint = currentDolly.SecondAnchorPoint;
+        newDollyInstanceRef.This.m_Waypoints[1].position = newDollyInstanceRef.FirstAnchorPoint.transform.position + new Vector3(0f, 0f, 10f);
+    }
 
-        newDollyInstanceRef.FirstWaypointAnchorTrack = currentDolly.GetComponent<CinemachineSmoothPath>();
-        newDollyInstanceRef.FirstWaypointAnchorIndex = currentDolly.GetComponent<CinemachineSmoothPath>().m_Waypoints.Length - 1;
+    [MenuItem("GameObject/Custom GameObject/Dolly Track")]
+    public static void CreateDollyTrack()
+    {
+        DollyTrack trackPrefabRef = Resources.Load<DollyTrack>("Dolly Track");
+        DollyTrack newDolly = Instantiate(trackPrefabRef);
+        newDolly.This = newDolly.GetComponent<CinemachineSmoothPath>();
 
-        currentDolly.LastWaypointAnchorTrack = newDollyInstanceRef.GetComponent<CinemachineSmoothPath>();
-        currentDolly.LastWaypointAnchorIndex = 0;
+        newDolly.FirstButton = Instantiate(Resources.Load<MoveButton>("Move Button"), newDolly.This.m_Waypoints[0].position + Vector3.up * 3f, Quaternion.identity, newDolly.transform);
+        newDolly.SecondButton = Instantiate(Resources.Load<MoveButton>("Move Button"), newDolly.This.m_Waypoints[^1].position + Vector3.up * 3f, Quaternion.identity, newDolly.transform);
+        newDolly.FirstButton.Track = newDolly.This;
+        newDolly.FirstButton.Direction = TrackDirection.Backward;
+        newDolly.SecondButton.Track = newDolly.This;
+        newDolly.SecondButton.Direction = TrackDirection.Forward;
     }
 }
 

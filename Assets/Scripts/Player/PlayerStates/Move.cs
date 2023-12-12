@@ -4,6 +4,9 @@ using Gabevlogd.Patterns;
 
 public class Move : StateBase<PlayerController>
 {
+    public static event Action OnMovementEnded;
+    public static event Action OnMovementStarted;
+
     private Transform m_PlayerTransform;
     private Action<PlayerController> m_UpdateMovement;
 
@@ -19,6 +22,7 @@ public class Move : StateBase<PlayerController>
     public override void OnEnter(PlayerController context)
     {
         base.OnEnter(context);
+        OnMovementStarted?.Invoke();
         SetData(context);
     }
 
@@ -27,6 +31,7 @@ public class Move : StateBase<PlayerController>
         base.OnExit(context);
         DollyCartManager.ResetCart();
         m_UpdateMovement = null;
+        OnMovementEnded?.Invoke();
     }
 
     public override void OnUpdate(PlayerController context)
