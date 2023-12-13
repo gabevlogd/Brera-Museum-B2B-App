@@ -35,21 +35,10 @@ public class TrackHandler : MonoBehaviour
 
     private void HandleTrackButtons()
     {
-        //if (m_DollyTrack.FirstAnchorPoint != null)
-        //{
-        //    if (m_DollyTrack.FirstAnchorPoint.ButtonsList == null)
-        //        m_DollyTrack.FirstAnchorPoint.ButtonsList = new List<MoveButton>() { m_DollyTrack.SecondButton };
-        //    else if (!m_DollyTrack.FirstAnchorPoint.ButtonsList.Contains(m_DollyTrack.SecondButton))
-        //        m_DollyTrack.FirstAnchorPoint.ButtonsList.Add(m_DollyTrack.SecondButton);
-        //}
-            
-        //if (m_DollyTrack.SecondAnchorPoint != null)
-        //{
-        //    if (m_DollyTrack.SecondAnchorPoint.ButtonsList == null)
-        //        m_DollyTrack.SecondAnchorPoint.ButtonsList = new List<MoveButton>() { m_DollyTrack.FirstButton };
-        //    else if (!m_DollyTrack.SecondAnchorPoint.ButtonsList.Contains(m_DollyTrack.FirstButton))
-        //        m_DollyTrack.SecondAnchorPoint.ButtonsList.Add(m_DollyTrack.FirstButton);
-        //}
+        Vector3 firstTargetPosition = m_DollyTrack.This.m_Waypoints[0].position;
+        Vector3 secondTargetPosition = m_DollyTrack.This.m_Waypoints[^1].position;
+        m_DollyTrack.FirstButton.transform.position = new Vector3(firstTargetPosition.x, m_DollyTrack.FirstButton.transform.position.y, firstTargetPosition.z);
+        m_DollyTrack.SecondButton.transform.position = new Vector3(secondTargetPosition.x, m_DollyTrack.SecondButton.transform.position.y, secondTargetPosition.z);
     }
 }
 
