@@ -7,6 +7,7 @@ public class AnchorPoint : MonoBehaviour
 {
     public List<MoveButton> ButtonsList;
 
+
 #if UNITY_EDITOR
     [MenuItem("GameObject/Custom GameObject/Anchor Point")]
     public static void CreateAnchorPoint()

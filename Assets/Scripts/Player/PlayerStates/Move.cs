@@ -8,6 +8,7 @@ public class Move : StateBase<PlayerController>
     public static event Action OnMovementStarted;
 
     private Transform m_PlayerTransform;
+    private Camera m_Camera;
     private Action<PlayerController> m_UpdateMovement;
 
     private float m_AlignmentSpeed;
@@ -43,12 +44,16 @@ public class Move : StateBase<PlayerController>
 
     private void SetPositionAndRotation(PlayerController context)
     {
+        Quaternion targetRotation = DollyCartManager.GetCartRotation();
+        Vector3 targetPosition = DollyCartManager.GetCartPosition();
         //checks if position and rotation of player are aligned with the cart position and rotation 
-        if (Vector3.Distance(m_PlayerTransform.position, DollyCartManager.GetCartPosition()) > 0.1f ||
-            Mathf.Abs(Quaternion.Dot(m_PlayerTransform.rotation, DollyCartManager.GetCartRotation()) - 1f) > 0.0001f)
+        if (Vector3.Distance(m_PlayerTransform.position, targetPosition) > 0.1f ||
+            Quaternion.Dot(m_PlayerTransform.rotation, targetRotation) < 0.999f ||
+            Quaternion.Dot(m_Camera.transform.rotation, targetRotation) < 0.999f)
         {
-            m_PlayerTransform.position = Vector3.MoveTowards(m_PlayerTransform.position, DollyCartManager.GetCartPosition(), Time.deltaTime * m_AlignmentSpeed);
-            m_PlayerTransform.rotation = Quaternion.RotateTowards(m_PlayerTransform.rotation, DollyCartManager.GetCartRotation(), Time.deltaTime * m_AlignmentAngularSpeed);
+            m_PlayerTransform.position = Vector3.MoveTowards(m_PlayerTransform.position, targetPosition, Time.deltaTime * m_AlignmentSpeed);
+            m_PlayerTransform.rotation = Quaternion.RotateTowards(m_PlayerTransform.rotation, targetRotation, Time.deltaTime * m_AlignmentAngularSpeed);
+            m_Camera.transform.rotation = Quaternion.RotateTowards(m_Camera.transform.rotation, targetRotation, Time.deltaTime * m_AlignmentAngularSpeed);
         }
         else
         {
@@ -78,6 +83,7 @@ public class Move : StateBase<PlayerController>
         m_MovementSpeed = context.PlayerData.MovementData.MovementSpeed;
 
         m_PlayerTransform = context.transform;
+        m_Camera = (m_Camera == null) ? context.GetComponentInChildren<Camera>() : m_Camera;
         m_UpdateMovement = SetPositionAndRotation;
     }
 }

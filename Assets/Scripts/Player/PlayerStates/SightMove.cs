@@ -53,6 +53,7 @@ public class SightMove : StateBase<PlayerController>
     public override void OnExit(PlayerController context)
     {
         base.OnExit(context);
+        m_LastYawRoation = 0f;
         context.StartCoroutine(ResetZoom());
         DisableInput();
     }

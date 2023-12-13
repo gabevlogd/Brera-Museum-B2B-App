@@ -16,6 +16,7 @@ public class MoveButton : MonoBehaviour
 
     private void AlignWithPlayer()
     {
+        transform.rotation = Quaternion.identity;
         Quaternion targetRotation = Quaternion.LookRotation(m_PlayerTransform.position - transform.position, transform.up);
         transform.rotation = targetRotation;
     }
