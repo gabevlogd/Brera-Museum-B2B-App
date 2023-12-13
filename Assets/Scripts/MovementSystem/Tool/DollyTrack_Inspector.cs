@@ -2,38 +2,103 @@
 using UnityEngine;
 using UnityEditor;
 using Cinemachine;
+using System.Collections.Generic;
 
 [CustomEditor(typeof(DollyTrack))]
 public class DollyTrack_Inspector : Editor
 {
+    DollyTrack m_Target;
+    AnchorPoint m_FirstAnchorLastValue;
+    AnchorPoint m_SecondAnchorLastValue;
+
+
+    private void OnEnable() => m_Target = target as DollyTrack;
+
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
-        DrawNewTrackButton();
-        
+        DrawAnchorPointFields();
+        DrawDeleteButton();
     }
 
-    private void DrawNewTrackButton()
+
+    private void DrawAnchorPointFields()
     {
-        if (GUILayout.Button("New Track"))
-            PerformNewTrackButton();
+        EditorGUI.BeginChangeCheck();
+        m_Target.FirstAnchorPoint = EditorGUILayout.ObjectField("First Anchor Point", m_Target.FirstAnchorPoint, typeof(AnchorPoint), true) as AnchorPoint;
+        m_Target.SecondAnchorPoint = EditorGUILayout.ObjectField("Second Anchor Point", m_Target.SecondAnchorPoint, typeof(AnchorPoint), true) as AnchorPoint;
+        if (EditorGUI.EndChangeCheck())
+        {
+            CheckForAnchorPointChanges();
+        }
+        m_FirstAnchorLastValue = m_Target.FirstAnchorPoint;
+        m_SecondAnchorLastValue = m_Target.SecondAnchorPoint;
     }
 
-    private void PerformNewTrackButton()
+    private void DrawDeleteButton()
     {
-        DollyTrack currentDolly = (DollyTrack)target;
-        DollyTrack newDollyAssetRef = Resources.Load<DollyTrack>("Dolly Track");
-        DollyTrack newDollyInstanceRef = Instantiate(newDollyAssetRef);
+        if (GUILayout.Button("Delete Dolly Track"))
+            PerformDeleteButton();
+    }
 
-        newDollyInstanceRef.This = newDollyInstanceRef.GetComponent<CinemachineSmoothPath>();
-        newDollyInstanceRef.This.m_Waypoints[0].position = currentDolly.This.m_Waypoints[^1].position;
-        newDollyInstanceRef.This.m_Waypoints[1].position = newDollyInstanceRef.This.m_Waypoints[0].position + new Vector3(0f, 0f, 10f);
+    private void CheckForAnchorPointChanges()
+    {
+        Debug.Log(m_FirstAnchorLastValue);
+        if (m_Target.FirstAnchorPoint == null && m_FirstAnchorLastValue != null)
+        {
+            m_FirstAnchorLastValue.ButtonsList.Remove(m_Target.SecondButton);
+        }
+        else if (m_FirstAnchorLastValue != null)
+        {
+            m_FirstAnchorLastValue.ButtonsList.Remove(m_Target.SecondButton);
+            m_Target.FirstAnchorPoint.ButtonsList.Add(m_Target.SecondButton);
+        }
+        else if (m_Target.FirstAnchorPoint != null)
+        {
+            m_Target.FirstAnchorPoint.ButtonsList.Add(m_Target.SecondButton);
+        }
 
-        newDollyInstanceRef.FirstWaypointAnchorTrack = currentDolly.GetComponent<CinemachineSmoothPath>();
-        newDollyInstanceRef.FirstWaypointAnchorIndex = currentDolly.GetComponent<CinemachineSmoothPath>().m_Waypoints.Length - 1;
+        if (m_Target.SecondAnchorPoint == null && m_SecondAnchorLastValue != null)
+        {
+            m_SecondAnchorLastValue.ButtonsList.Remove(m_Target.FirstButton);
+        }
+        else if (m_SecondAnchorLastValue != null)
+        {
+            m_SecondAnchorLastValue.ButtonsList.Remove(m_Target.FirstButton);
+            m_Target.SecondAnchorPoint.ButtonsList.Add(m_Target.FirstButton);
+        }
+        else if (m_Target.SecondAnchorPoint != null)
+        {
+            m_Target.SecondAnchorPoint.ButtonsList.Add(m_Target.FirstButton);
+        }
 
-        currentDolly.LastWaypointAnchorTrack = newDollyInstanceRef.GetComponent<CinemachineSmoothPath>();
-        currentDolly.LastWaypointAnchorIndex = 0;
+
+    }
+
+
+    private void PerformDeleteButton()
+    {
+        if (m_Target.FirstAnchorPoint != null && m_Target.FirstAnchorPoint.ButtonsList.Contains(m_Target.SecondButton))
+            m_Target.FirstAnchorPoint.ButtonsList.Remove(m_Target.SecondButton);
+
+        if (m_Target.SecondAnchorPoint != null && m_Target.SecondAnchorPoint.ButtonsList.Contains(m_Target.FirstButton))
+            m_Target.SecondAnchorPoint.ButtonsList.Remove(m_Target.FirstButton);
+
+        DestroyImmediate(m_Target.gameObject);
+    }
+
+    [MenuItem("GameObject/Custom GameObject/Dolly Track")]
+    public static void CreateDollyTrack()
+    {
+        DollyTrack trackPrefabRef = Resources.Load<DollyTrack>("Dolly Track");
+        DollyTrack newDolly = Instantiate(trackPrefabRef);
+        newDolly.This = newDolly.GetComponent<CinemachineSmoothPath>();
+
+        newDolly.FirstButton = Instantiate(Resources.Load<MoveButton>("Move Button"), newDolly.This.m_Waypoints[0].position + Vector3.up * 3f, Quaternion.identity, newDolly.transform);
+        newDolly.SecondButton = Instantiate(Resources.Load<MoveButton>("Move Button"), newDolly.This.m_Waypoints[^1].position + Vector3.up * 3f, Quaternion.identity, newDolly.transform);
+        newDolly.FirstButton.Track = newDolly.This;
+        newDolly.FirstButton.Direction = TrackDirection.Backward;
+        newDolly.SecondButton.Track = newDolly.This;
+        newDolly.SecondButton.Direction = TrackDirection.Forward;
     }
 }
 

@@ -234,9 +234,12 @@ public class PuzzleEditor : EditorWindow
         
         newPuzzle.GridWidth = PuzzleWidth;
         newPuzzle.GridHeight = PuzzleHeight;
-        newPuzzle.StartingPoints = m_StartingPoints;
-        newPuzzle.EndingPoints = m_EndingPoints;
-        newPuzzle.CollectiblePoint = m_CollectiblesPoints;
+        //newPuzzle.StartingPoints = m_StartingPoints;
+        newPuzzle.StartingPoints = CopyListByValue<Vector2Int>(m_StartingPoints);
+        //newPuzzle.EndingPoints = m_EndingPoints;
+        newPuzzle.EndingPoints = CopyListByValue<Vector2Int>(m_EndingPoints);
+        //newPuzzle.CollectiblePoint = m_CollectiblesPoints;
+        newPuzzle.CollectiblePoint = CopyListByValue<Vector2Int>(m_CollectiblesPoints);
         newPuzzle.WalkableArray = new List<ListWrapper>();
 
         for (int i = 0; i < PuzzleHeight; i++)
@@ -252,6 +255,14 @@ public class PuzzleEditor : EditorWindow
             newPuzzle.WalkableArray.Add(tmpWrapper);
         }
         return newPuzzle;
+    }
+
+    private List<T> CopyListByValue<T>(List<T> listToCopy)
+    {
+        List<T> copy = new List<T>();
+        for(int i = 0; i < listToCopy.Count; i++)
+            copy.Add(listToCopy[i]);
+        return copy;
     }
 }
 
