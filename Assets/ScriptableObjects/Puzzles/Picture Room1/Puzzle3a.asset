@@ -15,9 +15,9 @@ MonoBehaviour:
   GridWidth: 15
   GridHeight: 15
   StartingPoints:
-  - {x: 1, y: 1}
+  - {x: 0, y: 0}
   EndingPoints:
-  - {x: 1, y: 15}
+  - {x: 0, y: 14}
   CollectiblePoint: []
   WalkableArray:
   - List: 010001010001010101010001010101
