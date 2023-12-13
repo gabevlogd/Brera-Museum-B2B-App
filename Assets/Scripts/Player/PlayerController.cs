@@ -37,4 +37,6 @@ public class PlayerController : MonoBehaviour
         SightMove = new SightMove("SightMove", m_StateMachine);
         m_StateMachine.RunStateMachine(SightMove);
     }
+
+    
 }

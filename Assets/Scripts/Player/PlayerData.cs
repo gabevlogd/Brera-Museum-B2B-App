@@ -8,7 +8,7 @@ public class PlayerData : MonoBehaviour
     public MovementData MovementData;
     [SerializeField]
     public SightMovementData SightMovementData;
-        
+
 }
 
 [System.Serializable]
