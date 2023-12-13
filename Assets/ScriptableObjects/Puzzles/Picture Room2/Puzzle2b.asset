@@ -10,20 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29894610196f3e84f86fe9e0707185d2, type: 3}
-  m_Name: Puzzle 1
+  m_Name: Puzzle2b
   m_EditorClassIdentifier: 
-  GridWidth: 5
-  GridHeight: 5
+  GridWidth: 10
+  GridHeight: 10
   StartingPoints:
-  - {x: 0, y: 0}
-  EndingPoints:
-  - {x: 4, y: 4}
-  CollectiblePoint:
-  - {x: 2, y: 2}
   - {x: 1, y: 1}
+  EndingPoints:
+  - {x: 10, y: 1}
+  CollectiblePoint: []
   WalkableArray:
-  - List: 0100010101
-  - List: 0101010001
-  - List: 0101010001
-  - List: 0100000001
-  - List: 0101010101
+  - List: 01010101010101010101
+  - List: 01000000000100000001
+  - List: 01000101010100010101
+  - List: 01000000000100000000
+  - List: 01010101000101010100
+  - List: 00000000000000000100
+  - List: 01010101000000010100
+  - List: 01000001010101010000
+  - List: 01000000000100000000
+  - List: 01000101010101010100
