@@ -6,8 +6,7 @@ public class UIManager : MonoBehaviour
 {
     private UIWindow m_CurrentWindow;
     private UIWindow m_PreviousWindow;
-    private UIWindow m_NextWindow;
-    private Dictionary<Window, UIWindow> WindowsList;
+    private Dictionary<Window, UIWindow> m_WindowsList;
 
     private void Awake()
     {
@@ -16,7 +15,7 @@ public class UIManager : MonoBehaviour
 
     private void InitializeManager()
     {
-        WindowsList = new Dictionary<Window, UIWindow>()
+        m_WindowsList = new Dictionary<Window, UIWindow>()
         {
             { Window.AppBoot, GetComponentInChildren<AppBoot>() },
             { Window.Main, GetComponentInChildren<Main>() },
@@ -26,6 +25,14 @@ public class UIManager : MonoBehaviour
             { Window.Questions, GetComponentInChildren<Questions>() },
             { Window.Profile, GetComponentInChildren<Profile>() },
         };
+    }
+
+    private void ChangeWindow(Window windowID)
+    {
+        m_CurrentWindow.gameObject.SetActive(false);
+        m_PreviousWindow = m_CurrentWindow;
+        m_CurrentWindow = m_WindowsList[windowID];
+        m_CurrentWindow.gameObject.SetActive(true);
     }
 }
 

@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class UIWindow : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private void Awake() => SetCanvas();
 
-    // Update is called once per frame
-    void Update()
+    private void SetCanvas()
     {
-        
+        Canvas canvas = GetComponent<Canvas>();
+        canvas.worldCamera = Camera.main;
     }
 }
