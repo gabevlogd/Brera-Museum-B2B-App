@@ -30,6 +30,8 @@ public class Explore : StateBase<PlayerController>
     public Explore(string stateID, StateMachine<PlayerController> stateMachine) : base(stateID, stateMachine)
     {
         m_Input = new TouchScreen();
+
+        //remember to correct this part (scene change problems)
         m_Input.SightActions.PinchZoom.performed += HandleZoom;
         m_Input.SightActions.MouseZoom.performed += HandleZoomForDevBuild;
         m_Input.SightActions.RotateSight.performed += RotateYaw;
@@ -49,7 +51,7 @@ public class Explore : StateBase<PlayerController>
         UpdateTouchTime();
         CheckYawRotatioReset();
         PerformYawDeceleration();
-        CheckForMoveRequest(context);
+        CheckForWorldInteraction(context);
     }
 
     public override void OnExit(PlayerController context)
@@ -75,7 +77,7 @@ public class Explore : StateBase<PlayerController>
 
         m_PlayerTransform.Rotate(0f, m_LastYawRoation, 0f);
         m_LastYawRoation = Mathf.Lerp(m_LastYawRoation, 0f, Time.deltaTime * m_YawDeceleration);
-        
+
     }
 
 
@@ -85,7 +87,7 @@ public class Explore : StateBase<PlayerController>
         if (touch.Count != 1) return;
         //check if touch phase is not moved or if the movement of the finger is in the correct direction
         if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(Vector2.Dot(touch[0].delta.normalized, Vector2.right)) < 0.7f) return;
-        
+
         //calculate the yaw rotation (Degrees)
         float yawRotation = Time.deltaTime * m_YawSens * Mathf.Sign(-touch[0].delta.x);
         m_PlayerTransform.Rotate(0f, yawRotation, 0f);
@@ -188,7 +190,7 @@ public class Explore : StateBase<PlayerController>
 
     private Camera GetCamera(PlayerController context) => (m_Camera == null) ? context.GetComponentInChildren<Camera>() : m_Camera;
 
-    
+
     private void UpdateTouchTime()
     {
         if (Input.touchCount != 1) return;
@@ -205,16 +207,24 @@ public class Explore : StateBase<PlayerController>
         else return null;
     }
 
-    private void CheckForMoveRequest(PlayerController context)
+    private void CheckForWorldInteraction(PlayerController context)
     {
         if (Input.touchCount != 1) return;
         if (m_TouchTime > 0.1f) return;
 
         GameObject pointedObj = GetPointedObject();
-        if (pointedObj != null && pointedObj.TryGetComponent(out MoveButton button))
+        if (pointedObj == null) return;
+
+        if (pointedObj.TryGetComponent(out MoveButton button))
         {
             DollyCartManager.SetDollyCart(button.Track, button.Direction);
             _stateMachine.ChangeState(context.Move);
         }
+        //else if (pointedObj = puzzle trigger){    
+        //      fai cose relative al puzzle trigger
+        //}
+        //else if (pointedObj = random trigger){    
+        //      fai cose relative al random trigger etc...
+        //}
     }
 }
