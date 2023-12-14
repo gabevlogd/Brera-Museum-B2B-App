@@ -84,7 +84,6 @@ public class Explore : StateBase<PlayerController>
         ReadOnlyArray<UnityEngine.InputSystem.EnhancedTouch.Touch> touch = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
         if (touch.Count != 1) return;
         //check if touch phase is not moved or if the movement of the finger is in the correct direction
-        Debug.Log(Mathf.Abs(Vector2.Dot(touch[0].delta.normalized, Vector2.right)));
         if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(Vector2.Dot(touch[0].delta.normalized, Vector2.right)) < 0.7f) return;
         
         //calculate the yaw rotation (Degrees)
