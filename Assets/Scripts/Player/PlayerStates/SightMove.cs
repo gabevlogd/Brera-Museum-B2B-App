@@ -5,6 +5,7 @@ using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.InputSystem.Utilities;
 using static UnityEngine.InputSystem.InputAction;
 using Gabevlogd.Patterns;
+using UnityEngine.SceneManagement;
 
 public class SightMove : StateBase<PlayerController>
 {
@@ -28,10 +29,10 @@ public class SightMove : StateBase<PlayerController>
     public SightMove(string stateID, StateMachine<PlayerController> stateMachine) : base(stateID, stateMachine)
     {
         m_Input = new TouchScreen();
-        m_Input.SightActions.PinchZoom.performed += HandleZoom;
-        m_Input.SightActions.MouseZoom.performed += HandleZoomForDevBuild;
-        m_Input.SightActions.RotateSight.performed += RotateYaw;
-        m_Input.SightActions.RotateSight.performed += RotatePitch;
+        //m_Input.SightActions.PinchZoom.performed += HandleZoom;
+        //m_Input.SightActions.MouseZoom.performed += HandleZoomForDevBuild;
+        //m_Input.SightActions.RotateSight.performed += RotateYaw;
+        //m_Input.SightActions.RotateSight.performed += RotatePitch;
 
     }
 
@@ -48,6 +49,7 @@ public class SightMove : StateBase<PlayerController>
         CheckYawRotatioReset();
         PerformYawDeceleration();
         CheckForMoveRequest(context);
+        CheckForPuzzleRequest(context);
     }
 
     public override void OnExit(PlayerController context)
@@ -158,11 +160,19 @@ public class SightMove : StateBase<PlayerController>
 
     private void EnableInput()
     {
+        m_Input.SightActions.PinchZoom.performed += HandleZoom;
+        m_Input.SightActions.MouseZoom.performed += HandleZoomForDevBuild;
+        m_Input.SightActions.RotateSight.performed += RotateYaw;
+        m_Input.SightActions.RotateSight.performed += RotatePitch;
         m_Input.Enable();
         EnhancedTouchSupport.Enable();
     }
     private void DisableInput()
     {
+        m_Input.SightActions.PinchZoom.performed -= HandleZoom;
+        m_Input.SightActions.MouseZoom.performed -= HandleZoomForDevBuild;
+        m_Input.SightActions.RotateSight.performed -= RotateYaw;
+        m_Input.SightActions.RotateSight.performed -= RotatePitch;
         m_Input.Disable();
         EnhancedTouchSupport.Disable();
     }
@@ -202,6 +212,21 @@ public class SightMove : StateBase<PlayerController>
         {
             DollyCartManager.SetDollyCart(button.Track, button.Direction);
             _stateMachine.ChangeState(context.Move);
+        }
+    }
+
+    private void CheckForPuzzleRequest(PlayerController context)
+    {
+        if (Input.touchCount != 1) return;
+        GameObject pointedObj = GetPointedObject();
+
+        if (pointedObj != null && 
+            pointedObj.TryGetComponent(out PUZZLETRIGGER trigger) && 
+            trigger.targetAnchorPoint.transform.position == context.transform.position &&
+            !GamePuzzleManager.PUZZLEONE)
+        {
+            _stateMachine.ChangeState(context.Sleep);
+            SceneManager.LoadScene(1);
         }
     }
 }

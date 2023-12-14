@@ -79,8 +79,11 @@ public class GamePuzzleManager : Singleton<GamePuzzleManager>
         return isCompleted;
     }
 
+
+    public static bool PUZZLEONE; // only for build
     private void BackToMuseum(object[] param)
     {
+        PUZZLEONE = true; // only for build
         SceneManager.LoadScene(m_SceneIndex);
     }
 }

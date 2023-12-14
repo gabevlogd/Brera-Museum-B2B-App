@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MoveButtonsManager : MonoBehaviour
 {
+    public static AnchorPoint TargetAnchorPoint; //only for build
+
     private AnchorPoint[] m_AnchorPoints;
     private AnchorPoint m_CurrentAnchorPoint;
     private Transform m_PlayerTransform;
@@ -12,7 +14,8 @@ public class MoveButtonsManager : MonoBehaviour
     {
         m_AnchorPoints = FindObjectsByType<AnchorPoint>(FindObjectsSortMode.None);
         m_PlayerTransform = FindObjectOfType<PlayerData>().transform;
-        InitializeManager();
+        if (TargetAnchorPoint == null) TargetAnchorPoint = GetCurrentAnchorPoint(); // only for build
+        InitializeManager(TargetAnchorPoint);
     }
 
     private void OnEnable()
@@ -43,12 +46,13 @@ public class MoveButtonsManager : MonoBehaviour
         
     }
 
-    private void InitializeManager()
+    private void InitializeManager(AnchorPoint startingAnchorPoint)
     {
-        m_CurrentAnchorPoint = GetCurrentAnchorPoint();
+        m_CurrentAnchorPoint = startingAnchorPoint;
         if (m_CurrentAnchorPoint == null) return;
 
         m_PlayerTransform.position = m_CurrentAnchorPoint.transform.position;
+        m_PlayerTransform.rotation = m_CurrentAnchorPoint.transform.rotation;
         for (int i = 0; i < m_AnchorPoints.Length; i++)
         {
             for (int j = 0; j < m_AnchorPoints[i].ButtonsList.Count; j++)

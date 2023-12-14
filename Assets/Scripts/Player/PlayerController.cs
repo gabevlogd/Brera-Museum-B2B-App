@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
         Move = new Move("Move", m_StateMachine);
         Sleep = new Sleep("Sleep", m_StateMachine);
         SightMove = new SightMove("SightMove", m_StateMachine);
-        m_StateMachine.RunStateMachine(SightMove);
+        m_StateMachine.RunStateMachine(Sleep);
     }
 
     
