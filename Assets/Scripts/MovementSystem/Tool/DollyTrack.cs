@@ -11,7 +11,7 @@ public class DollyTrack : MonoBehaviour
     [Tooltip("The anchor point to which the first waypoint of the current dolly track must be connected")]
     public AnchorPoint FirstAnchorPoint;
     [Tooltip("The anchor point to which the last waypoint of the current dolly track must be connected")]
-    public AnchorPoint SecondAnchorPoint;
+    public AnchorPoint LastAnchorPoint;
 
     [HideInInspector]
     public MoveButton FirstButton;

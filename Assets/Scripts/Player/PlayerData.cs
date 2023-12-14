@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
-    [SerializeField]
     public MovementData MovementData;
-    [SerializeField]
     public SightMovementData SightMovementData;
 
 }

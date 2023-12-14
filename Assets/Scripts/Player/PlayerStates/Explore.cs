@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.InputSystem.Utilities;
 using static UnityEngine.InputSystem.InputAction;
 using Gabevlogd.Patterns;
 
-public class SightMove : StateBase<PlayerController>
+public class Explore : StateBase<PlayerController>
 {
     private Camera m_Camera;
     private Transform m_PlayerTransform;
@@ -24,8 +25,9 @@ public class SightMove : StateBase<PlayerController>
 
     private float m_LastYawRoation;
     private float m_LastFingersDistance;
+    private float m_TouchTime;
 
-    public SightMove(string stateID, StateMachine<PlayerController> stateMachine) : base(stateID, stateMachine)
+    public Explore(string stateID, StateMachine<PlayerController> stateMachine) : base(stateID, stateMachine)
     {
         m_Input = new TouchScreen();
         m_Input.SightActions.PinchZoom.performed += HandleZoom;
@@ -39,12 +41,12 @@ public class SightMove : StateBase<PlayerController>
     {
         base.OnEnter(context);
         SetData(context);
-        EnableInput();
+        context.StartCoroutine(EnableInput(1f));
     }
 
     public override void OnUpdate(PlayerController context)
     {
-        //base.OnUpdate(context);
+        UpdateTouchTime();
         CheckYawRotatioReset();
         PerformYawDeceleration();
         CheckForMoveRequest(context);
@@ -69,7 +71,7 @@ public class SightMove : StateBase<PlayerController>
 
     private void PerformYawDeceleration()
     {
-        if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count != 0) return;
+        if (Input.touchCount != 0) return;
 
         m_PlayerTransform.Rotate(0f, m_LastYawRoation, 0f);
         m_LastYawRoation = Mathf.Lerp(m_LastYawRoation, 0f, Time.deltaTime * m_YawDeceleration);
@@ -81,8 +83,9 @@ public class SightMove : StateBase<PlayerController>
     {
         ReadOnlyArray<UnityEngine.InputSystem.EnhancedTouch.Touch> touch = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
         if (touch.Count != 1) return;
-        //check if touch phase is not moved or if the movement of the finger is in the deadzone area (0 pixel <= deadZone < 5 pixel)
-        if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(touch[0].delta.x) < 2f) return;
+        //check if touch phase is not moved or if the movement of the finger is in the correct direction
+        Debug.Log(Mathf.Abs(Vector2.Dot(touch[0].delta.normalized, Vector2.right)));
+        if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(Vector2.Dot(touch[0].delta.normalized, Vector2.right)) < 0.7f) return;
         
         //calculate the yaw rotation (Degrees)
         float yawRotation = Time.deltaTime * m_YawSens * Mathf.Sign(-touch[0].delta.x);
@@ -94,8 +97,8 @@ public class SightMove : StateBase<PlayerController>
     {
         ReadOnlyArray<UnityEngine.InputSystem.EnhancedTouch.Touch> touch = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
         if (touch.Count != 1) return;
-        //check if touch phase is not moved or if the movement of the finger is in the deadzone area (0 pixel <= deadZone < 5 pixel)
-        if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(touch[0].delta.y) < 2f) return;
+        //check if touch phase is not moved or if the movement of the finger is in the correct direction
+        if (touch[0].phase != UnityEngine.InputSystem.TouchPhase.Moved || Mathf.Abs(Vector2.Dot(touch[0].delta.normalized, Vector2.up)) < 0.7f) return;
         //calculate the angle between forward of player and forward of camera
         float angle = Vector3.SignedAngle(m_Camera.transform.forward, m_PlayerTransform.forward, m_PlayerTransform.right);
         //calculate the pitch rotation (Degrees)
@@ -156,8 +159,9 @@ public class SightMove : StateBase<PlayerController>
 
     #endregion
 
-    private void EnableInput()
+    private IEnumerator EnableInput(float enableDeley)
     {
+        yield return new WaitForSeconds(enableDeley);
         m_Input.Enable();
         EnhancedTouchSupport.Enable();
     }
@@ -185,6 +189,15 @@ public class SightMove : StateBase<PlayerController>
 
     private Camera GetCamera(PlayerController context) => (m_Camera == null) ? context.GetComponentInChildren<Camera>() : m_Camera;
 
+    
+    private void UpdateTouchTime()
+    {
+        if (Input.touchCount != 1) return;
+        UnityEngine.Touch touch = Input.GetTouch(0);
+        if (touch.phase == TouchPhase.Began) m_TouchTime = 0;
+        m_TouchTime += Time.deltaTime;
+    }
+
     private GameObject GetPointedObject()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
@@ -196,6 +209,7 @@ public class SightMove : StateBase<PlayerController>
     private void CheckForMoveRequest(PlayerController context)
     {
         if (Input.touchCount != 1) return;
+        if (m_TouchTime > 0.1f) return;
 
         GameObject pointedObj = GetPointedObject();
         if (pointedObj != null && pointedObj.TryGetComponent(out MoveButton button))

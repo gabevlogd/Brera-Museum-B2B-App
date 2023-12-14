@@ -25,13 +25,13 @@ public class DollyTrack_Inspector : Editor
     {
         EditorGUI.BeginChangeCheck();
         m_Target.FirstAnchorPoint = EditorGUILayout.ObjectField("First Anchor Point", m_Target.FirstAnchorPoint, typeof(AnchorPoint), true) as AnchorPoint;
-        m_Target.SecondAnchorPoint = EditorGUILayout.ObjectField("Second Anchor Point", m_Target.SecondAnchorPoint, typeof(AnchorPoint), true) as AnchorPoint;
+        m_Target.LastAnchorPoint = EditorGUILayout.ObjectField("Second Anchor Point", m_Target.LastAnchorPoint, typeof(AnchorPoint), true) as AnchorPoint;
         if (EditorGUI.EndChangeCheck())
         {
             CheckForAnchorPointChanges();
         }
         m_FirstAnchorLastValue = m_Target.FirstAnchorPoint;
-        m_SecondAnchorLastValue = m_Target.SecondAnchorPoint;
+        m_SecondAnchorLastValue = m_Target.LastAnchorPoint;
     }
 
     private void DrawDeleteButton()
@@ -57,18 +57,18 @@ public class DollyTrack_Inspector : Editor
             m_Target.FirstAnchorPoint.ButtonsList.Add(m_Target.SecondButton);
         }
 
-        if (m_Target.SecondAnchorPoint == null && m_SecondAnchorLastValue != null)
+        if (m_Target.LastAnchorPoint == null && m_SecondAnchorLastValue != null)
         {
             m_SecondAnchorLastValue.ButtonsList.Remove(m_Target.FirstButton);
         }
         else if (m_SecondAnchorLastValue != null)
         {
             m_SecondAnchorLastValue.ButtonsList.Remove(m_Target.FirstButton);
-            m_Target.SecondAnchorPoint.ButtonsList.Add(m_Target.FirstButton);
+            m_Target.LastAnchorPoint.ButtonsList.Add(m_Target.FirstButton);
         }
-        else if (m_Target.SecondAnchorPoint != null)
+        else if (m_Target.LastAnchorPoint != null)
         {
-            m_Target.SecondAnchorPoint.ButtonsList.Add(m_Target.FirstButton);
+            m_Target.LastAnchorPoint.ButtonsList.Add(m_Target.FirstButton);
         }
 
 
@@ -80,8 +80,8 @@ public class DollyTrack_Inspector : Editor
         if (m_Target.FirstAnchorPoint != null && m_Target.FirstAnchorPoint.ButtonsList.Contains(m_Target.SecondButton))
             m_Target.FirstAnchorPoint.ButtonsList.Remove(m_Target.SecondButton);
 
-        if (m_Target.SecondAnchorPoint != null && m_Target.SecondAnchorPoint.ButtonsList.Contains(m_Target.FirstButton))
-            m_Target.SecondAnchorPoint.ButtonsList.Remove(m_Target.FirstButton);
+        if (m_Target.LastAnchorPoint != null && m_Target.LastAnchorPoint.ButtonsList.Contains(m_Target.FirstButton))
+            m_Target.LastAnchorPoint.ButtonsList.Remove(m_Target.FirstButton);
 
         DestroyImmediate(m_Target.gameObject);
     }

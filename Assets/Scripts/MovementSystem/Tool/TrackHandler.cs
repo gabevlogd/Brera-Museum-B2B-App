@@ -29,8 +29,8 @@ public class TrackHandler : MonoBehaviour
     {
         if (m_DollyTrack.FirstAnchorPoint != null)
             m_DollyTrack.This.m_Waypoints[0].position = m_DollyTrack.FirstAnchorPoint.transform.position;
-        if (m_DollyTrack.SecondAnchorPoint != null)
-            m_DollyTrack.This.m_Waypoints[^1].position = m_DollyTrack.SecondAnchorPoint.transform.position;
+        if (m_DollyTrack.LastAnchorPoint != null)
+            m_DollyTrack.This.m_Waypoints[^1].position = m_DollyTrack.LastAnchorPoint.transform.position;
     }
 
     private void HandleTrackButtons()
