@@ -17,17 +17,17 @@ public class UIManager : MonoBehaviour
     {
         m_WindowsList = new Dictionary<Window, UIWindow>()
         {
-            { Window.AppBoot, GetComponentInChildren<AppBoot>() },
-            { Window.Main, GetComponentInChildren<Main>() },
-            { Window.HUD, GetComponentInChildren<HUD>() },
-            { Window.Tickets, GetComponentInChildren<Tickets>() },
-            { Window.Settings, GetComponentInChildren<Settings>() },
-            { Window.Questions, GetComponentInChildren<Questions>() },
-            { Window.Profile, GetComponentInChildren<Profile>() },
+            { Window.AppBoot, GetComponentInChildren<AppBoot>(true) },
+            { Window.Main, GetComponentInChildren<Main>(true) },
+            { Window.HUD, GetComponentInChildren<HUD>(true) },
+            { Window.Tickets, GetComponentInChildren<Tickets>(true) },
+            { Window.Settings, GetComponentInChildren<Settings>(true) },
+            { Window.Questions, GetComponentInChildren<Questions>(true) },
+            { Window.Profile, GetComponentInChildren<Profile>(true) },
         };
     }
 
-    private void ChangeWindow(Window windowID)
+    public void ChangeWindow(Window windowID)
     {
         m_CurrentWindow.gameObject.SetActive(false);
         m_PreviousWindow = m_CurrentWindow;

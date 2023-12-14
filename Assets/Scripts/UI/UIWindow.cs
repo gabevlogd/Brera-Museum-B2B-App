@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class UIWindow : MonoBehaviour
 {
-    private void Awake() => SetCanvas();
+    protected UIManager m_UIManager;
 
-    private void SetCanvas()
-    {
-        Canvas canvas = GetComponent<Canvas>();
-        canvas.worldCamera = Camera.main;
-    }
+    protected virtual void Awake() => m_UIManager = GetComponentInParent<UIManager>();
+
+    public void DisableWindow() => gameObject.SetActive(false);
 }
