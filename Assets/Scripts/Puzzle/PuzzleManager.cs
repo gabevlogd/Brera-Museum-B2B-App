@@ -60,7 +60,7 @@ public class PuzzleManager : MonoBehaviour
         
     }
     
-    private void OnDrawGizmos() 
+    private void OnDrawGizmosSelected() 
     {
         if (!Application.isPlaying)
         {
