@@ -10,27 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29894610196f3e84f86fe9e0707185d2, type: 3}
-  m_Name: Puzzle4b
+  m_Name: Puzzle3d
   m_EditorClassIdentifier: 
   GridWidth: 9
   GridHeight: 9
   StartingPoints:
-  - {x: 0, y: 0}
-  - {x: 4, y: 8}
+  - {x: 6, y: 0}
   EndingPoints:
   - {x: 0, y: 8}
   CollectiblePoint:
-  - {x: 4, y: 0}
-  - {x: 6, y: 0}
-  - {x: 2, y: 2}
-  - {x: 5, y: 2}
-  - {x: 4, y: 4}
-  - {x: 7, y: 4}
+  - {x: 2, y: 0}
+  - {x: 8, y: 0}
+  - {x: 8, y: 2}
+  - {x: 6, y: 4}
   - {x: 2, y: 5}
-  - {x: 1, y: 6}
-  - {x: 4, y: 6}
-  - {x: 0, y: 7}
-  - {x: 8, y: 7}
+  - {x: 1, y: 8}
   - {x: 6, y: 8}
   WalkableArray:
   - List: 010101010101010101
