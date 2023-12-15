@@ -73,7 +73,6 @@ public class PuzzleManager : MonoBehaviour
                     if (AssetData.StartingPoints.Contains(tmp))
                     {
                         AssetData.Grid.GetRefGridObject(x, y).SetNode(NodeType.Start, true);
-                        m_LastValidNode = AssetData.Grid.GetGridObject(x, y);
                     }
                     else if (AssetData.EndingPoints.Contains(tmp))
                         AssetData.Grid.GetRefGridObject(x, y).SetNode(NodeType.End, true);
@@ -91,9 +90,8 @@ public class PuzzleManager : MonoBehaviour
         for (int i = 0; i < AssetData.GridWidth; i++)
         {
             for (int j = 0; j < AssetData.GridHeight; j++)
-            {
-                if (!Application.isPlaying)
-                    Debug.Log("Node type: " + AssetData.Grid.GetGridObject(i, j).NodeType.ToString());
+            {   
+                //Debug.Log("Node type: " + AssetData.Grid.GetGridObject(i, j).NodeType.ToString());
 
                 if(AssetData.Grid.GetGridObject(i, j).NodeType == NodeType.Start)
                     Gizmos.color = Color.black;
@@ -115,11 +113,12 @@ public class PuzzleManager : MonoBehaviour
         Node newNode = AssetData.Grid.GetGridObject(position);
 
         if (!newNode.Walkable) return;
-        if (newNode.NodeType == NodeType.Start && m_LineRenderer.positionCount > 1)
-        {
+        if (newNode.NodeType == NodeType.Start)
+        { 
             m_LineRenderer.positionCount = 1;
             m_LineRenderer.SetPosition(m_LineRenderer.positionCount - 1, position);
             m_LastValidNode = newNode;
+            return;
         }
         //avoids the possibility of going obliquely
         if (newNode.X != m_LastValidNode.X && newNode.Y != m_LastValidNode.Y) return;
