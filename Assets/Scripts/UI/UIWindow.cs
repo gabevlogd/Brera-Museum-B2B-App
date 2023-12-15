@@ -6,8 +6,13 @@ using UnityEngine;
 public class UIWindow : MonoBehaviour
 {
     protected UIManager m_UIManager;
+    protected Animator m_Animator;
 
-    protected virtual void Awake() => m_UIManager = GetComponentInParent<UIManager>();
+    protected virtual void Awake()
+    {
+        m_UIManager = GetComponentInParent<UIManager>();
+        TryGetComponent(out m_Animator);
+    }
 
-    public void DisableWindow() => gameObject.SetActive(false);
+    public void CloseWindow() => gameObject.SetActive(false);
 }

@@ -15,19 +15,11 @@ public class Main : UIWindow
     [SerializeField]
     private Button m_TicketsButton;
 
-    private Animator m_Animator;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        m_Animator = GetComponent<Animator>();
-    }
-
     private void OnEnable()
     {
-        m_PlayButton.onClick.AddListener(() => m_Animator.Play("Play"));
-        m_SettingsButton.onClick.AddListener(() => m_UIManager.ChangeWindow(Window.Settings));
-        m_FAQButton.onClick.AddListener(() => m_UIManager.ChangeWindow(Window.Questions));
+        m_PlayButton.onClick.AddListener(PerformPlayButton);
+        m_SettingsButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Settings));
+        m_FAQButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Questions));
         m_TicketsButton.onClick.AddListener(() => m_UIManager.ChangeWindow(Window.Tickets));
     }
 
@@ -38,4 +30,12 @@ public class Main : UIWindow
         m_FAQButton.onClick.RemoveAllListeners();
         m_TicketsButton.onClick.RemoveAllListeners();
     }
+
+    private void PerformPlayButton()
+    {
+        m_UIManager.OpenWindow(Window.HUD);
+        m_Animator.Play("Play");
+    }
+
+    public void OnPlayAnimationEnded() => m_UIManager.ChangeWindow(Window.HUD);
 }
