@@ -16,6 +16,7 @@ MonoBehaviour:
   GridHeight: 5
   StartingPoints:
   - {x: 0, y: 0}
+  - {x: 4, y: 0}
   EndingPoints:
   - {x: 4, y: 4}
   CollectiblePoint: []
