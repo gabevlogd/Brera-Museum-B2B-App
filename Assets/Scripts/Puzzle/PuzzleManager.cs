@@ -16,6 +16,7 @@ public class PuzzleManager : MonoBehaviour
     private LineRenderer m_LineRenderer;
     private TouchScreen m_Input;
     private Node m_LastValidNode;
+    private Node m_ActualStartNode;
     private Vector3 m_WorldTouchPosition;
 
     private void Awake()
@@ -24,6 +25,7 @@ public class PuzzleManager : MonoBehaviour
         m_Camera = Camera.main;
         m_Input = new TouchScreen();
         m_Input.Enable();
+        m_ActualStartNode = default;
 
         AssetData.Grid = new Grid<Node>(AssetData.GridWidth, AssetData.GridHeight, 1, transform.position, (int x, int y) => new Node(x, y));
 
@@ -53,9 +55,11 @@ public class PuzzleManager : MonoBehaviour
 
     private void Update()
     {
-        m_WorldTouchPosition = GetScreenToWorld(m_Input.PuzzleActions.TouchPos.ReadValue<Vector2>());
-        UpdateLineRenderer(m_WorldTouchPosition);
-        
+        if (m_Input.PuzzleActions.TouchPos.WasPerformedThisFrame())
+        {
+            m_WorldTouchPosition = GetScreenToWorld(m_Input.PuzzleActions.TouchPos.ReadValue<Vector2>());
+            UpdateLineRenderer(m_WorldTouchPosition);
+        }
     }
     
     private void OnDrawGizmos() 
@@ -114,41 +118,55 @@ public class PuzzleManager : MonoBehaviour
 
         if (!newNode.Walkable) return;
         if (newNode.NodeType == NodeType.Start)
-        { 
-            m_LineRenderer.positionCount = 1;
-            m_LineRenderer.SetPosition(m_LineRenderer.positionCount - 1, position);
-            m_LastValidNode = newNode;
-            return;
-        }
-        //avoids the possibility of going obliquely
-        if (newNode.X != m_LastValidNode.X && newNode.Y != m_LastValidNode.Y) return;
-        //checks if newNode is not next to the last one (only horizontally or vertically)
-        if (Mathf.Abs(newNode.X - m_LastValidNode.X) > 1 || Mathf.Abs(newNode.Y - m_LastValidNode.Y) > 1) return;
-        //checks if the newNode is the same of the last one
-        if (m_LineRenderer.positionCount > 0 && newNode.X == m_LastValidNode.X && newNode.Y == m_LastValidNode.Y) return;
-        if (m_LineRenderer.positionCount > 1)
         {
-            //gets the coordinates of the second-last one node
-            AssetData.Grid.GetXY(m_LineRenderer.GetPosition(m_LineRenderer.positionCount - 2), out int x, out int y);
-            //checks if the newNode is the same of the second-last one
-            if (newNode.X == x && newNode.Y == y)
+            if (m_LineRenderer.positionCount == 0)
             {
-                m_LineRenderer.positionCount--;
+                m_LineRenderer.positionCount = 1;
+                m_LineRenderer.SetPosition(m_LineRenderer.positionCount - 1, position);
                 m_LastValidNode = newNode;
+                m_ActualStartNode = newNode;
+                return;
+            }
+            else if (m_LineRenderer.positionCount > 0 && newNode.Equals(m_ActualStartNode))
+            {
+                m_LineRenderer.positionCount = 0;
+                m_ActualStartNode = default;
                 return;
             }
         }
-        //checks if the newNode is already in the positions list of line renderer
-        for(int i = 0; i < m_LineRenderer.positionCount; i++)
-            if (AssetData.Grid.GetWorldPosition(newNode.X, newNode.Y) == m_LineRenderer.GetPosition(i))
-                return;
-        
+        if (m_LineRenderer.positionCount > 0)
+        {
+            //avoids the possibility of going obliquely
+            if (newNode.X != m_LastValidNode.X && newNode.Y != m_LastValidNode.Y) return;
+            //checks if newNode is not next to the last one (only horizontally or vertically)
+            if (Mathf.Abs(newNode.X - m_LastValidNode.X) > 1 || Mathf.Abs(newNode.Y - m_LastValidNode.Y) > 1) return;
+            //checks if the newNode is the same of the last one
+            if (m_LineRenderer.positionCount > 0 && newNode.X == m_LastValidNode.X && newNode.Y == m_LastValidNode.Y) return;
+            if (m_LineRenderer.positionCount > 1)
+            {
+                //gets the coordinates of the second-last one node
+                AssetData.Grid.GetXY(m_LineRenderer.GetPosition(m_LineRenderer.positionCount - 2), out int x, out int y);
+                //checks if the newNode is the same of the second-last one
+                if (newNode.X == x && newNode.Y == y)
+                {
+                    m_LineRenderer.positionCount--;
+                    m_LastValidNode = newNode;
+                    return;
+                }
+            }
+            //checks if the newNode is already in the positions list of line renderer
+            for (int i = 0; i < m_LineRenderer.positionCount; i++)
+                if (AssetData.Grid.GetWorldPosition(newNode.X, newNode.Y) == m_LineRenderer.GetPosition(i))
+                    return;
 
-        m_LineRenderer.positionCount++;
-        m_LineRenderer.SetPosition(m_LineRenderer.positionCount - 1, position);
-        m_LastValidNode = newNode;
 
-        CheckEndPuzzle(m_LineRenderer.GetPosition(m_LineRenderer.positionCount - 1));
+            m_LineRenderer.positionCount++;
+            m_LineRenderer.SetPosition(m_LineRenderer.positionCount - 1, position);
+            m_LastValidNode = newNode;
+
+            CheckEndPuzzle(m_LineRenderer.GetPosition(m_LineRenderer.positionCount - 1));
+        }
+
     }
 
     private Vector3 GetScreenToWorld(Vector2 screenPos)
