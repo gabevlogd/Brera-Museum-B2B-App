@@ -18,13 +18,13 @@ public class UIManager : MonoBehaviour
             { Window.AppBoot, GetComponentInChildren<AppBoot>(true) },
             { Window.Main, GetComponentInChildren<Main>(true) },
             { Window.HUD, GetComponentInChildren<HUD>(true) },
-            { Window.Tickets, GetComponentInChildren<Tickets>(true) },
-            { Window.Profile, GetComponentInChildren<Profile>(true) }
+            { Window.Tickets, GetComponentInChildren<Tickets>(true) }
         };
         m_OverlaysList = new Dictionary<Overlay, UIWindow>()
         {
             { Overlay.Questions, GetComponentInChildren<Questions>(true) },
-            { Overlay.Settings, GetComponentInChildren<Settings>(true) }
+            { Overlay.Settings, GetComponentInChildren<Settings>(true) },
+            { Overlay.Profile, GetComponentInChildren<Profile>(true) }
         };
 
         if (m_CurrentWindow == null) m_CurrentWindow = m_WindowsList[Window.AppBoot];
@@ -32,7 +32,12 @@ public class UIManager : MonoBehaviour
     }
 
     public void OpenWindow(Window windowID) => m_WindowsList[windowID].gameObject.SetActive(true);
-    public void OpenOverlay(Overlay overlayID) => m_OverlaysList[overlayID].gameObject.SetActive(true);
+    public void OpenOverlay(Overlay overlayID)
+    {
+        UIWindow overlay = m_OverlaysList[overlayID];
+        overlay.gameObject.SetActive(true);
+        overlay.transform.SetAsLastSibling();
+    }
 
     public void ChangeWindow(Window windowID, bool changeOnlyData = false)
     {
@@ -60,13 +65,13 @@ public enum Window
     AppBoot,
     Main,
     HUD,
-    Tickets,
-    Profile
+    Tickets
 }
 
 public enum Overlay
 {
     Questions,
-    Settings
+    Settings,
+    Profile
 }
 

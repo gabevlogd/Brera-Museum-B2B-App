@@ -14,6 +14,8 @@ public class Main : UIWindow
     private Button m_FAQButton;
     [SerializeField]
     private Button m_TicketsButton;
+    [SerializeField]
+    private Button m_ProfileButton;
 
     private void OnEnable()
     {
@@ -21,6 +23,7 @@ public class Main : UIWindow
         m_SettingsButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Settings));
         m_FAQButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Questions));
         m_TicketsButton.onClick.AddListener(() => m_UIManager.ChangeWindow(Window.Tickets));
+        m_ProfileButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Profile));
     }
 
     private void OnDisable()
@@ -29,6 +32,7 @@ public class Main : UIWindow
         m_SettingsButton.onClick.RemoveAllListeners();
         m_FAQButton.onClick.RemoveAllListeners();
         m_TicketsButton.onClick.RemoveAllListeners();
+        m_ProfileButton.onClick.RemoveAllListeners();
     }
 
     private void PerformPlayButton()

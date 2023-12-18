@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,10 @@ using UnityEngine.UI;
 
 public class HUD : UIWindow
 {
+    public static event Func<bool> CanOpenMenu;
+    public static event Action OnMenuOpen;
+    public static event Action OnMenuClose;
+
     [SerializeField]
     private Button m_MenuButton;
     [SerializeField]
@@ -20,11 +25,13 @@ public class HUD : UIWindow
 
     private void OnEnable()
     {
+        OnMenuClose?.Invoke(); //trigger the change state of player (name of action have no sense here but it is what it is)
         m_MenuButton.onClick.AddListener(PerformMenuButton);
         m_QuestionButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Questions));
-        m_ProfileButton.onClick.AddListener(() => m_UIManager.ChangeWindow(Window.Profile, true));
+        m_ProfileButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Profile));
         m_SettingsButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Settings));
         m_MainMenuButton.onClick.AddListener(() => m_UIManager.ChangeWindow(Window.Main));
+        CanOpenMenu = (CanOpenMenu == null) ? () => true : CanOpenMenu; //need to test validity of this line
     }
 
     private void OnDisable()
@@ -37,13 +44,30 @@ public class HUD : UIWindow
         m_MenuOpen = false;
     }
 
+    private void OnDestroy() => CanOpenMenu = null; //need to test validity of this line
+
     private void PerformMenuButton()
     {
-        if (!m_MenuOpen)
-            m_Animator.Play("OpenMenu");
-        else 
-            m_Animator.Play("CloseMenu");
+        //avoid the spam of the menu button 
+        if (m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f) return;
 
-        m_MenuOpen = !m_MenuOpen;
+        if (!m_MenuOpen && CanOpenMenu())
+            OpenMenu();
+        else if (m_MenuOpen)
+            CloseMenu();
+    }
+
+    private void OpenMenu()
+    {
+        OnMenuOpen?.Invoke();
+        m_Animator.Play("OpenMenu");
+        m_MenuOpen = true;
+    }
+
+    private void CloseMenu()
+    {
+        OnMenuClose?.Invoke();
+        m_Animator.Play("CloseMenu");
+        m_MenuOpen = false;
     }
 }

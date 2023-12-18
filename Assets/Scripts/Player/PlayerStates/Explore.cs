@@ -39,6 +39,14 @@ public class Explore : StateBase<PlayerController>
 
     }
 
+    ~Explore() // maybe it works, need to verify (scene change problems correction)
+    {
+        m_Input.SightActions.PinchZoom.performed -= HandleZoom;
+        m_Input.SightActions.MouseZoom.performed -= HandleZoomForDevBuild;
+        m_Input.SightActions.RotateSight.performed -= RotateYaw;
+        m_Input.SightActions.RotateSight.performed -= RotatePitch;
+    }
+
     public override void OnEnter(PlayerController context)
     {
         base.OnEnter(context);
@@ -175,7 +183,7 @@ public class Explore : StateBase<PlayerController>
     private void SetData(PlayerController context)
     {
         m_PlayerTransform = context.transform;
-        m_Camera = GetCamera(context);
+        m_Camera = GetCamera();
 
         m_ZoomSens = context.PlayerData.SightMovementData.ZoomSens;
         m_DefaultZoom = context.PlayerData.SightMovementData.DefaultZoom;
@@ -188,7 +196,7 @@ public class Explore : StateBase<PlayerController>
         m_MinPitch = context.PlayerData.SightMovementData.MinPitch;
     }
 
-    private Camera GetCamera(PlayerController context) => (m_Camera == null) ? context.GetComponentInChildren<Camera>() : m_Camera;
+    private Camera GetCamera() => (m_Camera == null) ? Camera.main : m_Camera;
 
 
     private void UpdateTouchTime()
