@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gabevlogd.Patterns;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,8 +26,21 @@ public class PlayerController : MonoBehaviour
         InitializeStateMachine();
     }
 
-    private void OnEnable() => SetTransformData();
-    private void OnDisable() => CacheTransformData();
+    private void OnEnable()
+    {
+        SetTransformData();
+        HUD.OnMenuOpen += PauseGame;
+        HUD.OnMenuClose += ResumeGame;
+        HUD.CanOpenMenu += IsPlayerExploring;
+    }
+
+    private void OnDisable()
+    {
+        CacheTransformData();
+        HUD.OnMenuOpen -= PauseGame;
+        HUD.OnMenuClose -= ResumeGame;
+        HUD.CanOpenMenu -= IsPlayerExploring;
+    }
 
     private void Update() => m_StateMachine.CurrentState.OnUpdate(this);
 
@@ -37,7 +51,7 @@ public class PlayerController : MonoBehaviour
         Move = new Move("Move", m_StateMachine);
         Sleep = new Sleep("Sleep", m_StateMachine);
         Explore = new Explore("Explore", m_StateMachine);
-        m_StateMachine.RunStateMachine(Explore);
+        m_StateMachine.RunStateMachine(Sleep);
     }
 
     private void CacheTransformData()
@@ -51,4 +65,8 @@ public class PlayerController : MonoBehaviour
         if (m_LastPosition == Vector3.zero) return;
         transform.SetPositionAndRotation(m_LastPosition, m_LastRotation);
     }
+
+    private void ResumeGame() => m_StateMachine.ChangeState(Explore);
+    private void PauseGame() => m_StateMachine.ChangeState(Sleep);
+    private bool IsPlayerExploring() => m_StateMachine.CurrentState == Explore ? true : false;
 }

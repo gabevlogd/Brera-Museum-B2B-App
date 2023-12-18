@@ -27,7 +27,7 @@ namespace Gabevlogd.Patterns
 
         public virtual void OnUpdate(TContext context)
         {
-            //Debug.Log("OnUpadte " + StateID);
+            Debug.Log("OnUpadte " + StateID);
         }
 
         public virtual void OnExit(TContext context)
