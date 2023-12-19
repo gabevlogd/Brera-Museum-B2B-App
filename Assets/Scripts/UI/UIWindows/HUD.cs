@@ -32,6 +32,7 @@ public class HUD : UIWindow
         m_SettingsButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Settings));
         m_MainMenuButton.onClick.AddListener(() => m_UIManager.ChangeWindow(Window.Main));
         CanOpenMenu = (CanOpenMenu == null) ? () => true : CanOpenMenu; //need to test validity of this line
+        m_WindowType = Window.HUD;
     }
 
     private void OnDisable()

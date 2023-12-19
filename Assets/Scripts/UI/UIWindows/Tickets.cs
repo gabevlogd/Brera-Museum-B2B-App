@@ -32,6 +32,7 @@ public class Tickets : UIWindow
         m_SettingsButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Settings));
         m_ProfileButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Profile));
         CheckDiscountCodes();
+        m_WindowType = Window.Tickets;
         
     }
 

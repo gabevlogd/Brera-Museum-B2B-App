@@ -48,7 +48,6 @@ public class MoveButtonsManager : MonoBehaviour
         m_CurrentAnchorPoint = GetCurrentAnchorPoint();
         if (m_CurrentAnchorPoint == null) return;
 
-        //m_PlayerTransform.position = m_CurrentAnchorPoint.transform.position; //very wrong
         for (int i = 0; i < m_AnchorPoints.Length; i++)
         {
             for (int j = 0; j < m_AnchorPoints[i].ButtonsList.Count; j++)

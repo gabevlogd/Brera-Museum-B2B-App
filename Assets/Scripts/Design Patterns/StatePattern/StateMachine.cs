@@ -19,9 +19,10 @@ namespace Gabevlogd.Patterns
             Context = context;
         }
 
-        public void RunStateMachine(StateBase<TContext> entryPoint)
+        public void RunStateMachine(StateBase<TContext> entryPoint, TContext context)
         {
             //StateBase<TContext>.OnChangeState += ChangeState;
+            Context = context;
             CurrentState = entryPoint;
             CurrentState.OnEnter(Context);
         }

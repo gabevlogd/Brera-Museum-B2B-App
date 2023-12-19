@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    private static UIWindow m_CurrentWindow;
+    private static int m_LastWindow;
+    private UIWindow m_CurrentWindow;
     private UIWindow m_PreviousWindow;
     private Dictionary<Window, UIWindow> m_WindowsList;
     private Dictionary<Overlay, UIWindow> m_OverlaysList;
 
     private void Awake() => InitializeManager();
+
+    private void OnDisable() => m_LastWindow = (int)m_CurrentWindow.m_WindowType;
 
     private void InitializeManager()
     {
@@ -27,7 +30,8 @@ public class UIManager : MonoBehaviour
             { Overlay.Profile, GetComponentInChildren<Profile>(true) }
         };
 
-        if (m_CurrentWindow == null) m_CurrentWindow = m_WindowsList[Window.AppBoot];
+        if (m_LastWindow != 0) m_CurrentWindow = m_WindowsList[(Window)m_LastWindow];
+        else m_CurrentWindow = m_WindowsList[Window.AppBoot];
         m_CurrentWindow.gameObject.SetActive(true);
     }
 

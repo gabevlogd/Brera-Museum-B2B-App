@@ -24,6 +24,7 @@ public class Main : UIWindow
         m_FAQButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Questions));
         m_TicketsButton.onClick.AddListener(() => m_UIManager.ChangeWindow(Window.Tickets));
         m_ProfileButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Profile));
+        m_WindowType = Window.Main;
     }
 
     private void OnDisable()

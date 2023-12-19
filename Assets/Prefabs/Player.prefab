@@ -201,15 +201,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementData:
-    MovementSpeed: 2
+    MovementSpeed: 4.5
     AlignmentSpeed: 2
-    AlignmentAngularSpeed: 20
+    AlignmentAngularSpeed: 40
   SightMovementData:
     ZoomSens: 10
     DefaultZoom: 60
     MinZoom: 20
-    YawSens: 200
-    PitchSens: 200
+    YawSens: 100
+    PitchSens: 100
     MaxPitch: 90
     MinPitch: -90
     AngularDeceleration: 2

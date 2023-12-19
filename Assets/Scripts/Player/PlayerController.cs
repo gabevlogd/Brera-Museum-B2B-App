@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private static Vector3 m_LastPosition;
     private static Quaternion m_LastRotation;
 
-    public StateMachine<PlayerController> m_StateMachine;
+    private static StateMachine<PlayerController> m_StateMachine;
     #region States:
     public Idle Idle;
     public Move Move;
@@ -46,12 +46,17 @@ public class PlayerController : MonoBehaviour
 
     private void InitializeStateMachine()
     {
-        m_StateMachine = new StateMachine<PlayerController>(this);
-        Idle = new Idle("Idle", m_StateMachine);
-        Move = new Move("Move", m_StateMachine);
-        Sleep = new Sleep("Sleep", m_StateMachine);
-        Explore = new Explore("Explore", m_StateMachine);
-        m_StateMachine.RunStateMachine(Sleep);
+        if (m_StateMachine == null)
+        {
+            m_StateMachine = new StateMachine<PlayerController>(this);
+            InstantiatePlayerStates();
+            m_StateMachine.RunStateMachine(Sleep, this);
+        }
+        else
+        {
+            InstantiatePlayerStates();
+            m_StateMachine.RunStateMachine(Explore, this);
+        }
     }
 
     private void CacheTransformData()
@@ -69,4 +74,12 @@ public class PlayerController : MonoBehaviour
     private void ResumeGame() => m_StateMachine.ChangeState(Explore);
     private void PauseGame() => m_StateMachine.ChangeState(Sleep);
     private bool IsPlayerExploring() => m_StateMachine.CurrentState == Explore ? true : false;
+
+    private void InstantiatePlayerStates()
+    {
+        Idle = new Idle("Idle", m_StateMachine);
+        Move = new Move("Move", m_StateMachine);
+        Sleep = new Sleep("Sleep", m_StateMachine);
+        Explore = new Explore("Explore", m_StateMachine);
+    }
 }

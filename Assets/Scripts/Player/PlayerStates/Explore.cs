@@ -39,14 +39,6 @@ public class Explore : StateBase<PlayerController>
 
     }
 
-    ~Explore() // maybe it works, need to verify (scene change problems correction)
-    {
-        m_Input.SightActions.PinchZoom.performed -= HandleZoom;
-        m_Input.SightActions.MouseZoom.performed -= HandleZoomForDevBuild;
-        m_Input.SightActions.RotateSight.performed -= RotateYaw;
-        m_Input.SightActions.RotateSight.performed -= RotatePitch;
-    }
-
     public override void OnEnter(PlayerController context)
     {
         base.OnEnter(context);
@@ -228,11 +220,31 @@ public class Explore : StateBase<PlayerController>
             DollyCartManager.SetDollyCart(button.Track, button.Direction);
             _stateMachine.ChangeState(context.Move);
         }
-        //else if (pointedObj = puzzle trigger){    
-        //      fai cose relative al puzzle trigger
-        //}
-        //else if (pointedObj = random trigger){    
-        //      fai cose relative al random trigger etc...
-        //}
+        else if (pointedObj.TryGetComponent(out PuzzleTrigger trigger))
+        {
+            if (context.transform.position != trigger.TargetWaypoint.position) return;
+            switch (trigger.TargetPuzzleSceneIndex)
+            {
+                case 1:
+                    if (PlayerPrefs.GetInt(Constants.PUZZLE_ONE) == 1) return;
+                    break;
+                case 2:
+                    if (PlayerPrefs.GetInt(Constants.PUZZLE_TWO) == 1) return;
+                    break;
+                case 3:
+                    if (PlayerPrefs.GetInt(Constants.PUZZLE_THREE) == 1) return;
+                    break;
+            }
+            CleanInputAction();
+            SceneManager.LoadScene(trigger.TargetPuzzleSceneIndex);
+        }
+    }
+
+    private void CleanInputAction()
+    {
+        m_Input.SightActions.PinchZoom.performed -= HandleZoom;
+        m_Input.SightActions.MouseZoom.performed -= HandleZoomForDevBuild;
+        m_Input.SightActions.RotateSight.performed -= RotateYaw;
+        m_Input.SightActions.RotateSight.performed -= RotatePitch;
     }
 }
