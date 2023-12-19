@@ -11,11 +11,6 @@ public class ARManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
     }
 
-    //private void OnEnable()
-    //{
-    //    m_ARCamera.transform.GetChild(0).gameObject.layer = 7;
-    //}
-
     private void Start()
     {
         m_ARCamera.transform.GetChild(0).gameObject.layer = 7;

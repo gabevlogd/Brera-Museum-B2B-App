@@ -32,10 +32,10 @@ public class Explore : StateBase<PlayerController>
         m_Input = new TouchScreen();
 
         //remember to correct this part (scene change problems)
-        m_Input.SightActions.PinchZoom.performed += HandleZoom;
-        m_Input.SightActions.MouseZoom.performed += HandleZoomForDevBuild;
-        m_Input.SightActions.RotateSight.performed += RotateYaw;
-        m_Input.SightActions.RotateSight.performed += RotatePitch;
+        //m_Input.SightActions.PinchZoom.performed += HandleZoom;
+        //m_Input.SightActions.MouseZoom.performed += HandleZoomForDevBuild;
+        //m_Input.SightActions.RotateSight.performed += RotateYaw;
+        //m_Input.SightActions.RotateSight.performed += RotatePitch;
 
     }
 
@@ -162,12 +162,14 @@ public class Explore : StateBase<PlayerController>
 
     private IEnumerator EnableInput(float enableDeley)
     {
+        LoadInputAction();
         yield return new WaitForSeconds(enableDeley);
         m_Input.Enable();
         EnhancedTouchSupport.Enable();
     }
     private void DisableInput()
     {
+        UnloadInputAction();
         m_Input.Disable();
         EnhancedTouchSupport.Disable();
     }
@@ -220,31 +222,52 @@ public class Explore : StateBase<PlayerController>
             DollyCartManager.SetDollyCart(button.Track, button.Direction);
             _stateMachine.ChangeState(context.Move);
         }
-        else if (pointedObj.TryGetComponent(out PuzzleTrigger trigger))
+        else if (pointedObj.TryGetComponent(out PuzzleTrigger puzzleTrigger))
         {
-            if (context.transform.position != trigger.TargetWaypoint.position) return;
-            switch (trigger.TargetPuzzleSceneIndex)
-            {
-                case 1:
-                    if (PlayerPrefs.GetInt(Constants.PUZZLE_ONE) == 1) return;
-                    break;
-                case 2:
-                    if (PlayerPrefs.GetInt(Constants.PUZZLE_TWO) == 1) return;
-                    break;
-                case 3:
-                    if (PlayerPrefs.GetInt(Constants.PUZZLE_THREE) == 1) return;
-                    break;
-            }
-            CleanInputAction();
-            SceneManager.LoadScene(trigger.TargetPuzzleSceneIndex);
+            if (!IsPuzzleTriggerValid(context, puzzleTrigger)) return;
+            UnloadInputAction();
+            SceneManager.LoadScene(puzzleTrigger.TargetPuzzleSceneIndex);
+        }
+        else if (pointedObj.TryGetComponent(out ARTrigger arTrigger))
+        {
+            if (context.transform.position != arTrigger.TargetWaypoint.position) return;
+            if (PlayerPrefs.GetInt(Constants.PUZZLE_FOUR) == 1) return;
+            arTrigger.ARSystem.SetActive(true);
+            _stateMachine.ChangeState(context.Sleep);
         }
     }
-
-    private void CleanInputAction()
+    private void LoadInputAction()
+    {
+        m_Input.SightActions.PinchZoom.performed += HandleZoom;
+        m_Input.SightActions.MouseZoom.performed += HandleZoomForDevBuild;
+        m_Input.SightActions.RotateSight.performed += RotateYaw;
+        m_Input.SightActions.RotateSight.performed += RotatePitch;
+    }
+    private void UnloadInputAction()
     {
         m_Input.SightActions.PinchZoom.performed -= HandleZoom;
         m_Input.SightActions.MouseZoom.performed -= HandleZoomForDevBuild;
         m_Input.SightActions.RotateSight.performed -= RotateYaw;
         m_Input.SightActions.RotateSight.performed -= RotatePitch;
+    }
+
+    private bool IsPuzzleTriggerValid(PlayerController context, PuzzleTrigger trigger)
+    {
+        if (context.transform.position != trigger.TargetWaypoint.position) return false;
+        switch (trigger.TargetPuzzleSceneIndex)
+        {
+            case 1:
+                if (PlayerPrefs.GetInt(Constants.PUZZLE_ONE) == 1) return false;
+                break;
+            case 2:
+                if (PlayerPrefs.GetInt(Constants.PUZZLE_TWO) == 1) return false;
+                break;
+            case 3:
+                if (PlayerPrefs.GetInt(Constants.PUZZLE_THREE) == 1) return false;
+                break;
+            default:
+                return true;
+        }
+        return true;
     }
 }

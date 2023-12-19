@@ -51,12 +51,12 @@ public class Tickets : UIWindow
 
     private void CheckDiscountCodes()
     {
-        if (CanShowDiscount("placeholder")) m_FirstCodeText.gameObject.SetActive(true);
+        if (CanShowDiscount()) m_FirstCodeText.gameObject.SetActive(true);
         else m_FirstLockIcon.gameObject.SetActive(true);
 
-        if (CanShowDiscount("placeholder")) m_SecondCodeText.gameObject.SetActive(true);
+        if (CanShowDiscount()) m_SecondCodeText.gameObject.SetActive(true);
         else m_SecondLockIcon.gameObject.SetActive(true);
     }
 
-    private bool CanShowDiscount(string playerPrefID) => (PlayerPrefs.GetInt(playerPrefID) == 1) ? true : false;
+    private bool CanShowDiscount() => PlayerPrefs.GetInt(Constants.PUZZLE_ONE) == 1 && PlayerPrefs.GetInt(Constants.PUZZLE_TWO) == 1 && PlayerPrefs.GetInt(Constants.PUZZLE_THREE) == 1;
 }

@@ -109,7 +109,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -146,7 +146,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8959840965525719904}
   - component: {fileID: 4820431148728278113}
-  - component: {fileID: 5567665890730212387}
   - component: {fileID: 1398163389713206888}
   - component: {fileID: 1941424326924754234}
   - component: {fileID: 961889406009893404}
@@ -223,14 +222,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &5567665890730212387
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2426636386459283172}
-  m_Enabled: 1
 --- !u!114 &1398163389713206888
 MonoBehaviour:
   m_ObjectHideFlags: 0

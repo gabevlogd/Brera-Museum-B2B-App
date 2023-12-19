@@ -81,7 +81,21 @@ public class GamePuzzleManager : Singleton<GamePuzzleManager>
 
     private void BackToMuseum(object[] param)
     {
-        PlayerPrefs.SetInt(Constants.PUZZLE_ONE, 1);
+        switch (SceneManager.GetActiveScene().buildIndex)
+        {
+            case 1:
+                PlayerPrefs.SetInt(Constants.PUZZLE_ONE, 1);
+                break;
+            case 2:
+                PlayerPrefs.SetInt(Constants.PUZZLE_TWO, 1);
+                break;
+            case 3:
+                PlayerPrefs.SetInt(Constants.PUZZLE_THREE, 1);
+                break;
+            case 4:
+                PlayerPrefs.SetInt(Constants.PUZZLE_FOUR, 1);
+                break;
+        }
         SceneManager.LoadScene(m_SceneIndex);
     }
 }

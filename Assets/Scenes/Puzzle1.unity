@@ -935,7 +935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6871388cd789d4eaf1efe4cd79b094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PuzzleAmount: 000000
+  m_PuzzleAmount: 00000000
   m_Camera: {fileID: 1316265910}
   m_Velocity: 5
   m_SceneIndex: 0
