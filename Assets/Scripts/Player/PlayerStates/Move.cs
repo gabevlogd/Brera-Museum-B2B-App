@@ -83,7 +83,7 @@ public class Move : StateBase<PlayerController>
         m_MovementSpeed = context.PlayerData.MovementData.MovementSpeed;
 
         m_PlayerTransform = context.transform;
-        m_Camera = (m_Camera == null) ? context.GetComponentInChildren<Camera>() : m_Camera;
+        m_Camera = (m_Camera == null) ? Camera.main : m_Camera;
         m_UpdateMovement = SetPositionAndRotation;
     }
 }
