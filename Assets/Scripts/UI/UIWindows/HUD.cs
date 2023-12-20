@@ -22,6 +22,8 @@ public class HUD : UIWindow
     private Button m_SettingsButton;
     [SerializeField]
     private Button m_MainMenuButton;
+    [SerializeField]
+    private Button m_NotificationButton;
 
     [SerializeField]
     private TextMeshProUGUI m_TemporaryMessage;
@@ -49,7 +51,10 @@ public class HUD : UIWindow
         m_ProfileButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Profile));
         m_SettingsButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Settings));
         m_MainMenuButton.onClick.AddListener(() => m_UIManager.ChangeWindow(Window.Main));
+        m_NotificationButton.onClick.AddListener(PerformNotificationButton);
         RoomLocker.RoomLockedMessage += ThrowScreenMessage;
+        RoomLocker.RoomUnlocked += ThrowScreenNotification;
+        ARTrigger.LastPuzzleCompleted += ThrowScreenNotification;
         CanOpenMenu = (CanOpenMenu == null) ? () => true : CanOpenMenu; //need to test validity of this line
         m_WindowType = Window.HUD;
     }
@@ -61,7 +66,10 @@ public class HUD : UIWindow
         m_ProfileButton.onClick.RemoveAllListeners();
         m_SettingsButton.onClick.RemoveAllListeners();
         m_MainMenuButton.onClick.RemoveAllListeners();
+        m_NotificationButton.onClick.RemoveAllListeners();
         RoomLocker.RoomLockedMessage -= ThrowScreenMessage;
+        RoomLocker.RoomUnlocked -= ThrowScreenNotification;
+        ARTrigger.LastPuzzleCompleted -= ThrowScreenNotification;
         m_MenuOpen = false;
     }
 
@@ -78,6 +86,12 @@ public class HUD : UIWindow
             CloseMenu();
     }
 
+    private void PerformNotificationButton()
+    {
+        OpenMenu();
+        m_UIManager.OpenOverlay(Overlay.Tickets);
+    }
+
     private void OpenMenu()
     {
         OnMenuOpen?.Invoke();
@@ -91,6 +105,8 @@ public class HUD : UIWindow
         m_Animator.Play("CloseMenu");
         m_MenuOpen = false;
     }
+
+    private void ThrowScreenNotification() => m_Animator.Play("Notification");
 
     private void ThrowScreenMessage() => StartCoroutine(TemporaryMessage("Completa prima tutti i Puzzle", 2f));
 

@@ -7,6 +7,7 @@ public class UIWindow : MonoBehaviour
 {
     protected UIManager m_UIManager;
     protected Animator m_Animator;
+    [HideInInspector]
     public Window m_WindowType;
 
     protected virtual void Awake()

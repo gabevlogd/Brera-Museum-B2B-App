@@ -7,13 +7,19 @@ using UnityEngine.EventSystems;
 public class RoomLocker : MonoBehaviour, IPointerClickHandler
 {
     public static event Action RoomLockedMessage;
+    public static event Action RoomUnlocked;
     [SerializeField]
     private Transform TargetWaypoint;
     private Transform m_PlayerTransform;
 
     private void Awake()
     {
-        if (CanUnlockRoom()) gameObject.SetActive(false);
+        if (CanUnlockRoom())
+        {
+            RoomUnlocked?.Invoke();
+            gameObject.SetActive(false);
+            return;
+        }
 
         m_PlayerTransform = FindFirstObjectByType<PlayerData>().transform;
     }

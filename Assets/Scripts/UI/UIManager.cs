@@ -21,14 +21,14 @@ public class UIManager : MonoBehaviour
         {
             { Window.AppBoot, GetComponentInChildren<AppBoot>(true) },
             { Window.Main, GetComponentInChildren<Main>(true) },
-            { Window.HUD, GetComponentInChildren<HUD>(true) },
-            { Window.Tickets, GetComponentInChildren<Tickets>(true) }
+            { Window.HUD, GetComponentInChildren<HUD>(true) }
         };
         m_OverlaysList = new Dictionary<Overlay, UIWindow>()
         {
             { Overlay.Questions, GetComponentInChildren<Questions>(true) },
             { Overlay.Settings, GetComponentInChildren<Settings>(true) },
-            { Overlay.Profile, GetComponentInChildren<Profile>(true) }
+            { Overlay.Profile, GetComponentInChildren<Profile>(true) },
+            { Overlay.Tickets, GetComponentInChildren<Tickets>(true) }
         };
 
         if (m_LastWindow != 0) m_CurrentWindow = m_WindowsList[(Window)m_LastWindow];
@@ -74,14 +74,14 @@ public enum Window
 {
     AppBoot,
     Main,
-    HUD,
-    Tickets
+    HUD
 }
 
 public enum Overlay
 {
     Questions,
     Settings,
-    Profile
+    Profile,
+    Tickets
 }
 

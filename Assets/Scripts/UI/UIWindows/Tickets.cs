@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class Tickets : UIWindow
 {
@@ -27,12 +28,11 @@ public class Tickets : UIWindow
 
     private void OnEnable()
     {
-        m_BackButton.onClick.AddListener(() => m_UIManager.BackToPrevious());
+        m_BackButton.onClick.AddListener(CloseWindow);
         m_QuestionsButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Questions));
         m_SettingsButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Settings));
         m_ProfileButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Profile));
         CheckDiscountCodes();
-        m_WindowType = Window.Tickets;
         
     }
 
