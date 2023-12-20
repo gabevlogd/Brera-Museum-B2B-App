@@ -11,6 +11,7 @@ public class HUD : UIWindow
     public static event Action OnMenuOpen;
     public static event Action OnMenuClose;
     public static event Action FirstHUDOpening;
+    public static event Action PictureInfoClosed;
 
     [SerializeField]
     private Button m_MenuButton;
@@ -24,13 +25,21 @@ public class HUD : UIWindow
     private Button m_MainMenuButton;
     [SerializeField]
     private Button m_NotificationButton;
+    [SerializeField]
+    private Button m_ClosePictureInfoButton;
 
     [SerializeField]
     private TextMeshProUGUI m_TemporaryMessage;
     [SerializeField]
+    private TextMeshProUGUI m_PictureInfoText;
+
+    [SerializeField]
+    private GameObject m_PictureInfo;
+    [SerializeField]
     private float MessageFadeOutSpeed;
 
     private bool m_MenuOpen;
+    private bool m_PictureInfoOpen;
 
     private void Start()
     {
@@ -52,9 +61,11 @@ public class HUD : UIWindow
         m_SettingsButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Settings));
         m_MainMenuButton.onClick.AddListener(() => m_UIManager.ChangeWindow(Window.Main));
         m_NotificationButton.onClick.AddListener(PerformNotificationButton);
+        m_ClosePictureInfoButton.onClick.AddListener(HidePictureInfo);
         RoomLocker.RoomLockedMessage += ThrowScreenMessage;
         RoomLocker.RoomUnlocked += ThrowScreenNotification;
         ARTrigger.LastPuzzleCompleted += ThrowScreenNotification;
+        PictureInfoTrigger.OpenPictureInfo += ShowPictureInfo;
         CanOpenMenu = (CanOpenMenu == null) ? () => true : CanOpenMenu; //need to test validity of this line
         m_WindowType = Window.HUD;
     }
@@ -67,9 +78,11 @@ public class HUD : UIWindow
         m_SettingsButton.onClick.RemoveAllListeners();
         m_MainMenuButton.onClick.RemoveAllListeners();
         m_NotificationButton.onClick.RemoveAllListeners();
+        m_ClosePictureInfoButton.onClick.RemoveAllListeners();
         RoomLocker.RoomLockedMessage -= ThrowScreenMessage;
         RoomLocker.RoomUnlocked -= ThrowScreenNotification;
         ARTrigger.LastPuzzleCompleted -= ThrowScreenNotification;
+        PictureInfoTrigger.OpenPictureInfo -= ShowPictureInfo;
         m_MenuOpen = false;
     }
 
@@ -79,6 +92,7 @@ public class HUD : UIWindow
     {
         //avoid the spam of the menu button 
         if (m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f) return;
+        if (m_PictureInfoOpen) return;
 
         if (!m_MenuOpen && CanOpenMenu())
             OpenMenu();
@@ -109,6 +123,23 @@ public class HUD : UIWindow
     private void ThrowScreenNotification() => m_Animator.Play("Notification");
 
     private void ThrowScreenMessage() => StartCoroutine(TemporaryMessage("Completa prima tutti i Puzzle", 2f));
+
+    private void ShowPictureInfo(string infoText)
+    {
+        OnMenuOpen?.Invoke();
+        m_PictureInfoOpen = true;
+        m_PictureInfoText.text = infoText;
+        m_PictureInfo.SetActive(true);
+    }
+
+    private void HidePictureInfo()
+    {
+        OnMenuClose?.Invoke();
+        m_PictureInfoOpen = false;
+        PictureInfoClosed?.Invoke();
+        m_PictureInfo.SetActive(false);
+    }
+
 
     private IEnumerator TemporaryMessage(string msg, float lifeSpan)
     {

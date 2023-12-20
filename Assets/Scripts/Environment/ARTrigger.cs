@@ -9,6 +9,8 @@ public class ARTrigger : MonoBehaviour
     public GameObject ARSystem;
     public Transform TargetWaypoint;
     [SerializeField]
+    private GameObject m_TargetPictureInfoTrigger;
+    [SerializeField]
     private GameObject m_PictureA;
     [SerializeField]
     private GameObject m_PictureB;
@@ -20,6 +22,7 @@ public class ARTrigger : MonoBehaviour
             LastPuzzleCompleted?.Invoke();
             m_PictureB.SetActive(true);
             gameObject.SetActive(false);
+            m_TargetPictureInfoTrigger.SetActive(true);
         }
         else m_PictureA.SetActive(true);
     }
