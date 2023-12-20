@@ -31,17 +31,16 @@ public class Explore : StateBase<PlayerController>
     {
         m_Input = new TouchScreen();
 
-        //remember to correct this part (scene change problems)
-        //m_Input.SightActions.PinchZoom.performed += HandleZoom;
-        //m_Input.SightActions.MouseZoom.performed += HandleZoomForDevBuild;
-        //m_Input.SightActions.RotateSight.performed += RotateYaw;
-        //m_Input.SightActions.RotateSight.performed += RotatePitch;
-
     }
 
     public override void OnEnter(PlayerController context)
     {
         base.OnEnter(context);
+        //if (context.IsPlayerOnStartingPoint())
+        //{
+        //    context.StartGameButton.TriggerButton();
+        //    _stateMachine.ChangeState(context.Move);
+        //}
         SetData(context);
         context.StartCoroutine(EnableInput(1f));
     }
@@ -217,6 +216,11 @@ public class Explore : StateBase<PlayerController>
         GameObject pointedObj = GetPointedObject();
         if (pointedObj == null) return;
 
+        FilterInteractionType(context, pointedObj);
+    }
+
+    private void FilterInteractionType(PlayerController context, GameObject pointedObj)
+    {
         if (pointedObj.TryGetComponent(out MoveButton button))
         {
             DollyCartManager.SetDollyCart(button.Track, button.Direction);
@@ -236,6 +240,7 @@ public class Explore : StateBase<PlayerController>
             _stateMachine.ChangeState(context.Sleep);
         }
     }
+
     private void LoadInputAction()
     {
         m_Input.SightActions.PinchZoom.performed += HandleZoom;

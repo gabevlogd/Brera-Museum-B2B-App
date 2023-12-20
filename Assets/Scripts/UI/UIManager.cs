@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public bool GameAlreadyStarted;
     private static int m_LastWindow;
     private UIWindow m_CurrentWindow;
     private UIWindow m_PreviousWindow;
@@ -31,7 +32,12 @@ public class UIManager : MonoBehaviour
         };
 
         if (m_LastWindow != 0) m_CurrentWindow = m_WindowsList[(Window)m_LastWindow];
-        else m_CurrentWindow = m_WindowsList[Window.AppBoot];
+        else
+        {
+            m_CurrentWindow = m_WindowsList[Window.AppBoot];
+            GameAlreadyStarted = true;
+        }
+
         m_CurrentWindow.gameObject.SetActive(true);
     }
 

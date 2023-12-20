@@ -72,7 +72,7 @@ public class Move : StateBase<PlayerController>
 
         //checks if the motion is completed
         if (m_LastPosition == m_PlayerTransform.position)
-            _stateMachine.ChangeState(_stateMachine.PreviousState);
+            _stateMachine.ChangeState(context.Explore);
         
     }
 

@@ -53,6 +53,18 @@ public class PuzzleManager : MonoBehaviour
         AssetData.Grid.SetGridOrigin(GetGridOrigin());
     }
 
+    private void OnEnable()
+    {
+        HUD.OnMenuOpen += m_Input.Disable;
+        HUD.OnMenuClose += m_Input.Enable;
+    }
+
+    private void OnDisable()
+    {
+        HUD.OnMenuOpen -= m_Input.Disable;
+        HUD.OnMenuClose -= m_Input.Enable;
+    }
+
     private void Update()
     {
         if (m_Input.PuzzleActions.TouchPos.WasPerformedThisFrame())

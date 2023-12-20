@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6161535863421358545}
   - component: {fileID: 7248350676440979903}
   - component: {fileID: 2926526102687733479}
+  - component: {fileID: 3778532918587630283}
   - component: {fileID: 5751329462508828466}
   - component: {fileID: 8451702955477734513}
   m_Layer: 0
@@ -98,6 +99,22 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 721297777046802516}
   m_Enabled: 1
+--- !u!114 &3778532918587630283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721297777046802516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!114 &5751329462508828466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,7 +143,13 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras: []
+  m_Cameras:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2

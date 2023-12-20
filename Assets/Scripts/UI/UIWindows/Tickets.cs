@@ -54,7 +54,7 @@ public class Tickets : UIWindow
         if (CanShowDiscount()) m_FirstCodeText.gameObject.SetActive(true);
         else m_FirstLockIcon.gameObject.SetActive(true);
 
-        if (CanShowDiscount()) m_SecondCodeText.gameObject.SetActive(true);
+        if (CanShowDiscount() && PlayerPrefs.GetInt(Constants.PUZZLE_FOUR) == 1) m_SecondCodeText.gameObject.SetActive(true);
         else m_SecondLockIcon.gameObject.SetActive(true);
     }
 

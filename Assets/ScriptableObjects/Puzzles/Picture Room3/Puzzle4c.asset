@@ -18,7 +18,7 @@ MonoBehaviour:
   - {x: 0, y: 0}
   - {x: 0, y: 6}
   EndingPoints:
-  - {x: 0, y: 8}
+  - {x: 8, y: 0}
   CollectiblePoint:
   - {x: 2, y: 0}
   - {x: 7, y: 0}

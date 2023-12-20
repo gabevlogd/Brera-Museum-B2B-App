@@ -6,6 +6,7 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+    public MoveButton StartGameButton;
     public PlayerData PlayerData { get => m_PlayerData; }
     private PlayerData m_PlayerData;
     private static Vector3 m_LastPosition;
@@ -29,17 +30,21 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         SetTransformData();
+        HUD.FirstHUDOpening += SendPlayerToStartingPoint;
         HUD.OnMenuOpen += PauseGame;
         HUD.OnMenuClose += ResumeGame;
         HUD.CanOpenMenu += IsPlayerExploring;
+        AR_HUD.OnCloseAR_HUD += ResumeGame;
     }
 
     private void OnDisable()
     {
         CacheTransformData();
+        HUD.FirstHUDOpening -= SendPlayerToStartingPoint;
         HUD.OnMenuOpen -= PauseGame;
         HUD.OnMenuClose -= ResumeGame;
         HUD.CanOpenMenu -= IsPlayerExploring;
+        AR_HUD.OnCloseAR_HUD -= ResumeGame;
     }
 
     private void Update() => m_StateMachine.CurrentState.OnUpdate(this);
@@ -74,6 +79,20 @@ public class PlayerController : MonoBehaviour
     private void ResumeGame() => m_StateMachine.ChangeState(Explore);
     private void PauseGame() => m_StateMachine.ChangeState(Sleep);
     private bool IsPlayerExploring() => m_StateMachine.CurrentState == Explore ? true : false;
+    //public bool IsPlayerOnStartingPoint()
+    //{
+    //    if (m_LastPosition == Vector3.zero)
+    //    {
+    //        m_LastPosition = Vector3.one;
+    //        return true;
+    //    }
+    //    return false;
+    //}
+    private void SendPlayerToStartingPoint()
+    {
+        StartGameButton.TriggerButton();
+        m_StateMachine.ChangeState(Move);
+    }
 
     private void InstantiatePlayerStates()
     {

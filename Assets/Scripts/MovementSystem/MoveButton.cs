@@ -20,4 +20,6 @@ public class MoveButton : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(m_PlayerTransform.position - transform.position, transform.up);
         transform.rotation = targetRotation;
     }
+
+    public void TriggerButton() => DollyCartManager.SetDollyCart(Track, Direction);
 }
