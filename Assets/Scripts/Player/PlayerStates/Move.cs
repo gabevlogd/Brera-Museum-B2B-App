@@ -57,6 +57,8 @@ public class Move : StateBase<PlayerController>
         }
         else
         {
+            m_PlayerTransform.SetLocalPositionAndRotation(targetPosition, targetRotation);
+            m_Camera.transform.rotation = targetRotation;
             DollyCartManager.StartCartMovement(m_MovementSpeed);
             m_UpdateMovement = PerformMovement;
         }
