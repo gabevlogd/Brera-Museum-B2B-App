@@ -24,11 +24,7 @@ public class PictureInfoTrigger : MonoBehaviour, IPointerClickHandler
 
     private void OnDisable() => HUD.PictureInfoClosed -= EnableTrigger;
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        TriggerPictureInfo();
-        DisableTrigger();
-    }
+    public void OnPointerClick(PointerEventData eventData) => TriggerPictureInfo();
 
     private void TriggerPictureInfo()
     {
@@ -49,6 +45,8 @@ public class PictureInfoTrigger : MonoBehaviour, IPointerClickHandler
                 OpenPictureInfo?.Invoke(Constants.PICTURE_INFO_D);
                 break;
         }
+
+        DisableTrigger();
     }
 
     private void EnableTrigger() => m_Collider.enabled = true;
