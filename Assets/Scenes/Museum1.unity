@@ -161,7 +161,7 @@ MonoBehaviour:
     width: 0.2
   m_Looped: 0
   m_Waypoints:
-  - position: {x: -5.88, y: 1.73, z: 0.61}
+  - position: {x: -5.661, y: 1.73, z: 0.61}
     roll: 0
   - position: {x: -3.4992309, y: 1.73, z: 1.1262555}
     roll: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 32412522}
   FirstAnchorPoint: {fileID: 83603537}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 258168987}
   FirstButton: {fileID: 1106982482}
   SecondButton: {fileID: 1859240050}
 --- !u!114 &32412525
@@ -384,6 +384,8 @@ MonoBehaviour:
   ButtonsList:
   - {fileID: 2003328412}
   - {fileID: 1301709210}
+  - {fileID: 2003328412}
+  - {fileID: 1301709210}
   - {fileID: 1816040125}
   - {fileID: 835140324}
 --- !u!1 &83603535
@@ -412,7 +414,7 @@ Transform:
   m_GameObject: {fileID: 83603535}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.88, y: 1.73, z: 0.61}
+  m_LocalPosition: {x: -5.661, y: 1.73, z: 0.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -431,6 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonsList:
+  - {fileID: 865882419}
   - {fileID: 865882419}
   - {fileID: 1859240050}
   - {fileID: 308564952}
@@ -638,7 +641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 112170768}
   FirstAnchorPoint: {fileID: 1831073952}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 440450051}
   FirstButton: {fileID: 396559952}
   SecondButton: {fileID: 1414441900}
 --- !u!114 &112170771
@@ -698,6 +701,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonsList:
+  - {fileID: 1259085038}
+  - {fileID: 1194738832}
   - {fileID: 1259085038}
   - {fileID: 1194738832}
   - {fileID: 1469692562}
@@ -1035,6 +1040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonsList:
+  - {fileID: 1106982482}
   - {fileID: 1106982482}
   - {fileID: 1245250597}
 --- !u!1 &268960819
@@ -1574,7 +1580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 346879080}
   FirstAnchorPoint: {fileID: 79817298}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 113960852}
   FirstButton: {fileID: 1194738832}
   SecondButton: {fileID: 835140324}
 --- !u!114 &346879083
@@ -1912,6 +1918,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ButtonsList:
   - {fileID: 396559952}
+  - {fileID: 396559952}
 --- !u!1 &450934061
 GameObject:
   m_ObjectHideFlags: 0
@@ -1974,7 +1981,7 @@ Transform:
   m_GameObject: {fileID: 450934061}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.908, y: 3, z: 1.17}
+  m_LocalPosition: {x: 4.908, y: 3, z: 0.965}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2069,7 +2076,7 @@ Transform:
   m_GameObject: {fileID: 469696125}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.908, y: 1.73, z: 1.17}
+  m_LocalPosition: {x: 4.908, y: 1.73, z: 0.965}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2088,6 +2095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonsList:
+  - {fileID: 744866260}
   - {fileID: 744866260}
 --- !u!1 &473220384
 GameObject:
@@ -2521,7 +2529,7 @@ MonoBehaviour:
     width: 0.2
   m_Looped: 0
   m_Waypoints:
-  - position: {x: -5.88, y: 1.73, z: 0.61}
+  - position: {x: -5.661, y: 1.73, z: 0.61}
     roll: 0
   - position: {x: -1.1092896, y: 1.73, z: -4.117314}
     roll: -20
@@ -2558,7 +2566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 607034338}
   FirstAnchorPoint: {fileID: 83603537}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 79817298}
   FirstButton: {fileID: 2003328412}
   SecondButton: {fileID: 308564952}
 --- !u!114 &607034341
@@ -3174,7 +3182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 813201795}
   FirstAnchorPoint: {fileID: 83603537}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 113960852}
   FirstButton: {fileID: 1259085038}
   SecondButton: {fileID: 786183705}
 --- !u!114 &813201795
@@ -3196,7 +3204,7 @@ MonoBehaviour:
     width: 0.2
   m_Looped: 0
   m_Waypoints:
-  - position: {x: -5.88, y: 1.73, z: 0.61}
+  - position: {x: -5.661, y: 1.73, z: 0.61}
     roll: 0
   - position: {x: -13.261922, y: 1.73, z: -2.4330924}
     roll: -10
@@ -3608,7 +3616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 864786625}
   FirstAnchorPoint: {fileID: 113960852}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 1777009302}
   FirstButton: {fileID: 1658145480}
   SecondButton: {fileID: 1469692562}
 --- !u!114 &864786625
@@ -4407,7 +4415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 974368123}
   FirstAnchorPoint: {fileID: 79817298}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 1441165579}
   FirstButton: {fileID: 202321286}
   SecondButton: {fileID: 1816040125}
 --- !u!114 &974368126
@@ -4840,7 +4848,7 @@ MonoBehaviour:
     width: 0.2
   m_Looped: 0
   m_Waypoints:
-  - position: {x: -5.88, y: 1.73, z: 0.61}
+  - position: {x: -5.661, y: 1.73, z: 0.61}
     roll: 0
   - position: {x: 0.85669756, y: 1.73, z: -2.9625192}
     roll: 15
@@ -4877,7 +4885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 1090409177}
   FirstAnchorPoint: {fileID: 83603537}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 1441165579}
   FirstButton: {fileID: 1207412150}
   SecondButton: {fileID: 208606072}
 --- !u!114 &1090409180
@@ -4997,7 +5005,7 @@ Transform:
   m_GameObject: {fileID: 1106982481}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.88, y: 3, z: 0.61}
+  m_LocalPosition: {x: -5.661, y: 3, z: 0.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5347,7 +5355,7 @@ Transform:
   m_GameObject: {fileID: 1207412149}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.88, y: 3, z: 0.61}
+  m_LocalPosition: {x: -5.661, y: 3, z: 0.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5394,9 +5402,9 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: 9.33, y: 1.73, z: -4.02}
     roll: 0
-  - position: {x: 6.865313, y: 1.73, z: 0.35209012}
+  - position: {x: 7.507257, y: 1.73, z: -0.012485862}
     roll: 0
-  - position: {x: 4.908, y: 1.73, z: 1.17}
+  - position: {x: 4.908, y: 1.73, z: 0.965}
     roll: 0
 --- !u!4 &1240430574
 Transform:
@@ -5429,7 +5437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 1240430573}
   FirstAnchorPoint: {fileID: 1441165579}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 469696127}
   FirstButton: {fileID: 744866260}
   SecondButton: {fileID: 450934062}
 --- !u!114 &1240430576
@@ -5575,7 +5583,7 @@ Transform:
   m_GameObject: {fileID: 1259085037}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.88, y: 3, z: 0.61}
+  m_LocalPosition: {x: -5.661, y: 3, z: 0.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5944,7 +5952,7 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: -5.625, y: 1.73, z: 20.88}
     roll: 0
-  - position: {x: -5.88, y: 1.73, z: 0.61}
+  - position: {x: -5.661, y: 1.73, z: 0.61}
     roll: 0
 --- !u!4 &1344954302
 Transform:
@@ -5977,7 +5985,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 1344954301}
   FirstAnchorPoint: {fileID: 1754971069}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 83603537}
   FirstButton: {fileID: 865882419}
   SecondButton: {fileID: 1394687733}
 --- !u!114 &1344954304
@@ -6305,7 +6313,7 @@ Transform:
   m_GameObject: {fileID: 1394687732}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.88, y: 3, z: 0.61}
+  m_LocalPosition: {x: -5.661, y: 3, z: 0.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6646,6 +6654,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonsList:
+  - {fileID: 1207412150}
+  - {fileID: 202321286}
   - {fileID: 1207412150}
   - {fileID: 202321286}
   - {fileID: 450934062}
@@ -7704,6 +7714,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ButtonsList:
   - {fileID: 1658145480}
+  - {fileID: 1658145480}
 --- !u!1001 &1784132982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7942,6 +7953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonsList:
+  - {fileID: 1967689587}
   - {fileID: 1967689587}
   - {fileID: 1414441900}
 --- !u!1 &1842899758 stripped
@@ -8459,7 +8471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 1934139745}
   FirstAnchorPoint: {fileID: 1441165579}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 1831073952}
   FirstButton: {fileID: 1967689587}
   SecondButton: {fileID: 1644497220}
 --- !u!114 &1934139748
@@ -8764,7 +8776,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   This: {fileID: 1988864007}
   FirstAnchorPoint: {fileID: 258168987}
-  LastAnchorPoint: {fileID: 0}
+  LastAnchorPoint: {fileID: 79817298}
   FirstButton: {fileID: 1301709210}
   SecondButton: {fileID: 1245250597}
 --- !u!114 &1988864010
@@ -8841,7 +8853,7 @@ Transform:
   m_GameObject: {fileID: 2003328411}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.88, y: 3, z: 0.61}
+  m_LocalPosition: {x: -5.661, y: 3, z: 0.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
