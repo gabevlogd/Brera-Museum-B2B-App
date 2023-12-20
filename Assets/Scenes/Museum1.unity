@@ -1583,7 +1583,7 @@ Transform:
   m_GameObject: {fileID: 450934061}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.8, y: 2, z: 0.7}
+  m_LocalPosition: {x: 4.908, y: 2, z: 0.965}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2788,7 +2788,7 @@ MonoBehaviour:
     roll: 0
   - position: {x: -21.30564, y: 1.73, z: 0.43343794}
     roll: 0
-  - position: {x: -17.79, y: 1.73, z: 1.17}
+  - position: {x: -17.848581, y: 1.73, z: 1.141572}
     roll: 0
 --- !u!114 &864786626
 MonoBehaviour:
@@ -4312,7 +4312,7 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: 9.33, y: 1.73, z: -4.02}
     roll: 0
-  - position: {x: 7.507257, y: 1.73, z: -0.012485862}
+  - position: {x: 8.582886, y: 1.73, z: 0.17442286}
     roll: 0
   - position: {x: 4.908, y: 1.73, z: 0.965}
     roll: 0
@@ -6808,8 +6808,8 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: -2.21, y: 1.73, z: 1.17}
     roll: 0
-  - position: {x: -2.221071, y: 1.73, z: -4.43801}
-    roll: -15
+  - position: {x: -2.6082888, y: 1.73, z: -3.6036563}
+    roll: -16.21
   - position: {x: -5.88, y: 1.73, z: -7.88}
     roll: 0
 --- !u!4 &1988864008
