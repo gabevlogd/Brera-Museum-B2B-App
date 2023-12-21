@@ -15,7 +15,7 @@ public class TrackHandler : MonoBehaviour
     {
         LockTransform();
         HandleWaypoints();
-        HandleTrackButtons();
+        //HandleTrackButtons();
     }
 
     private void LockTransform()

@@ -17,7 +17,7 @@ MonoBehaviour:
   StartingPoints:
   - {x: 0, y: 0}
   EndingPoints:
-  - {x: 0, y: 3}
+  - {x: 0, y: 2}
   CollectiblePoint: []
   WalkableArray:
   - List: 01000101010101
