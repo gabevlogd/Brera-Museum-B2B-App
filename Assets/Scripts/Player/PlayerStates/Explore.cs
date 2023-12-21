@@ -223,6 +223,7 @@ public class Explore : StateBase<PlayerController>
     {
         if (pointedObj.TryGetComponent(out MoveButton button))
         {
+            SoundManager.Play("Move");
             DollyCartManager.SetDollyCart(button.Track, button.Direction);
             _stateMachine.ChangeState(context.Move);
         }
