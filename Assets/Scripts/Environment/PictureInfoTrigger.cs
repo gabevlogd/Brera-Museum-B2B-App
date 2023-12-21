@@ -4,8 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// This class is responsible for activating the descriptions of the paintings.
+/// </summary>
 public class PictureInfoTrigger : MonoBehaviour, IPointerClickHandler
 {
+    /// <summary>
+    /// Event called when the player click on the paintings info icons
+    /// </summary>
     public static event Action<string> OpenPictureInfo;
     [SerializeField]
     private int m_TargetPicture;

@@ -3,8 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// This class is responsible for activating the AR system based on user input. (see in the Explore state class the CheckForWorldInteraction() method)
+/// </summary>
 public class ARTrigger : MonoBehaviour
 {
+    /// <summary>
+    /// Event called when the player back in museum scene after he completed the last puzzle
+    /// </summary>
     public static event Action LastPuzzleCompleted;
     public GameObject ARSystem;
     public Transform TargetWaypoint;

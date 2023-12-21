@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class, attached to audio sources used by the sound manager, send an event when the audio source have finished to reproduce sound
+/// </summary>
 public class MyAudioSource : MonoBehaviour
 {
     public static event Action<AudioSource> AudioClipEnded;

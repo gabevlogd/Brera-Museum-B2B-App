@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
 
     private static StateMachine<PlayerController> m_StateMachine;
     #region States:
-    public Idle Idle;
     public Move Move;
     public Sleep Sleep;
     public Explore Explore;
@@ -79,15 +78,7 @@ public class PlayerController : MonoBehaviour
     private void ResumeGame() => m_StateMachine.ChangeState(Explore);
     private void PauseGame() => m_StateMachine.ChangeState(Sleep);
     private bool IsPlayerExploring() => m_StateMachine.CurrentState == Explore ? true : false;
-    //public bool IsPlayerOnStartingPoint()
-    //{
-    //    if (m_LastPosition == Vector3.zero)
-    //    {
-    //        m_LastPosition = Vector3.one;
-    //        return true;
-    //    }
-    //    return false;
-    //}
+
     private void SendPlayerToStartingPoint()
     {
         StartGameButton.TriggerButton();
@@ -96,7 +87,6 @@ public class PlayerController : MonoBehaviour
 
     private void InstantiatePlayerStates()
     {
-        Idle = new Idle("Idle", m_StateMachine);
         Move = new Move("Move", m_StateMachine);
         Sleep = new Sleep("Sleep", m_StateMachine);
         Explore = new Explore("Explore", m_StateMachine);

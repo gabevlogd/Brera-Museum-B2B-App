@@ -7,6 +7,11 @@ using UnityEngine.InputSystem.Utilities;
 using static UnityEngine.InputSystem.InputAction;
 using Gabevlogd.Patterns;
 
+
+/// <summary>
+/// This is the state of the player when standing on an anchor point, 
+/// it managing the rotation and zoom of view, and looks for interactions, with the triggers around the map, performed by the player
+/// </summary>
 public class Explore : StateBase<PlayerController>
 {
     private Camera m_Camera;
@@ -36,11 +41,6 @@ public class Explore : StateBase<PlayerController>
     public override void OnEnter(PlayerController context)
     {
         base.OnEnter(context);
-        //if (context.IsPlayerOnStartingPoint())
-        //{
-        //    context.StartGameButton.TriggerButton();
-        //    _stateMachine.ChangeState(context.Move);
-        //}
         SetData(context);
         context.StartCoroutine(EnableInput(1f));
     }

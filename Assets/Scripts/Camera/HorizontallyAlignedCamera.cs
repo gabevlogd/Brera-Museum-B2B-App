@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// This class is responsible for recalculating the camera's perspective matrix to make the display of the 3D space independent of the device resolution.
+/// </summary>
 [ExecuteAlways]
 [RequireComponent(typeof(Camera))]
 public class HorizontallyAlignedCamera : MonoBehaviour

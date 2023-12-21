@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class manages all the windows and overlays that composes the UI
+/// </summary>
 public class UIManager : MonoBehaviour
 {
     public bool GameAlreadyStarted;
@@ -31,6 +34,7 @@ public class UIManager : MonoBehaviour
             { Overlay.Tickets, GetComponentInChildren<Tickets>(true) }
         };
 
+        //Check which ui need to be opened (if the first one at the start of game or the last one cached)
         if (m_LastWindow != 0) m_CurrentWindow = m_WindowsList[(Window)m_LastWindow];
         else
         {
@@ -49,24 +53,12 @@ public class UIManager : MonoBehaviour
         overlay.transform.SetAsLastSibling();
     }
 
-    public void ChangeWindow(Window windowID, bool changeOnlyData = false)
+    public void ChangeWindow(Window windowID)
     {
-        if (!changeOnlyData) m_CurrentWindow.gameObject.SetActive(false);
+        m_CurrentWindow.gameObject.SetActive(false);
         m_PreviousWindow = m_CurrentWindow;
         m_CurrentWindow = m_WindowsList[windowID];
-        if (!changeOnlyData) m_CurrentWindow.gameObject.SetActive(true);
-    }
-
-    public void BackToPrevious(bool changeOnlyData = false)
-    {
-        if (!changeOnlyData)
-        {
-            m_CurrentWindow.gameObject.SetActive(false);
-            m_PreviousWindow.gameObject.SetActive(true);
-        }
-        UIWindow tmp = m_CurrentWindow;
-        m_CurrentWindow = m_PreviousWindow;
-        m_PreviousWindow = tmp;
+        m_CurrentWindow.gameObject.SetActive(true);
     }
 }
 

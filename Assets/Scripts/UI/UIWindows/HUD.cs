@@ -67,7 +67,7 @@ public class HUD : UIWindow
         RoomLocker.RoomUnlocked += ThrowScreenNotification;
         ARTrigger.LastPuzzleCompleted += ThrowScreenNotification;
         PictureInfoTrigger.OpenPictureInfo += ShowPictureInfo;
-        CanOpenMenu = (CanOpenMenu == null) ? () => true : CanOpenMenu; //need to test validity of this line
+        CanOpenMenu = (CanOpenMenu == null) ? () => true : CanOpenMenu;
         m_WindowType = Window.HUD;
     }
 
@@ -87,7 +87,7 @@ public class HUD : UIWindow
         m_MenuOpen = false;
     }
 
-    private void OnDestroy() => CanOpenMenu = null; //need to test validity of this line
+    private void OnDestroy() => CanOpenMenu = null;
 
     private void PerformMenuButton()
     {

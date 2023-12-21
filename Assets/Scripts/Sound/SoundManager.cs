@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// This class manages the reproduction of sounds
+/// </summary>
 public class SoundManager : Pool<AudioSource>
 {
     private static SoundManager m_This;

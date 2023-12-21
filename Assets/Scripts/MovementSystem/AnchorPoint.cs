@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+
+/// <summary>
+/// This class represents the anchor point where player can explore the area moving the view
+/// </summary>
 public class AnchorPoint : MonoBehaviour
 {
+    /// <summary>
+    /// List of move buttons that must be actives when the player is on the anchor point
+    /// </summary>
     public List<MoveButton> ButtonsList;
 
 

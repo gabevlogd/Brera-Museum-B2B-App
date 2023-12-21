@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
+/// <summary>
+/// This class contains the needed data for the correct management of dolly tracks
+/// </summary>
 [HelpURL("https://docs.google.com/document/d/19ul2Q4WqC30DxK_4pVit2KN8ZSH_c0t_A2t46FrgS-c/edit")]
 public class DollyTrack : MonoBehaviour
 {

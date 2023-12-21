@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
+
+/// <summary>
+/// This class, attached to the move buttons icons around the map,  is responsible for trigger the movement of the player (see in the Explore state class the CheckForWorldInteraction() method)
+/// </summary>
 public class MoveButton : MonoBehaviour
 {
+    /// <summary>
+    /// Movement track to which the button refers
+    /// </summary>
     public CinemachineSmoothPath Track;
+    /// <summary>
+    /// direction of travel of the track
+    /// </summary>
     public TrackDirection Direction;
 
     private Transform m_PlayerTransform;

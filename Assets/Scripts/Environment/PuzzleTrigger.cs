@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is responsible for activating the puzzles mini games (see in the Explore state class the CheckForWorldInteraction() method)
+/// </summary>
 public class PuzzleTrigger : MonoBehaviour
 {
     public int TargetPuzzleSceneIndex;
@@ -43,4 +46,6 @@ public class PuzzleTrigger : MonoBehaviour
                 break;
         }
     }
+
+
 }

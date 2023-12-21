@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Pool pattern that manages generic type TPoolObj of type Component
+/// </summary>
 public class Pool<TPoolObj> : MonoBehaviour where TPoolObj : Component
 {
     private List<TPoolObj> m_Available;

@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/// <summary>
+/// Base class of generic UI window
+/// </summary>
 public class UIWindow : MonoBehaviour
 {
     protected UIManager m_UIManager;

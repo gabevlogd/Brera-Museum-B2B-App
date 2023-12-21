@@ -4,9 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
+/// <summary>
+/// This class is responsible for locking the fourth room until the player resolve the first three puzzles
+/// </summary>
 public class RoomLocker : MonoBehaviour, IPointerClickHandler
 {
+    /// <summary>
+    /// Event called when player try to move to the locked room when is still locked
+    /// </summary>
     public static event Action RoomLockedMessage;
+    /// <summary>
+    /// Event called when the locke room becomes unlocked
+    /// </summary>
     public static event Action RoomUnlocked;
     [SerializeField]
     private Transform TargetWaypoint;

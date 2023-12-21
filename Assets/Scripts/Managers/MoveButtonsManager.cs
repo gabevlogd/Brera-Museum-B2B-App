@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is responsible for enabling and disabling the move buttons based on player position
+/// </summary>
 public class MoveButtonsManager : MonoBehaviour
 {
     private AnchorPoint[] m_AnchorPoints;

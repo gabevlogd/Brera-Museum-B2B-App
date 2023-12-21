@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
+/// <summary>
+/// This class is responsible for the managing of the dolly cart that moves on the dolly tracks around the map
+/// </summary>
 public class DollyCartManager : MonoBehaviour
 {
     private static CinemachineDollyCart m_DollyCart;

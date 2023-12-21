@@ -2,6 +2,10 @@
 using UnityEngine;
 using Gabevlogd.Patterns;
 
+
+/// <summary>
+/// This is the state of the player when is moving between an anchor point and another 
+/// </summary>
 public class Move : StateBase<PlayerController>
 {
     public static event Action OnMovementEnded;
@@ -42,6 +46,9 @@ public class Move : StateBase<PlayerController>
 
     }
 
+    /// <summary>
+    /// Sets position and rotation correctly of player before starting the movement
+    /// </summary>
     private void SetPositionAndRotation(PlayerController context)
     {
         Quaternion targetRotation = DollyCartManager.GetCartRotation();
@@ -64,6 +71,9 @@ public class Move : StateBase<PlayerController>
         }
     }
 
+    /// <summary>
+    /// Moves the player
+    /// </summary>
     private void PerformMovement(PlayerController context)
     {
         //save player position before updateing it

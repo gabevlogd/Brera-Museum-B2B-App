@@ -7488,56 +7488,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3fa1c7722ee65de42b4af6b229fcf010, type: 3}
---- !u!1 &2068184995
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2068184997}
-  - component: {fileID: 2068184996}
-  m_Layer: 0
-  m_Name: Debugger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2068184996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2068184995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67dd5ecb52549c042b72159810f5d91c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pref1: 0
-  pref2: 0
-  pref3: 0
-  pref4: 0
-  unlockRoomFour: 0
-  RoomLocker: {fileID: 813995482}
---- !u!4 &2068184997
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2068184995}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2116213839
 GameObject:
   m_ObjectHideFlags: 0
@@ -7970,7 +7920,6 @@ SceneRoots:
   - {fileID: 952496334}
   - {fileID: 1485444903}
   - {fileID: 2066743215}
-  - {fileID: 2068184997}
   - {fileID: 932614354}
   - {fileID: 477573184}
   - {fileID: 2062623176737373026}
