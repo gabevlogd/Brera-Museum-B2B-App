@@ -7,15 +7,10 @@ using UnityEngine;
 [CustomEditor(typeof(SoundManager))]
 public class SoundManager_Inspector : Editor
 {
-    private SoundManager Target;
-    private static List<AudioClip> m_AudioClips;
-    private static List<string> m_AudioClipsID;
     private AudioClipsData m_AudioClipsData;
-
 
     private void Awake()
     {
-        Target = target as SoundManager;
         m_AudioClipsData = Resources.Load<AudioClipsData>("Audio Clips Datas");
         EditorUtility.SetDirty(m_AudioClipsData);
     }
