@@ -30,6 +30,8 @@ public class PictureInfoTrigger : MonoBehaviour, IPointerClickHandler
     {
         if (m_PlayerTransform.position != m_TargetWaypoint.position) return;
 
+        SoundManager.Play("Button");
+
         switch (m_TargetPicture)
         {
             case 1:

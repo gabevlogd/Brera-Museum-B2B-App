@@ -16,5 +16,8 @@ public class UIWindow : MonoBehaviour
         TryGetComponent(out m_Animator);
     }
 
-    public void CloseWindow() => gameObject.SetActive(false);
+    protected void CloseWindow() => gameObject.SetActive(false);
+
+    protected void ButtonSound() => SoundManager.Play("Button");
+
 }

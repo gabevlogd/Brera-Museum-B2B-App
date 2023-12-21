@@ -17,6 +17,7 @@ public class Settings : UIWindow
         m_BackButton.onClick.AddListener(CloseWindow);
         m_QuestionsButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Questions));
         m_ProfileButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Profile));
+        AddSoundFeedback();
     }
 
     private void OnDisable()
@@ -24,6 +25,13 @@ public class Settings : UIWindow
         m_BackButton.onClick.RemoveAllListeners();
         m_QuestionsButton.onClick.RemoveAllListeners();
         m_ProfileButton.onClick.RemoveAllListeners();
+    }
+
+    private void AddSoundFeedback()
+    {
+        m_BackButton.onClick.AddListener(ButtonSound);
+        m_QuestionsButton.onClick.AddListener(ButtonSound);
+        m_ProfileButton.onClick.AddListener(ButtonSound);
     }
 
 }

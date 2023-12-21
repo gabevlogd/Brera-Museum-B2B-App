@@ -62,6 +62,7 @@ public class HUD : UIWindow
         m_MainMenuButton.onClick.AddListener(() => m_UIManager.ChangeWindow(Window.Main));
         m_NotificationButton.onClick.AddListener(PerformNotificationButton);
         m_ClosePictureInfoButton.onClick.AddListener(HidePictureInfo);
+        AddSoundFeedback();
         RoomLocker.RoomLockedMessage += ThrowScreenMessage;
         RoomLocker.RoomUnlocked += ThrowScreenNotification;
         ARTrigger.LastPuzzleCompleted += ThrowScreenNotification;
@@ -104,6 +105,17 @@ public class HUD : UIWindow
     {
         OpenMenu();
         m_UIManager.OpenOverlay(Overlay.Tickets);
+    }
+
+    private void AddSoundFeedback()
+    {
+        m_MenuButton.onClick.AddListener(ButtonSound);
+        m_QuestionButton.onClick.AddListener(ButtonSound);
+        m_ProfileButton.onClick.AddListener(ButtonSound);
+        m_SettingsButton.onClick.AddListener(ButtonSound);
+        m_MainMenuButton.onClick.AddListener(ButtonSound);
+        m_NotificationButton.onClick.AddListener(ButtonSound);
+        m_ClosePictureInfoButton.onClick.AddListener(ButtonSound);
     }
 
     private void OpenMenu()

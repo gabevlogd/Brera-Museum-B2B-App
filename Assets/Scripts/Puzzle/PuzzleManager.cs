@@ -146,6 +146,7 @@ public class PuzzleManager : MonoBehaviour
                 return;
             }
         }
+        
         if (m_LineRenderer.positionCount > 0)
         {
             //avoids the possibility of going obliquely
@@ -170,7 +171,7 @@ public class PuzzleManager : MonoBehaviour
             for (int i = 0; i < m_LineRenderer.positionCount; i++)
                 if (AssetData.Grid.GetWorldPosition(newNode.X, newNode.Y) == m_LineRenderer.GetPosition(i))
                     return;
-
+            if (newNode.NodeType == NodeType.Collectible) SoundManager.Play("Coin");
 
             m_LineRenderer.positionCount++;
             m_LineRenderer.SetPosition(m_LineRenderer.positionCount - 1, position);
@@ -212,18 +213,19 @@ public class PuzzleManager : MonoBehaviour
         {
             if (GetCountActualCollectiblePoints() == AssetData.CollectiblePoint.Count)
             {
-                if (GamePuzzleManager.instance == null)
-                    Debug.Log("PuzzleCompleted");
-                else
-                {
+                //if (GamePuzzleManager.instance == null)
+                //    Debug.Log("PuzzleCompleted");
+                //else
+                //{
                     Vector3 nextPos;
                     if (m_NextPosition != null)
                         nextPos = m_NextPosition.position;
                     else
                         nextPos = Vector3.zero;
 
+                    SoundManager.Play("PuzzleEnd");
                     GamePuzzleManager.instance.EventManager.TriggerEvent(Constants.SINGLE_PUZZLE_COMPLETED, nextPos);
-                }
+                //}
             }
         }
     }

@@ -19,6 +19,7 @@ public class AR_HUD : MonoBehaviour
     private void CloseAR()
     {
         OnCloseAR_HUD?.Invoke();
+        SoundManager.Play("Button");
         ARSystem.SetActive(false);
     }
 }

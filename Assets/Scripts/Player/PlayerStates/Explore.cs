@@ -223,6 +223,7 @@ public class Explore : StateBase<PlayerController>
     {
         if (pointedObj.TryGetComponent(out MoveButton button))
         {
+            SoundManager.Play("Button");
             DollyCartManager.SetDollyCart(button.Track, button.Direction);
             _stateMachine.ChangeState(context.Move);
         }
@@ -236,6 +237,7 @@ public class Explore : StateBase<PlayerController>
         {
             if (context.transform.position != arTrigger.TargetWaypoint.position) return;
             if (PlayerPrefs.GetInt(Constants.PUZZLE_FOUR) == 1) return;
+            SoundManager.Play("Button");
             arTrigger.ARSystem.SetActive(true);
             _stateMachine.ChangeState(context.Sleep);
         }

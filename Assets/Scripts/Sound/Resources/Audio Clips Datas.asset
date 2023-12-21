@@ -13,8 +13,14 @@ MonoBehaviour:
   m_Name: Audio Clips Datas
   m_EditorClassIdentifier: 
   AudioClips:
-  - {fileID: 8300000, guid: 2448e45820493d14da8a8c344f6f67f6, type: 3}
-  - {fileID: 8300000, guid: 49b674337b42dc44f9e9215316d97c58, type: 3}
+  - {fileID: 8300000, guid: 6b1f6b7a6e9d52440b69b144aa29eab2, type: 3}
+  - {fileID: 8300000, guid: 3ed3c3bfeea22924fb4190b6a0674117, type: 3}
+  - {fileID: 8300000, guid: a11f48f2dfb541046aa4a90bf76e4c25, type: 3}
+  - {fileID: 8300000, guid: 5685b1c2e6e86584cbcabc6fd60f258c, type: 3}
+  - {fileID: 8300000, guid: f4b78801bd3276a4c898483db968fdc5, type: 3}
   AudioClipsID:
-  - Move
   - Button
+  - Coin
+  - PuzzleEnd
+  - Museum
+  - Puzzles

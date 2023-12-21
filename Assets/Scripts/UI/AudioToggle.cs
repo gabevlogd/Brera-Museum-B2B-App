@@ -36,6 +36,8 @@ public class AudioToggle : MonoBehaviour, IPointerClickHandler
 
     private void TriggerToggle()
     {
+        if (m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f) return;
+
         if (m_IsOff)
         {
             m_Animator.Play("On");
@@ -48,5 +50,7 @@ public class AudioToggle : MonoBehaviour, IPointerClickHandler
             m_IsOff = true;
             AudioOff?.Invoke();
         }
+
+        SoundManager.Play("Button");
     }
 }

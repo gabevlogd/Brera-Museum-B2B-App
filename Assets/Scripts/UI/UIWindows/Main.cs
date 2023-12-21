@@ -24,6 +24,7 @@ public class Main : UIWindow
         m_FAQButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Questions));
         m_TicketsButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Tickets));
         m_ProfileButton.onClick.AddListener(() => m_UIManager.OpenOverlay(Overlay.Profile));
+        AddSoundFeedback();
         m_WindowType = Window.Main;
     }
 
@@ -40,6 +41,15 @@ public class Main : UIWindow
     {
         m_UIManager.OpenWindow(Window.HUD);
         m_Animator.Play("Play");
+    }
+
+    private void AddSoundFeedback()
+    {
+        m_PlayButton.onClick.AddListener(ButtonSound);
+        m_SettingsButton.onClick.AddListener(ButtonSound);
+        m_FAQButton.onClick.AddListener(ButtonSound);
+        m_TicketsButton.onClick.AddListener(ButtonSound);
+        m_ProfileButton.onClick.AddListener(ButtonSound);
     }
 
     public void OnPlayAnimationEnded() => m_UIManager.ChangeWindow(Window.HUD);
