@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2d30226881338418d0eabd919b4dd3, type: 3}
+  m_Name: Audio Clips Datas
+  m_EditorClassIdentifier: 
+  AudioClips:
+  - {fileID: 8300000, guid: 6b1f6b7a6e9d52440b69b144aa29eab2, type: 3}
+  - {fileID: 8300000, guid: 3ed3c3bfeea22924fb4190b6a0674117, type: 3}
+  - {fileID: 8300000, guid: a11f48f2dfb541046aa4a90bf76e4c25, type: 3}
+  - {fileID: 8300000, guid: 5685b1c2e6e86584cbcabc6fd60f258c, type: 3}
+  - {fileID: 8300000, guid: f4b78801bd3276a4c898483db968fdc5, type: 3}
+  AudioClipsID:
+  - Button
+  - Coin
+  - PuzzleEnd
+  - Museum
+  - Puzzles
