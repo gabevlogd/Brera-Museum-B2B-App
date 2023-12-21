@@ -43,7 +43,7 @@ public class HUD : UIWindow
 
     private void Start()
     {
-        Debug.Log("HUD START");
+        //Debug.Log("HUD START");
         if (m_UIManager.GameAlreadyStarted)
         {
             m_UIManager.GameAlreadyStarted = false;

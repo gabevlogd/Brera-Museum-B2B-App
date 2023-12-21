@@ -21,7 +21,7 @@ namespace Gabevlogd.Patterns
 
         public virtual void OnEnter(TContext context)
         {
-            Debug.Log("OnEnter " + StateID);
+            //Debug.Log("OnEnter " + StateID);
 
         }
 
@@ -32,7 +32,7 @@ namespace Gabevlogd.Patterns
 
         public virtual void OnExit(TContext context)
         {
-            Debug.Log("OnExit " + StateID);
+            //Log("OnExit " + StateID);
         }
     }
 }

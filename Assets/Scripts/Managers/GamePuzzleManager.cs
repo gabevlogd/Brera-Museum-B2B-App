@@ -51,7 +51,7 @@ public class GamePuzzleManager : Singleton<GamePuzzleManager>
             if (m_PuzzleAmount[i] == false)
             {
                 m_PuzzleAmount[i] = true;
-                Debug.Log("Puzzle completed");
+                //Debug.Log("Puzzle completed");
                 m_NextTargetCameraPosition = (Vector3)param[0];
                 break;
             }
